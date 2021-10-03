@@ -1,17 +1,17 @@
-import { User } from "../entities/User";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import argon2 from "argon2";
+import { v4 as uuidv4} from 'uuid'
+import { User } from "../entities/User";
+import { COOKIE_NAME } from "../constants";
+import { ValidateRegisterInput } from "../untils/Validate/ValidateRegisterInput";
+import { ValidateChangePasswordInput } from "../untils/Validate/ValidateChangePasswordInput";
+import { TokenModel } from "../models/Token";
+import { UserPendingModel } from "../models/userPending";
 import { UserMutationResponse } from "../types/User/UserMutationResponse";
 import { RegisterInput } from "../types/User/RegisterInput";
 import { LoginInput } from "../types/User/LoginInput";
-import { ValidateRegisterInput } from "../untils/Validate/ValidateRegisterInput";
-import argon2 from "argon2";
 import { Context } from "../types/Context/Context";
-import { COOKIE_NAME } from "../constants";
-import { TokenModel } from "../models/Token";
-import { v4 as uuidv4} from 'uuid'
 import { ChangePasswordInput } from "../types/User/ChangePasswordInput";
-import { ValidateChangePasswordInput } from "../untils/Validate/ValidateChangePasswordInput";
-import { UserPendingModel } from "../models/userPending";
 import { ForgotPasswordInput } from "../types/User/ForgotPasswordInput";
 
 
@@ -26,8 +26,6 @@ export class UserResolver {
         const user = await User.findOne(req.session.userId)
         return user
     }
-        
-
 
     @Mutation(_return => UserMutationResponse,{ nullable : true})
     async Register (
@@ -78,7 +76,7 @@ export class UserResolver {
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`
+                message : `Something went wrong in Register : ${error.message}`
             }
         }
     }
@@ -104,13 +102,7 @@ export class UserResolver {
                 }
             const {firstName, lastName, email, password, gender, dob} = userPending
             const name = firstName + " " + lastName
-            const newUser = await User.create({
-                name, 
-                email,
-                password,
-                gender,
-                dob
-            })
+            const newUser = await User.create({name, email,password,gender,dob})
             await newUser.save()
             await UserPendingModel.findOneAndDelete({id:`${id}`})
             // session
@@ -126,7 +118,7 @@ export class UserResolver {
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`
+                message : `Something went wrong in ActiveUser : ${error.message}`
             }
         }
     }
@@ -136,48 +128,55 @@ export class UserResolver {
         @Arg('loginInput') {email , password} : LoginInput,
         @Ctx() {req} : Context
     ):Promise<UserMutationResponse>{
-        const existingUser = await User.findOne({email})
-        if(!existingUser)
-            return {
-                code : 400,
-                success : false,
-                message : 'Email or password incorrect',
-                errors : [
-                    {
-                        field : 'Email Or Password',
-                        message : 'Email or password incorrect'
-                    }
-                ]
-            }
-        
-        const passwordValid = await argon2.verify(existingUser.password, password)
-        if(!passwordValid)
-            return {
-                code : 400,
-                success : false,
-                message : 'Email or password incorrect',
-                errors : [
-                    {
-                        field : 'Email Or Password',
-                        message : 'Email or password incorrect'
-                    }
-                ]
-            }
-        
-        req.session.userId = existingUser.id
+        try {
+            const existingUser = await User.findOne({email})
+            if(!existingUser)
+                return {
+                    code : 400,
+                    success : false,
+                    message : 'Email or password incorrect',
+                    errors : [
+                        {
+                            field : 'Email Or Password',
+                            message : 'Email or password incorrect'
+                        }
+                    ]
+                }
+            
+            const passwordValid = await argon2.verify(existingUser.password, password)
+            if(!passwordValid)
+                return {
+                    code : 400,
+                    success : false,
+                    message : 'Email or password incorrect',
+                    errors : [
+                        {
+                            field : 'Email Or Password',
+                            message : 'Email or password incorrect'
+                        }
+                    ]
+                }
+            
+            req.session.userId = existingUser.id
 
-        return {
-            code : 200,
-            success : true,
-            message : 'Login successfully',
-            user : existingUser
+            return {
+                code : 200,
+                success : true,
+                message : 'Login successfully',
+                user : existingUser
+            }
+        } catch (error) {
+            return {
+                code : 500,
+                success : false,
+                message : `Something went wrong in Login : ${error.message}`
+            }
         }
+        
     }
 
     @Mutation(_return => Boolean)
-    Logout (
-        @Ctx() {req,res} : Context
-    ):Promise<boolean>{
+    Logout (@Ctx() {req,res} : Context):Promise<boolean>{
         return new Promise((resolve,_reject) => {
             res.clearCookie(COOKIE_NAME)
             req.session.destroy(err => {
@@ -278,7 +277,7 @@ export class UserResolver {
             return {
                 code : 400,
                 success : false,
-                message : 'Something went wrong'
+                message : 'Something went wrong in ChangePassword : '
             }
         }
     }
@@ -313,7 +312,7 @@ export class UserResolver {
             return {
                 code : 400,
                 success : false,
-                message : 'Something went wrong'
+                message : 'Something went wrong in ChangeAvatar'
             }
         }
     }

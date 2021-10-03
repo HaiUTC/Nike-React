@@ -11,8 +11,11 @@ import { UpdateAddressInput } from "../types/Address/UpdateAddressInput";
 export class AddressResolver {
 
     @FieldResolver(_return => User)
-    async user(@Root() root: Address){
-        return await User.findOne(root.userId)
+    async user(
+        @Root() root: Address,
+        @Ctx() {dataLoaders : {userLoader}} : Context
+    ){
+        return await userLoader.load(root.userId)
     }
 
     @Mutation(_return => AddressMutationResponse)
@@ -41,7 +44,7 @@ export class AddressResolver {
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`,
+                message : `Something went wrong in CreateAddress : ${error.message}`,
                 
             }
         }
@@ -64,7 +67,7 @@ export class AddressResolver {
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`,   
+                message : `Something went wrong in GetAllAddress : ${error.message}`,   
             }
         }
     }
@@ -119,7 +122,7 @@ export class AddressResolver {
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`,
+                message : `Something went wrong in UpdateAddress : ${error.message}`,
                 
             }
         }
@@ -155,7 +158,7 @@ export class AddressResolver {
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`,             
+                message : `Something went wrong in DeleteAddress : ${error.message}`,             
             }
         }
     }

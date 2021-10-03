@@ -1,20 +1,24 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { CartItem } from "./CartItem";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
-export class Cart{
+export class Cart extends BaseEntity{
     @Field(_type => ID)
     @PrimaryGeneratedColumn('uuid')
-    id!: number
+    id!: string
 
     @Field()
     @Column()
     userId!: number
 
+    @OneToOne(()=> User, user => user.cart)
+    user : User
+
     @Field()
-    @Column()
+    @Column({default : 0})
     total : number
 
     @Field()
@@ -26,5 +30,5 @@ export class Cart{
     updatedAt : Date
 
     @OneToMany(()=> CartItem, cartItem => cartItem.cart)
-    cartItem : CartItem
+    cartItem : CartItem[]
 }

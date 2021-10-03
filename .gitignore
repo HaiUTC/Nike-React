@@ -1,3 +1,5 @@
 server/dist
 server/node_modules
 server/.env
+.vscode
+Nike-React
