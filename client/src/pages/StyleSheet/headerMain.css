@@ -1,0 +1,23 @@
+@keyframes FallDown {
+	0%{
+		transform: translateY(-10px);
+	}
+	100%{
+		transform: translateY(0);
+	}
+}
+#help::after{
+    content: "";
+    position: absolute;
+    top: 14px;
+    width: 45px;
+    height: 30px;
+    left: -2px;
+}
+#help:hover ~ #help-item {display: block;}
+#help-item:hover{ display: block;}
+#help-item{ animation: FallDown linear 0.2s; z-index: 3;}
+#collection:hover{border-bottom: 2px solid black;}
+#collection:hover ~ #listCategory{display: flex;}
+#listCategory{animation: FallDown linear 0.2s; }
+#listCategory:hover{display: flex;}
