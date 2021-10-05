@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import Layout from '../components/Templete/Layout'
 import Head from 'next/head'
-const IndexPage = () => (
+import { addApolloState, initializeApollo } from '../libs/apolloClient';
+const Index = () => (
   <>
     <Head>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
@@ -13,5 +14,13 @@ const IndexPage = () => (
   </>
   
 )
-
-export default IndexPage
+export const getStaticProps = async () => {
+  const apolloClient = initializeApollo();
+  // await apolloClient.query({
+  //   query: null,
+  // });
+  return addApolloState(apolloClient, {
+    props: {},
+  });
+};
+export default Index

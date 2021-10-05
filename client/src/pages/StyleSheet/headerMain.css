@@ -1,19 +1,5 @@
-@keyframes FallDown {
-	0%{
-		transform: translateY(-10px);
-	}
-	100%{
-		transform: translateY(0);
-	}
-}
-#help::after{
-    content: "";
-    position: absolute;
-    top: 14px;
-    width: 45px;
-    height: 30px;
-    left: -2px;
-}
+@keyframes FallDown {0%{transform: translateY(-10px);}100%{transform: translateY(0);}}
+#help::after{content: "";position: absolute;top: 14px;width: 45px;height: 30px;left: -2px;}
 #help:hover ~ #help-item {display: block;}
 #help-item:hover{ display: block;}
 #help-item{ animation: FallDown linear 0.2s; z-index: 3;}
@@ -21,3 +7,7 @@
 #collection:hover ~ #listCategory{display: flex;}
 #listCategory{animation: FallDown linear 0.2s; }
 #listCategory:hover{display: flex;}
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{width: 100% !important;}
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input,.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{padding: 8.5px 14px !important;}
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{top : -8px !important;}
+.css-1yt7yx7-MuiLoadingButton-loadingIndicator{color: #fff !important;}
