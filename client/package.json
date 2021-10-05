@@ -12,6 +12,7 @@
     "@mui/icons-material": "^5.0.1",
     "@mui/material": "^5.0.2",
     "autoprefixer": "^10.3.6",
+    "date-fns": "^2.24.0",
     "file-loader": "^6.2.0",
     "graphql": "^15.6.0",
     "next": "latest",
