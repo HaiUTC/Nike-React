@@ -1,3 +1,7 @@
 server/dist
 server/node_modules
 server/.env
+.vscode
+NikeGraph
+Nike_React
+client/node_modules

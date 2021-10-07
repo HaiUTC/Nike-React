@@ -1,7 +1,8 @@
 import { Role } from "../types/Response/Role";
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Address } from "./Address";
+import { Cart } from "./Cart";
 
 @ObjectType()
 @Entity()
@@ -39,8 +40,8 @@ export class User extends BaseEntity {
     @OneToMany(() => Address, address => address.user)
     addresses : Address[]
 
-    // @OneToMany(() => Cart, cart => cart.user)
-    // carts : Cart[]
+    @OneToOne(() => Cart, cart => cart.user)
+    cart : Cart
 
     // @OneToMany(()=> Checkout, checkout => checkout.user)
     // checkouts : Checkout[]

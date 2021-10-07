@@ -1,5 +1,5 @@
-import { Collection } from "../entities/Collection";
 import { Arg, Ctx, ID, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { Collection } from "../entities/Collection";
 import { CollectionMutationResponse } from "../types/Collection/CollectionMutationResponse"
 import { Context } from "../types/Context/Context";
 import { checkAuthAdmin } from "../middleware/checkAuth";
@@ -33,7 +33,7 @@ export class CollectionResolver{
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`,   
+                message : `Something went wrong in GetAllCollection : ${error.message}`,   
             }
         }
     }
@@ -60,7 +60,7 @@ export class CollectionResolver{
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`
+                message : `Something went wrong in AddCollection : ${error.message}`
             }
         }
     }
@@ -92,7 +92,7 @@ export class CollectionResolver{
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`
+                message : `Something went wrong in UpdateCollection : ${error.message}`
             }
         }
     }
@@ -120,7 +120,7 @@ export class CollectionResolver{
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`,             
+                message : `Something went wrong in DeleteCollection : ${error.message}`,             
             }
         }
     }

@@ -1,0 +1,5 @@
+query MyProfile {
+    MyProfile{
+        ...userInfo
+    }
+}

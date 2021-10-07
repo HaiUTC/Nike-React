@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CartItem } from "./CartItem";
 import { Category } from "./Category";
 
 @ObjectType()
@@ -91,8 +92,12 @@ export class Product extends BaseEntity{
     @UpdateDateColumn({type: "timestamptz"})
     updatedAt : Date
 
-
+    @Field(_type => Category)
     @ManyToOne(() => Category, category => category.product)
     category: Category
+
+    @Field(_type => CartItem)
+    @OneToOne(()=> CartItem, cartItem => cartItem.product)
+    cartItem : CartItem
 }
 

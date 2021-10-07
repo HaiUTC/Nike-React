@@ -5,34 +5,39 @@ import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { createConnection } from 'typeorm'
-import { User } from './entities/User'
-import { UserResolver } from './resolvers/user'
 import session from 'express-session'
 import { COOKIE_NAME, __prod__ } from './constants'
 import mongoose from 'mongoose'
 import MongoStore from 'connect-mongo'
 import { Context } from './types/Context/Context'
+import { User } from './entities/User'
 import { Address } from './entities/Address'
+import { Product } from './entities/Product'
+import { Category } from './entities/Category'
+import { Collection } from './entities/Collection'
+import { Cart } from './entities/Cart'
+import { CartItem } from './entities/CartItem'
+import { CheckOut } from './entities/CheckOut'
+import { ProductResolver } from './resolvers/product'
 import { AddressResolver } from './resolvers/address'
 import { CollectionResolver } from './resolvers/collection'
 import { CategoryResolver } from './resolvers/category'
-import { Product } from './entities/Product'
-import { ProductResolver } from './resolvers/product'
-import { Category } from './entities/Category'
-import { Collection } from './entities/Collection'
+import { UserResolver } from './resolvers/user'
+import { CartResolver } from './resolvers/cart'
+import { buildDataloader } from './untils/Dataloader/Dataloader'
 const PORT = process.env.PORT || 5000
 
 
 const main = async () => {
     //conect posgresql
-    await createConnection({
+    const connection = await createConnection({
         type : 'postgres',
         database : 'Nike',
         username : process.env.DB_USERNAME,
         password : process.env.DB_PASSWORD,
         logging : true,
         synchronize : true,
-        entities : [User,Address,Product,Category,Collection]
+        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut]
     })
     const app = express()
     //connect mongodb
@@ -57,9 +62,9 @@ const main = async () => {
     //create apollo server
     const apolloServer = new ApolloServer ({
         schema : await buildSchema({
-            resolvers : [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver],
+            resolvers : [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver,CartResolver],
             validate : false}),
-        context : ({req,res}) : Context => ({req,res}),
+        context : ({req,res}) : Context => ({req,res,connection,dataLoaders: buildDataloader()}),
         plugins : [ApolloServerPluginLandingPageGraphQLPlayground]
     })
     await apolloServer.start()

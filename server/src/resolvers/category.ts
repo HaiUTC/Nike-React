@@ -1,5 +1,5 @@
-import { Category } from "../entities/Category";
 import { Arg, Ctx, ID, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { Category } from "../entities/Category";
 import { CategoryMutationResponse } from "../types/Category/CategoryMutationResponse"
 import { Context } from "../types/Context/Context";
 import { checkAuthAdmin } from "../middleware/checkAuth";
@@ -33,7 +33,7 @@ export class CategoryResolver{
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`,   
+                message : `Something went wrong in GetAllcategory : ${error.message}`,   
             }
         }
     }
@@ -62,7 +62,7 @@ export class CategoryResolver{
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`
+                message : `Something went wrong in AddCategory : ${error.message}`
             }
         }
     }
@@ -94,7 +94,7 @@ export class CategoryResolver{
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`
+                message : `Something went wrong in UpdateCategory : ${error.message}`
             }
         }
     }
@@ -122,7 +122,7 @@ export class CategoryResolver{
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`,             
+                message : `Something went wrong in DeleteCategory : ${error.message}`,             
             }
         }
     }

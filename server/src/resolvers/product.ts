@@ -1,11 +1,11 @@
-import { Product } from "../entities/Product";
 import { Arg, FieldResolver, ID, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
+import { LessThan } from "typeorm";
+import { Category } from "../entities/Category";
+import { Product } from "../entities/Product";
+import { checkAuthAdmin } from "../middleware/checkAuth";
 import { ProductMutationResponse } from "../types/Product/ProductMutationResponse";
 import { ProductInput } from "../types/Product/ProductInput";
-import { Category } from "../entities/Category";
-import { checkAuthAdmin } from "../middleware/checkAuth";
 import { PaginatedProductResponse } from "../types/Product/PaginatedProductResponse";
-import { LessThan } from "typeorm";
 import { ProductUpdateInput } from '../types/Product/ProductUpdateInput'
 
 @Resolver(_of => Product)
@@ -108,7 +108,7 @@ export class ProductResolver {
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`
+                message : `Something went wrong in CreateProduct : ${error.message}`
             }
         }
     }
@@ -151,7 +151,7 @@ export class ProductResolver {
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`
+                message : `Something went wrong in UpdateProduct : ${error.message}`
             }
         }
     }
@@ -187,7 +187,7 @@ export class ProductResolver {
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong : ${error.message}`,
+                message : `Something went wrong in DeleteProduct : ${error.message}`,
                 
             }
         }
