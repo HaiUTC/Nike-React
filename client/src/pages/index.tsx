@@ -11,7 +11,7 @@ const Index = () => (
     </Head>
     <Layout>
       <h1 className='text-2xl'>Hello Next.js 👋</h1>
-      
+      <h2>Hello</h2>
     </Layout>
   </>
   
