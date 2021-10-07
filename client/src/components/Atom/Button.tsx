@@ -4,8 +4,8 @@ const SubmitButton = styled(LoadingButton)({
     boxShadow: 'none',
     fontSize: 14,
     padding: '6px 12px',
-    margin: "14px",
-    border: 'none',
+    margin: "20px 0",
+    width: "100%",
     fontWeight: 'normal',
     letterSpacing : 1.5,
     backgroundColor: '#000',
@@ -13,12 +13,11 @@ const SubmitButton = styled(LoadingButton)({
     '&:hover': {
         backgroundColor: '#000',
         color : '#fff',
-        boxShadow: 'none',
       },
 })
-const ButtonSubmit = ({loading,handleClick}) => {
+const ButtonSubmit = ({loading,type}) => {
     return (
-        <SubmitButton color="secondary" loading={loading} variant="outlined" onClick={handleClick}>SUBMIT</SubmitButton>
+        <SubmitButton color="secondary" type={type} loading={loading} variant="outlined">SUBMIT</SubmitButton>
     )
 }
 export default ButtonSubmit 

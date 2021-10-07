@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useState } from 'react';
-import RegisterModal from '../../Templete/RegisterModal';
+import LoginModal from '../../Templete/Modal/LoginModal';
 const UserNotLogin = () => {
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => {setOpen(true);};
@@ -12,7 +12,7 @@ const UserNotLogin = () => {
             </div>
                 <div className="m-auto text-xs" onClick={handleClickOpen}><span className='cursor-pointer' >Sign In</span>
             </div>
-            {open && <RegisterModal handleClose={handleClose}/>}
+            {open && <LoginModal handleClose={handleClose}/>}
         </>
     );
 }
