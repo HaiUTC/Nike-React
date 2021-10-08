@@ -10,6 +10,7 @@
 #listCategory:hover{display: flex;}
 #user:hover ~ #user_select{display: block;}
 #user_select:hover{display: block;}
+#regsiterModal{left : 15px !important;}
 .css-1u3bzj6-MuiFormControl-root-MuiTextField-root{width: 100% !important;}
 .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input,.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{padding: 8.5px 14px !important;}
 .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{top : -8px !important;}

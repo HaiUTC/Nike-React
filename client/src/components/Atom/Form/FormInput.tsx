@@ -9,9 +9,10 @@ interface IInputFieldProps {
     error : any
     helperText : any
     formik : any
+    focus?: string
   }
 export const FormInputAtom = ({formik,...props}: IInputFieldProps) => {
     return (
-        <TextField fullWidth {...props} onChange={formik.handleChange}/>
+        <TextField fullWidth {...props} autoFocus={props.focus==='true'} onChange={formik.handleChange}/>
     )
 } 

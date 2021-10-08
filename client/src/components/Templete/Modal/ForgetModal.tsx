@@ -1,6 +1,7 @@
 import { Alert, Dialog, DialogContent, DialogTitle, Snackbar } from "@mui/material";
 import { useFormik } from "formik"
 import Image from 'next/image'
+import { useState } from "react";
 import * as yup from 'yup';
 import { ForgotPasswordInput, useForgotPasswordMutation } from "../../../generated/graphql";
 import ButtonSubmit from "../../Atom/Button";
@@ -9,6 +10,7 @@ const validationSchema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
 })
 const ForgetModal = ({handleClose}) => {
+    const [doneForgot, setDoneForgot] = useState(false)
     const [forgotPassword,{loading}] = useForgotPasswordMutation()
     const initialValues:ForgotPasswordInput = {email : ""}
     const formik = useFormik({
@@ -16,6 +18,7 @@ const ForgetModal = ({handleClose}) => {
         validationSchema: validationSchema,
         onSubmit: async (values: ForgotPasswordInput) => {
             await forgotPassword({ variables : { forgotPasswordInput : values} })
+            setDoneForgot(true)
         }
     })
     return (
@@ -28,8 +31,15 @@ const ForgetModal = ({handleClose}) => {
           </div>
         </DialogTitle>
         <DialogContent>
+            {doneForgot ? 
+                  <div className='text-center'>
+                    <h4 className='py-2'>Please verify your email</h4>
+                    <span className='font-semibold'>{formik.values.email}</span>
+                  </div>
+                : 
             <form onSubmit={formik.handleSubmit}>
                 <FormInputAtom 
+                    focus="true"
                     formik={formik} 
                     value={formik.values.email} 
                     error={formik.touched.email && Boolean(formik.errors.email)}
@@ -39,6 +49,7 @@ const ForgetModal = ({handleClose}) => {
                     name='email'/>
             <ButtonSubmit loading={false} type="submit" />
             </form>
+            }
         </DialogContent>
         </Dialog>
     )

@@ -53,8 +53,9 @@ const LoginModal = ({handleClose}) => {
         {loginSuccess &&  
             <Snackbar open={true} anchorOrigin={ {vertical: 'top', horizontal: 'right'} }  autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>Login Successfully!</Alert>
-            </Snackbar>}
-        <Dialog open={true} maxWidth="xs" onClose={handleClose}>
+            </Snackbar>
+        }
+        <Dialog open={true} maxWidth="xs" scroll='body' onClose={handleClose}>
         <DialogTitle id="alert-dialog-title">
         <div className="flex flex-col items-center">
             <div><Image src='/img/logo.svg' width="60px" height="60px"/></div>
@@ -63,7 +64,8 @@ const LoginModal = ({handleClose}) => {
         </DialogTitle>
         <DialogContent>
             <form onSubmit={formik.handleSubmit}>
-                <FormInputAtom 
+                <FormInputAtom
+                    focus="true" 
                     formik={formik} 
                     value={formik.values.email} 
                     error={formik.touched.email && Boolean(formik.errors.email)}
