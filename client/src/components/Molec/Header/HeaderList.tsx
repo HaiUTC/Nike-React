@@ -1,11 +1,11 @@
 import Link from 'next/link'
 const HeaderList = () => {
     return (
-        <div className="m-auto ">
+        <div className="m-auto">
             <ul className='flex'>
               <li>
-                <Link href="/men"><a id='collection' className='text-lg p-6'>Men</a></Link>
-                <div id="listCategory" className="absolute justify-between px-56 left-0 top-28 w-full hidden pt-4 pb-16 bg-white">
+                <Link href="/men"><a id='collection' className='text-lg px-6 py-4'>Men</a></Link>
+                <div id="listCategory" className="absolute justify-between px-56 left-0 top-28 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>
                     <div>
@@ -102,8 +102,8 @@ const HeaderList = () => {
                 </div>
               </li>
               <li>
-                <Link href="/woman"><a id='collection' className='text-lg p-6'>Woman</a></Link>
-                <div id="listCategory" className="absolute justify-between px-56 left-0 top-28 w-full hidden pt-4 pb-16 bg-white">
+                <Link href="/woman"><a id='collection' className='text-lg px-6 py-4'>Woman</a></Link>
+                <div id="listCategory" className="absolute justify-between px-56 left-0 top-28 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>
                     <div className="lm-info">
@@ -203,8 +203,8 @@ const HeaderList = () => {
                 </div>
               </li>
               <li>
-                <Link href="/kid"><a id='collection' className='text-lg p-6'>Kids</a></Link>
-                <div id="listCategory" className="absolute justify-between px-56 left-0 top-28 w-full hidden pt-4 pb-16 bg-white">
+                <Link href="/kid"><a id='collection' className='text-lg px-6 py-4'>Kids</a></Link>
+                <div id="listCategory" className="absolute justify-between px-56 left-0 top-28 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>
                     <div className="lm-info">
@@ -300,8 +300,8 @@ const HeaderList = () => {
                 </div>
               </li>
               <li>
-                <Link href="/customise"><a id='collection' className='text-lg p-6'>Customise</a></Link>
-                <div id="listCategory" className="absolute justify-between px-56 left-0 top-28 w-full hidden pt-4 pb-16 bg-white">
+                <Link href="/customise"><a id='collection' className='text-lg px-6 py-4'>Customise</a></Link>
+                <div id="listCategory" className="absolute justify-between px-56 left-0 top-28 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>
                     <div className="lm-info">
@@ -347,8 +347,8 @@ const HeaderList = () => {
                 </div>
               </li>
               <li>
-                <Link href="/sale"><a id='collection' className='text-lg p-6'>Sale</a></Link>
-                <div id="listCategory" className="absolute justify-between px-56 left-0 top-28 w-full hidden pt-4 pb-16 bg-white">
+                <Link href="/sale"><a id='collection' className='text-lg px-6 py-4'>Sale</a></Link>
+                <div id="listCategory" className="absolute justify-between px-56 left-0 top-28 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>
                     <div className="lm-info">

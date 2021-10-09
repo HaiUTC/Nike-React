@@ -44,7 +44,7 @@ const RegisterModal = ({handleClose}) =>{
       <Dialog id='regsiterModal' open={true} maxWidth="xs" scroll='body' onClose={handleCloseModal}>
         <DialogTitle id="alert-dialog-title">
         <div className="flex flex-col items-center">
-            <div><Image src='/img/logo.svg' width="60px" height="60px"/></div>
+            <div><Image src='/static/icons/logo.svg' width="60px" height="60px"/></div>
             <div className="text-2xl pb-1 font-bold tracking-tighter text-center">BECOME A NIKE MEMBER</div>
             <span className="text-sm text-gray-500 pb-1 text-center">Create your Nike Member profile and get first access to the very best of Nike products, inspiration and community.</span>
           </div>

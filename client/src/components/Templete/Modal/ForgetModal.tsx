@@ -25,7 +25,7 @@ const ForgetModal = ({handleClose}) => {
         <Dialog open={true} maxWidth="xs" onClose={handleClose}>
         <DialogTitle id="alert-dialog-title">
         <div className="flex flex-col items-center">
-            <div><Image src='/img/logo.svg' width="60px" height="60px"/></div>
+            <div><Image src='/static/icons/logo.svg' width="60px" height="60px"/></div>
             <div className="text-2xl pt-2 pb-6 font-bold tracking-tighter">RESET PASSWORD</div>
             <p className="text-sm text-gray-500 text-center">Enter your email to receive instructions on how to reset your password.</p>
           </div>

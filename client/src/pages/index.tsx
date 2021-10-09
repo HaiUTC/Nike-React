@@ -6,7 +6,7 @@ const Index = () => (
   <>
     <Head>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
-      <link rel = "icon" href ="http://localhost:3000/img/logo.png" type = "image/x-icon"></link>
+      <link rel = "icon" href ="http://localhost:3000/static/image/logo.png" type = "image/x-icon"></link>
       <title>Nike. Just do it. Nike VN</title>
     </Head>
     <Layout>
