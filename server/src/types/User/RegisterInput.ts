@@ -15,9 +15,9 @@ export class RegisterInput {
     password : string
 
     @Field()
-    gender : string
+    confirmPassword : string
 
     @Field()
-    dob : string
+    gender : string
     
 }

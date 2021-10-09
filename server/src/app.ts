@@ -3,6 +3,7 @@ import 'reflect-metadata'
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql'
+import cors from 'cors'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { createConnection } from 'typeorm'
 import session from 'express-session'
@@ -40,6 +41,10 @@ const main = async () => {
         entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut]
     })
     const app = express()
+    app.use(cors({
+        origin : 'http://localhost:3000',
+        credentials : true
+    }))
     //connect mongodb
     const mongoUrl = `mongodb+srv://${process.env.DB_M_USER}:${process.env.DB_M_PASSWORD}@socialnet.80lds.mongodb.net/${process.env.DB_M_NAME}?retryWrites=true&w=majority`
     await mongoose.connect(mongoUrl,{

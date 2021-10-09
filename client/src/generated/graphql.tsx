@@ -444,7 +444,7 @@ export type QueryGetProductIdArgs = {
 };
 
 export type RegisterInput = {
-  dob: Scalars['String'];
+  confirmPassword: Scalars['String'];
   email: Scalars['String'];
   firstName: Scalars['String'];
   gender: Scalars['String'];

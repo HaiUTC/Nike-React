@@ -30,9 +30,6 @@ export class User extends BaseEntity {
     @Column()
     gender!: string
 
-    @Column()
-    dob!: string
-
     @Field()
     @Column({default : 'https://drive.google.com/file/d/1AWoyHuA2aB7ayOsBy0B-gN_iotX0khuZ/view?usp=sharing'})
     avatar: string

@@ -39,7 +39,7 @@ export class UserResolver {
                 ...validateRegisterInputErros
             } 
         try {
-            const { firstName, lastName, email, password, gender, dob} = registerInput
+            const { firstName, lastName, email, password, gender} = registerInput
             const existingUser = await User.findOne({
                 where : [{email}]
             })
@@ -63,7 +63,6 @@ export class UserResolver {
                 email,
                 password : hashPassword,
                 gender,
-                dob
             }).save()
             
             return {
@@ -100,9 +99,9 @@ export class UserResolver {
                         }
                     ]
                 }
-            const {firstName, lastName, email, password, gender, dob} = userPending
+            const {firstName, lastName, email, password, gender} = userPending
             const name = firstName + " " + lastName
-            const newUser = await User.create({name, email,password,gender,dob})
+            const newUser = await User.create({name, email,password,gender})
             await newUser.save()
             await UserPendingModel.findOneAndDelete({id:`${id}`})
             // session
