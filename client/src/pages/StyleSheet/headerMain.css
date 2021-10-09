@@ -1,4 +1,5 @@
 @keyframes FallDown {0%{transform: translateY(-10px);}100%{transform: translateY(0);}}
+@keyframes FullWidth {0%{top: 100px;}100%{top: 0;}}
 *{font-family: "Roboto",sans-serif;}
 #help::after,#user::after{content: "";position: absolute;top: 14px;width: 45px;height: 30px;left: -2px;}
 #help:hover ~ #help-item {display: block;}
@@ -11,6 +12,7 @@
 #user:hover ~ #user_select{display: block;}
 #user_select:hover{display: block;}
 #regsiterModal{left : 15px !important;}
+#formSearch{animation: FullWidth linear 0.2s;}
 .css-1u3bzj6-MuiFormControl-root-MuiTextField-root{width: 100% !important;}
 .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input,.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{padding: 8.5px 14px !important;}
 .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{top : -8px !important;}
