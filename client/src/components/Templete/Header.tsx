@@ -5,20 +5,21 @@ import UserNotLogin from '../Organ/Header/UserNotLogin'
 import HeaderSelect from '../Organ/Header/HeaederSelect'
 import HeaderSearch from '../Organ/Header/HeaderSearch'
 import UserLogin from '../Organ/Header/UserLogin'
-import { useMyProfileQuery } from '../../generated/graphql'
-import HeaderAnnounce from '../Molec/Header/HeaderAnnounce'
+import { MyProfileQuery } from '../../generated/graphql'
 
-const Header = () => {
-  const {data,loading} = useMyProfileQuery()
+interface MyProfile {
+  data : MyProfileQuery,
+  loading : boolean
+}
+const Header = ({data,loading}:MyProfile) => {
+  
 
   let body 
-  if(loading){
-    body = null
-  }
+  if(loading){body = null}
   else if(data?.MyProfile){
     body = <div className="flex">
             <UserHelp />            
-            <UserLogin />
+            <UserLogin data={data}/>
           </div>
   }
   else {
@@ -28,7 +29,7 @@ const Header = () => {
           </div>
   }
    return(
-     <div className='w-full'>
+     <div id="header" className='w-full'>
         <div>
         <div className="flex justify-between h-8 px-8 w-full bg-gray-light">
           <div className="flex px-4">
@@ -39,7 +40,7 @@ const Header = () => {
         <HeaderSelect />
         <HeaderSearch />
       </div>
-      <HeaderAnnounce />
+
     </div>
    )
 }

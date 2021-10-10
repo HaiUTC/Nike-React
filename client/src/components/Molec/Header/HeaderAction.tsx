@@ -7,7 +7,7 @@ const HeaderAction = () => {
         <div className="flex justify-between">
             <Search />
             <Favorite />
-            <Cart/>
+            <Cart numberCart={10}/>
           </div>
     );
 }

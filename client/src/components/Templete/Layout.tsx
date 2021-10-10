@@ -1,17 +1,29 @@
 import { ReactNode } from "react"
+import { useMyProfileQuery } from "../../generated/graphql"
+import HeaderAnnounce from "../Molec/Header/HeaderAnnounce"
 import HeaderFormSearch from "../Molec/Header/HeaderFormSearch"
-import Wrapper from "../Organ/Wrapper"
-import UserHeader from '../Templete/Header'
+import HeaderFormSearchMb from "../Molec/HeaderMb/HeaderFormSearchMb"
+import Wrapper from "../Organ/Wrapper/Wrapper"
+import Header from '../Templete/Header'
+import HeaderMb from "./HeaderMb"
 interface ILayoutProps {
     children : ReactNode
 }
 const Layout = ({children} : ILayoutProps) => {
+    const {data,loading} = useMyProfileQuery()
     return (
         <>
+            {/* Header */}
             <HeaderFormSearch />
-            <UserHeader />
+            <HeaderFormSearchMb />
+            <Header data={data} loading={loading}/>
+            <HeaderMb />
+            <HeaderAnnounce />
+
+            {/* Children */}
             <Wrapper>{children}</Wrapper>
 
+            {/* Footer */}
         </>
     )
 }

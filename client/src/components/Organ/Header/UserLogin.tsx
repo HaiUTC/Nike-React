@@ -1,10 +1,8 @@
 import { Avatar } from '@mui/material'
 import Link from 'next/link'
-import { MyProfileDocument, MyProfileQuery, useLogoutMutation, useMyProfileQuery } from '../../../generated/graphql'
-const UserLogin = () => {
-  const {data : userData, loading: userLoading} = useMyProfileQuery()
-  const {avatar, name} = userData.MyProfile
-  console.log(avatar)
+import { MyProfileDocument, MyProfileQuery, useLogoutMutation } from '../../../generated/graphql'
+const UserLogin = ({data}) => {
+  const {avatar, name} = data.MyProfile
   const [logout, {loading: userLogoutLoading}] = useLogoutMutation()
   const logoutUser = async () => {
     await logout({
