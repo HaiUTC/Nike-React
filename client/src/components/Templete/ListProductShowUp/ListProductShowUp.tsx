@@ -20,7 +20,6 @@ interface IProductShowUp {
     title : string
 }
 const ListProductShowUp = ({data,title}: IProductShowUp) => {
-    
     const product = data.map((product,index) => (
         <SwiperSlide key={index}>
             <Product 

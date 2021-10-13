@@ -5,7 +5,7 @@ const HeaderList = () => {
             <ul className='flex'>
               <li>
                 <Link href="/men"><a id='collection' className='relative text-lg px-6 py-4'>Men</a></Link>
-                <div id="listCategory" className="absolute justify-between px-56 left-0 top-20 w-full hidden pt-4 pb-16 bg-white z-10">
+                <div id="listCategory" className="absolute justify-between px-56 left-0 top-24 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>
                     <div>
@@ -102,8 +102,8 @@ const HeaderList = () => {
                 </div>
               </li>
               <li>
-                <Link href="/woman"><a id='collection' className='relative text-lg px-6 py-4'>Woman</a></Link>
-                <div id="listCategory" className="absolute justify-between px-56 left-0 top-20 w-full hidden pt-4 pb-16 bg-white z-10">
+                <Link href="/women"><a id='collection' className='relative text-lg px-6 py-4'>Woman</a></Link>
+                <div id="listCategory" className="absolute justify-between px-56 left-0 top-24 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>
                     <div className="lm-info">
@@ -204,7 +204,7 @@ const HeaderList = () => {
               </li>
               <li>
                 <Link href="/kid"><a id='collection' className='relative text-lg px-6 py-4'>Kids</a></Link>
-                <div id="listCategory" className="absolute justify-between px-56 left-0 top-20 w-full hidden pt-4 pb-16 bg-white z-10">
+                <div id="listCategory" className="absolute justify-between px-56 left-0 top-24 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>
                     <div className="lm-info">
@@ -301,7 +301,7 @@ const HeaderList = () => {
               </li>
               <li>
                 <Link href="/customise"><a id='collection' className='relative text-lg px-6 py-4'>Customise</a></Link>
-                <div id="listCategory" className="absolute justify-between px-56 left-0 top-20 w-full hidden pt-4 pb-16 bg-white z-10">
+                <div id="listCategory" className="absolute justify-between px-56 left-0 top-24 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>
                     <div className="lm-info">
@@ -348,7 +348,7 @@ const HeaderList = () => {
               </li>
               <li>
                 <Link href="/sale"><a id='collection' className='relative text-lg px-6 py-4'>Sale</a></Link>
-                <div id="listCategory" className="absolute justify-between px-56 left-0 top-20 w-full hidden pt-4 pb-16 bg-white z-10">
+                <div id="listCategory" className="absolute justify-between px-56 left-0 top-24 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>
                     <div className="lm-info">

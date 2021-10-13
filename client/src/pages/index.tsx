@@ -8,6 +8,7 @@ const Index = ({contentTrending,contentMoreNike,contentMain,listProduct}) => (
   <>
     <Head>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+      <link rel="stylesheet" href="/css/Header.css"/>
       <link rel = "icon" href ="http://localhost:3000/static/image/logo.png" type = "image/x-icon"></link>
       <title>Nike. Just do it. Nike VN</title>
     </Head>
@@ -23,7 +24,8 @@ const Index = ({contentTrending,contentMoreNike,contentMain,listProduct}) => (
   
 )
 export const getStaticProps = async () => {
-  const response = await fetch("https://nikenext-56f19-default-rtdb.firebaseio.com/home.json")
+  const url = `${process.env.URL_FETCH_DATA}/home.json`
+  const response = await fetch(url)
   const data = await response.json()
   return {
     props : {

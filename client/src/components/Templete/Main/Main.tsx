@@ -2,7 +2,7 @@ import LinkBlack from '../../Atom/LinkBlack'
 const Main = ({data}) => {
     return (
         <div>
-            <div className="pb-4 md:py-6 text-2xl"><span>{data.collectionTitle}</span></div>
+            <div className={"pb-4 text-2xl " + (data?.collectionTitle?"mt-10" : "")}><span>{data?.collectionTitle}</span></div>
             <figure className='relative px-2'>
                 {/* picture*/}
                 <div className='w-full h-auto'>

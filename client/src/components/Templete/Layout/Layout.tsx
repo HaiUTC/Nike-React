@@ -15,10 +15,6 @@ const Layout = ({children} : ILayoutProps) => {
     const {data,loading} = useMyProfileQuery()
     return (
         <>
-        <Head>
-            <link rel="stylesheet" href="/css/Header.css"/>
-        </Head>
-        <>
             {/* Header */}
             <HeaderFormSearch />
             <HeaderFormSearchMb />
@@ -31,7 +27,6 @@ const Layout = ({children} : ILayoutProps) => {
 
             {/* Footer */}
             <Footer />
-        </>
         </>
     )
 }
