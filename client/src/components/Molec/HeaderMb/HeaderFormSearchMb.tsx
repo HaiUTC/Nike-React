@@ -6,7 +6,7 @@ const HeaderFormSearchMb = () => {
     const toggleSearch = () => {dispatch(toggleShowSearchBoxMb())}
 	const isShowSearchBoxMb = useAppSelector((state) => state.showSearch.isShowSearchBoxMb)
     return (
-        <div id="formSearchMb" className={"absolute top-0 left-0 right-0 z-10 bg-white h-full "+(isShowSearchBoxMb?null:'hidden')}>
+        <div id="formSearchMb" className={"fixed top-0 left-0 right-0 z-10 bg-white h-full "+(isShowSearchBoxMb?null:'hidden')}>
 				<div className="flex justify-between w-full px-10 py-4 grid grid-cols-12">
 					<div className='col-span-11 w-full flex flex-col'>
 					<div className="flex px-3 py-2 rounded-full bg-gray-light  m-auto items-center hover:bg-gray-300" style={{width : "100%"}}>
@@ -25,9 +25,9 @@ const HeaderFormSearchMb = () => {
 							</ul>
 						</div>
 					</div>
-					<div className="col-span-1 flex justify-center items-start pt-2">
-						<button className="border-0 bg-transparent px-2.5 pt-2 pb-1 rounded-full hover:bg-gray-300" style={{outline : "none"}} onClick={toggleSearch}>
-							<Image src='/static/icons/exit.svg' height="15px" width="15px"/>
+					<div className="col-span-1 flex justify-center items-start pt-2 ml-4">
+						<button className="border-0 bg-transparent px-2 pt-2 pb-1 rounded-full hover:bg-gray-300" style={{outline : "none"}} onClick={toggleSearch}>
+							<Image src='/static/icons/exit.svg' height="15px" width="15px" layout="fixed"/>
 						</button>
 					</div>
 				</div>

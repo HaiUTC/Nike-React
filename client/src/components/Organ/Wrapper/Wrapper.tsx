@@ -6,7 +6,7 @@ interface IWrapperProps {
 
 const Wrapper = ({children} : IWrapperProps) => {
     return (
-        <div>
+        <div className='mx-2 md:mx-4 lg:mx-10'>
             {children}
         </div>
     )

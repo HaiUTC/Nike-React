@@ -1,8 +1,10 @@
-import Link from 'next/link'
-import Layout from '../components/Templete/Layout'
+import Layout from '../components/Templete/Layout/Layout'
 import Head from 'next/head'
-import { addApolloState, initializeApollo } from '../libs/apolloClient';
-const Index = () => (
+import Main from '../components/Templete/Main/Main';
+import ListProductShowUp from '../components/Templete/ListProductShowUp/ListProductShowUp';
+import CategoryContent from '../components/Templete/ContentLikeTrending/CategoryContent';
+
+const Index = ({contentTrending,contentMoreNike,contentMain,listProduct}) => (
   <>
     <Head>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
@@ -10,19 +12,26 @@ const Index = () => (
       <title>Nike. Just do it. Nike VN</title>
     </Head>
     <Layout>
-      <h1 className='text-2xl'>Hello Next.js 👋</h1>
-      <h2>Hello</h2>
+      <Main data={contentMain[0]}/>
+      <ListProductShowUp data={listProduct.JoinFastFamily} title="Join the Fast Family"/>
+      <CategoryContent data={contentTrending} title="Trending"/>
+      <Main data={contentMain[1]}/>
+      <ListProductShowUp data={listProduct.FeaturedFootwear} title="Featured Footwear"/>
+      <CategoryContent data={contentMoreNike} title="More Nike"/>
     </Layout>
   </>
   
 )
 export const getStaticProps = async () => {
-  const apolloClient = initializeApollo();
-  // await apolloClient.query({
-  //   query: null,
-  // });
-  return addApolloState(apolloClient, {
-    props: {},
-  });
+  const response = await fetch("https://nikenext-56f19-default-rtdb.firebaseio.com/home.json")
+  const data = await response.json()
+  return {
+    props : {
+      contentTrending : data.trending,
+      contentMoreNike : data.morenike,
+      contentMain : data.main,
+      listProduct : data.listProduct
+    }
+  }
 };
 export default Index

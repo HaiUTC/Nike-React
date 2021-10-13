@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import UserHelp from '../Organ/Header/UserHelp'
-import UserNotLogin from '../Organ/Header/UserNotLogin'
-import HeaderSelect from '../Organ/Header/HeaederSelect'
-import HeaderSearch from '../Organ/Header/HeaderSearch'
-import UserLogin from '../Organ/Header/UserLogin'
-import { MyProfileQuery } from '../../generated/graphql'
+import UserHelp from '../../Organ/Header/UserHelp'
+import UserNotLogin from '../../Organ/Header/UserNotLogin'
+import HeaderSelect from '../../Organ/Header/HeaederSelect'
+import HeaderSearch from '../../Organ/Header/HeaderSearch'
+import UserLogin from '../../Organ/Header/UserLogin'
+import { MyProfileQuery } from '../../../generated/graphql'
 
 interface MyProfile {
   data : MyProfileQuery,

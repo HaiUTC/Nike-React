@@ -1,10 +1,11 @@
 @keyframes FallDown {0%{transform: translateY(-10px);}100%{transform: translateY(0);}}
 @keyframes FallUp {0%{top: 100px;}100%{top: 0;}}
 *{font-family: "Roboto",sans-serif;}
-#help::after,#user::after{content: "";position: absolute;top: 14px;width: 45px;height: 30px;left: -2px;}
+#help::after,#user::after,#collection::after{content: "";position: absolute;top: 14px;width: 65px;height: 30px;left: -10px;}
 #help:hover ~ #help-item {display: block;}
 #help-item:hover{ display: block;}
 #help-item,#user_select{ animation: FallDown linear 0.2s; z-index: 3;}
+#collection::after{content: "";position: absolute;top: 100%;width: 65px;height: 30px;left: 5px;z-index: 99;}
 #collection:hover{border-bottom: 2px solid black;}
 #collection:hover ~ #listCategory{display: flex;}
 #listCategory{animation: FallDown linear 0.2s; }
@@ -14,6 +15,7 @@
 #regsiterModal{left : 15px !important;}
 #formSearch,#formSearchMb{animation: FallUp linear 0.2s;}
 @media screen and (max-width : 1005px){#header{display: none;}#headerMb{display: flex !important;}}
+@media screen and (max-width : 640px){#directional_slide{display: none;}}
 
 
 
@@ -24,3 +26,4 @@
 .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{top : -8px !important;}
 .css-1yt7yx7-MuiLoadingButton-loadingIndicator{color: #fff !important;}
 .MuiFormControl-root{margin: 8px 0 !important;}
+.swiper-button-disabled{opacity: 0.4 !important;cursor: not-allowed !important;}

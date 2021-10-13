@@ -4,7 +4,7 @@ import HeaderLogo from "../../Molec/Header/HeaderLogo";
 
 const HeaderSelect = () => {
     return (
-        <div className="flex justify-between px-8 py-2">
+        <div className="flex justify-between px-8">
           <HeaderLogo />
           <HeaderList />
           <HeaderAction/>
