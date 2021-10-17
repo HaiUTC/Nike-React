@@ -59,5 +59,4 @@ export class ProductUpdateInput{
     @Field({nullable : true})
     timerSale ?: Date
 
-
 }

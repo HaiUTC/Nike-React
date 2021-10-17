@@ -7,6 +7,7 @@ import { ProductMutationResponse } from "../types/Product/ProductMutationRespons
 import { ProductInput } from "../types/Product/ProductInput";
 import { PaginatedProductResponse } from "../types/Product/PaginatedProductResponse";
 import { ProductUpdateInput } from '../types/Product/ProductUpdateInput'
+import { __Type } from "graphql";
 
 @Resolver(_of => Product)
 export class ProductResolver {
@@ -64,7 +65,7 @@ export class ProductResolver {
 
     @Query(_return => Product, {nullable : true})
     async GetProductId(
-        @Arg('id') id : string
+        @Arg('id', __type => ID) id : string
     ):Promise<Product | undefined>{
         try {
             return await Product.findOne(id)

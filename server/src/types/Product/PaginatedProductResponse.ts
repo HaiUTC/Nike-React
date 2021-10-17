@@ -13,5 +13,5 @@ export class PaginatedProductResponse{
 	hasMore!: boolean
 
 	@Field(_type => [Product])
-	paginatedProducts!: Product[]
+	paginatedProducts: Product[]
 }

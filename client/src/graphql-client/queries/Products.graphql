@@ -1,0 +1,15 @@
+query GetProductByCategoryAndCollection ($categoryId : ID!) {
+    GetProductByCategoryAndCollection(categoryId : $categoryId) {
+        totalCount
+        cursor
+        hasMore
+        paginatedProducts {
+            id
+            name
+            title
+            numberColor
+            price
+            labelSpecial
+        }
+    }
+}

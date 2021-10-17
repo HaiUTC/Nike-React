@@ -1,0 +1,6 @@
+query GetProductId ($id : String!){
+    GetProductId(id : $id){
+        ...ProductIdsInfo
+
+    }
+}

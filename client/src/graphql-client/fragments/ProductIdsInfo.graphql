@@ -1,0 +1,17 @@
+fragment ProductIdsInfo on Product {
+    id
+    name
+    title
+    labelSpecial
+    price
+    size
+    numberColor
+    description
+    poster{
+        url
+    }
+    percentSale
+    timerSale
+    numberReview
+    rating
+}

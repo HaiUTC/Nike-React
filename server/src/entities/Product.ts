@@ -40,7 +40,7 @@ export class Product extends BaseEntity{
     @Column()
     title!: string
 
-    @Field()
+    @Field({nullable : true})
     @Column({nullable : true})
     labelSpecial?: string
 
@@ -70,7 +70,7 @@ export class Product extends BaseEntity{
 
     @Field({nullable : true})
     @Column({nullable : true})
-    percentSale: number
+    percentSale?: number
 
     @Field({nullable : true})
     @Column({nullable : true})

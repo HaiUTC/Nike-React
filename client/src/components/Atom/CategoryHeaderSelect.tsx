@@ -1,3 +1,4 @@
+import Link from 'next/link'
 interface IItem {
     name : string,
     link : string
@@ -7,7 +8,13 @@ interface IHeader {
     title : string
 }
 const CategoryHeaderSelect = ({data,title}: IHeader) => {
-    const body = data.map((item,index)=> <li key={index}><a className='flex pr-8 text-base md:text-lg text-gray-500 hover:text-black' href={item.link}>{item.name}</a></li>)
+    const body = data.map((item,index)=> 
+        <li key={index}>
+            <Link href={item.link}>
+                <a className='flex pr-8 text-base md:text-lg text-gray-500 hover:text-black' >{item.name}</a>     
+            </Link>
+        </li>
+    )
     return (
         <div>
             <nav className='flex flex-col px-2 md:flex-row py-6'>

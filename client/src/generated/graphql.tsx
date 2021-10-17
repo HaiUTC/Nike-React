@@ -482,6 +482,8 @@ export type UserMutationResponse = IMutationResponse & {
   user?: Maybe<User>;
 };
 
+export type ProductIdsInfoFragment = { __typename?: 'Product', id: string, name: string, title: string, labelSpecial: string, price: number, size: Array<number>, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string> }> };
+
 export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
 
 export type ErrorsInfoFragment = { __typename?: 'FieldError', field: string, message: string };
@@ -521,6 +523,39 @@ export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MyProfileQuery = { __typename?: 'Query', MyProfile?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined };
 
+export type GetProductIdQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetProductIdQuery = { __typename?: 'Query', GetProductId?: { __typename?: 'Product', id: string, name: string, title: string, labelSpecial: string, price: number, size: Array<number>, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string> }> } | null | undefined };
+
+export type GetProductByCategoryAndCollectionQueryVariables = Exact<{
+  categoryId: Scalars['ID'];
+}>;
+
+
+export type GetProductByCategoryAndCollectionQuery = { __typename?: 'Query', GetProductByCategoryAndCollection?: { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, name: string, title: string, numberColor: number, price: number, labelSpecial: string }> } | null | undefined };
+
+export const ProductIdsInfoFragmentDoc = gql`
+    fragment ProductIdsInfo on Product {
+  id
+  name
+  title
+  labelSpecial
+  price
+  size
+  numberColor
+  description
+  poster {
+    url
+  }
+  percentSale
+  timerSale
+  numberReview
+  rating
+}
+    `;
 export const MutationStatusFragmentDoc = gql`
     fragment mutationStatus on UserMutationResponse {
   code
@@ -717,3 +752,83 @@ export function useMyProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type MyProfileQueryHookResult = ReturnType<typeof useMyProfileQuery>;
 export type MyProfileLazyQueryHookResult = ReturnType<typeof useMyProfileLazyQuery>;
 export type MyProfileQueryResult = Apollo.QueryResult<MyProfileQuery, MyProfileQueryVariables>;
+export const GetProductIdDocument = gql`
+    query GetProductId($id: String!) {
+  GetProductId(id: $id) {
+    ...ProductIdsInfo
+  }
+}
+    ${ProductIdsInfoFragmentDoc}`;
+
+/**
+ * __useGetProductIdQuery__
+ *
+ * To run a query within a React component, call `useGetProductIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetProductIdQuery(baseOptions: Apollo.QueryHookOptions<GetProductIdQuery, GetProductIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductIdQuery, GetProductIdQueryVariables>(GetProductIdDocument, options);
+      }
+export function useGetProductIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductIdQuery, GetProductIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductIdQuery, GetProductIdQueryVariables>(GetProductIdDocument, options);
+        }
+export type GetProductIdQueryHookResult = ReturnType<typeof useGetProductIdQuery>;
+export type GetProductIdLazyQueryHookResult = ReturnType<typeof useGetProductIdLazyQuery>;
+export type GetProductIdQueryResult = Apollo.QueryResult<GetProductIdQuery, GetProductIdQueryVariables>;
+export const GetProductByCategoryAndCollectionDocument = gql`
+    query GetProductByCategoryAndCollection($categoryId: ID!) {
+  GetProductByCategoryAndCollection(categoryId: $categoryId) {
+    totalCount
+    cursor
+    hasMore
+    paginatedProducts {
+      id
+      name
+      title
+      numberColor
+      price
+      labelSpecial
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetProductByCategoryAndCollectionQuery__
+ *
+ * To run a query within a React component, call `useGetProductByCategoryAndCollectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProductByCategoryAndCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProductByCategoryAndCollectionQuery({
+ *   variables: {
+ *      categoryId: // value for 'categoryId'
+ *   },
+ * });
+ */
+export function useGetProductByCategoryAndCollectionQuery(baseOptions: Apollo.QueryHookOptions<GetProductByCategoryAndCollectionQuery, GetProductByCategoryAndCollectionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProductByCategoryAndCollectionQuery, GetProductByCategoryAndCollectionQueryVariables>(GetProductByCategoryAndCollectionDocument, options);
+      }
+export function useGetProductByCategoryAndCollectionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductByCategoryAndCollectionQuery, GetProductByCategoryAndCollectionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProductByCategoryAndCollectionQuery, GetProductByCategoryAndCollectionQueryVariables>(GetProductByCategoryAndCollectionDocument, options);
+        }
+export type GetProductByCategoryAndCollectionQueryHookResult = ReturnType<typeof useGetProductByCategoryAndCollectionQuery>;
+export type GetProductByCategoryAndCollectionLazyQueryHookResult = ReturnType<typeof useGetProductByCategoryAndCollectionLazyQuery>;
+export type GetProductByCategoryAndCollectionQueryResult = Apollo.QueryResult<GetProductByCategoryAndCollectionQuery, GetProductByCategoryAndCollectionQueryVariables>;
