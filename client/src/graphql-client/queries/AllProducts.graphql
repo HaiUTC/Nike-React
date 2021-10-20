@@ -1,0 +1,19 @@
+query GetAllProducts($limit : Int!, $cursor : String, $sort : String){
+    GetAllProducts(limit : $limit, cursor : $cursor, sort : $sort){
+        totalCount
+        cursor
+        hasMore
+        paginatedProducts {
+            id
+            categoryId
+            name
+            title
+            numberColor
+            price
+            labelSpecial
+            picture{
+                url
+            }
+        }
+    }
+}

@@ -1,22 +1,16 @@
-import Head from 'next/head'
 import { NetworkStatus } from '@apollo/client'
-import { GetServerSideProps, GetServerSidePropsContext} from 'next'
-import { useRouter } from 'next/router'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import Head from 'next/head'
+import LoadingPage from '../../components/Atom/LoadingPage'
 import Layout from '../../components/Templete/Layout/Layout'
 import ListProductPerPage from '../../components/Templete/ListProductPerPage'
+import { GetAllProductsDocument, useGetAllProductsQuery } from '../../generated/graphql'
 import { addApolloState, initializeApollo } from '../../libs/apolloClient'
-import LoadingPage from '../../components/Atom/LoadingPage'
-import { GetProductByCategoryAndCollectionDocument, useGetProductByCategoryAndCollectionQuery } from '../../generated/graphql'
-import { isEmpty } from 'lodash'
 export const limit = 9
-export let categoryId = 0
-const CategoryProduct = () => {
-    const router = useRouter();
-    categoryId = +(router.query?.categoryStruction.toString().split('-')[2])
-    const {data,loading,fetchMore, networkStatus} = useGetProductByCategoryAndCollectionQuery({
+const Index = () => {
+    const {data,loading,fetchMore, networkStatus} = useGetAllProductsQuery({
         variables : {
-            limit,
-            categoryId : categoryId.toString(),
+            limit
         },
         notifyOnNetworkStatusChange: true
     })
@@ -24,28 +18,25 @@ const CategoryProduct = () => {
     const loadMoreProducts = () => {
         fetchMore({ variables: {
             limit,
-            categoryId : categoryId.toString(), 
-            cursor: data?.GetProductByCategoryAndCollection?.cursor
+            cursor: data?.GetAllProducts?.cursor
         } 
     })
     }
-    return(
+    return (
         <>
             <Head>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
                 <link rel="stylesheet" href="/css/Header.css"/>
                 <link rel="stylesheet" href="/css/Main.css"/>
                 <link rel = "icon" href ="http://localhost:3000/static/icons/logo.svg" type = "image/x-icon"></link>
-                <title>Men's Shoes, Clothing &amp; Accessories. Nike VN</title>
+                <title>Products. Nike VN</title>
             </Head>
             <Layout>
-                
                 {loading && !loadingMoreProduct ? <LoadingPage /> : (                    
                     <ListProductPerPage 
-                        categoryId={categoryId}
-                        products={data?.GetProductByCategoryAndCollection?.paginatedProducts}
-                        totalCount={data?.GetProductByCategoryAndCollection?.totalCount}
-                        hasMore={data?.GetProductByCategoryAndCollection?.hasMore}
+                        products={data?.GetAllProducts?.paginatedProducts}
+                        totalCount={data?.GetAllProducts?.totalCount}
+                        hasMore={data?.GetAllProducts?.hasMore}
                         fetchMore={loadMoreProducts}
                     />
                 )}
@@ -59,9 +50,8 @@ export const getServerSideProps: GetServerSideProps = async (
 	const apolloClient = initializeApollo({ headers: context.req.headers })
 
 	await apolloClient.query({
-		query: GetProductByCategoryAndCollectionDocument,
+		query: GetAllProductsDocument,
 		variables: {
-			categoryId : categoryId,
             limit
 		}
 	})
@@ -71,4 +61,4 @@ export const getServerSideProps: GetServerSideProps = async (
         
 	})
 }
-export default CategoryProduct
+export default Index

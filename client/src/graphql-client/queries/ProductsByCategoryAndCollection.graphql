@@ -1,0 +1,19 @@
+query GetProductByCategoryAndCollection ($limit : Int!,$categoryId : ID!,$cursor : String) {
+    GetProductByCategoryAndCollection(categoryId : $categoryId, limit : $limit, cursor : $cursor) {
+        totalCount
+        cursor
+        hasMore
+        paginatedProducts {
+            id
+            categoryId
+            name
+            title
+            numberColor
+            price
+            labelSpecial
+            picture{
+                url
+            }
+        }
+    }
+}

@@ -2,13 +2,21 @@ import Image from 'next/image'
 
 interface IHeaderCategory {
     showSort : boolean,
-    ShowSort : any
+    ShowSort : any,
+    totalCount : number,
+    categoryId?: number
 }
-const HeaderCategory = ({showSort,ShowSort}:IHeaderCategory) => {
+enum HeaderTitle {
+    "All Products"= undefined,
+    "Men's Shoes" = 1,
+    "Men's Clothings" = 2,
+    "Men's Gears" = 3
+}
+const HeaderCategory = ({showSort,ShowSort,totalCount,categoryId}:IHeaderCategory) => {
     return (
         <header className='py-6'>
                 <div className='flex justify-between'>
-                    <h1 className='text-2xl'>Men's Shoes</h1>
+                    <h1 className='text-2xl'>{HeaderTitle[categoryId]} ({totalCount? totalCount : 0})</h1>
                     <nav className='flex justify-center items-center'>
                         <button className='flex items-center'>
                             <span className='px-3 text-lg'>Hide Filters</span>

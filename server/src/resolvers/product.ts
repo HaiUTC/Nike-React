@@ -1,4 +1,4 @@
-import { Arg, FieldResolver, ID, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
+import { Arg, FieldResolver, ID, Int, Mutation, Query, Resolver, Root, UseMiddleware } from "type-graphql";
 import { LessThan } from "typeorm";
 import { Category } from "../entities/Category";
 import { Product } from "../entities/Product";
@@ -19,15 +19,52 @@ export class ProductResolver {
 		return await Category.findOne(root.categoryId)
 	}
 
+    @Query(_return => PaginatedProductResponse,{ nullable : true})
+    async GetAllProducts(
+        @Arg('limit', _type => Int, {nullable : true}) limit ?: number,
+        @Arg('cursor', { nullable: true }) cursor?: string,
+        @Arg('sort', {nullable : true}) sort?: string,
+    ): Promise<PaginatedProductResponse | undefined >{
+        try {
+            let order = {}
+            const totalCount = await Product.count()
+            if(sort==='time') order =  {createdAt: 'DESC'}
+            else if (sort==='priceAsc') order = {price: 'ASC'}
+            else if(sort==='priceDesc') order = {price: 'DESC'}
+            else order = {createdAt: 'DESC'}
+            const findOptions: { [key: string]: any } = {
+				order,
+				take: limit||9,
+			}
+            let lastProduct: Product[] = []
+			if (cursor) {
+				findOptions.where = { createdAt: LessThan(cursor) }
+				lastProduct = await Product.find({ order : {createdAt : 'ASC'}, take: 1})
+			}
+            const listProduct = await Product.find(findOptions)
+            return {
+                totalCount,
+                cursor: listProduct[listProduct.length-1].createdAt,
+                hasMore : cursor
+                ? listProduct[listProduct.length - 1].createdAt.toString() !== lastProduct[0]?.createdAt.toString()
+                : listProduct.length !== totalCount,
+                paginatedProducts : listProduct
+            }
+        } catch (error) {
+            console.log(error)
+            return undefined
+        }
+    }
+
     @Query(_return => PaginatedProductResponse, {nullable : true})
     async GetProductByCategoryAndCollection(
         @Arg('categoryId',_type=> ID) categoryId : number,
+        @Arg('limit', _type=> Int) limit ?: number,
         @Arg('cursor', { nullable: true }) cursor?: string,
         @Arg('sort', {nullable : true}) sort?: string,
         @Arg('title',{nullable : true}) title?: string,
     ):Promise<PaginatedProductResponse | undefined>{
         try {
-            const limit = 9
             let order = {}
             let where = {}
             if(title!==undefined) where = {categoryId,title}
@@ -36,24 +73,23 @@ export class ProductResolver {
             if(sort==='time') order =  {createdAt: 'DESC'}
             else if (sort==='priceAsc') order = {price: 'ASC'}
             else if(sort==='priceDesc') order = {price: 'DESC'}
-            else order = {rating: 'DESC'}
+            else order = {createdAt: 'DESC'}
             const findOptions: { [key: string]: any } = {
 				order,
-				take: limit,
+				take: limit||9,
                 where
 			}
             let lastProduct: Product[] = []
 			if (cursor) {
 				findOptions.where = { createdAt: LessThan(cursor) }
-				lastProduct = await Product.find({ order, take: 1,where })
+				lastProduct = await Product.find({ order : {createdAt : 'ASC'}, take: 1,where })
 			}
             const listProduct = await Product.find(findOptions)
             return {
                 totalCount,
                 cursor: listProduct[listProduct.length-1].createdAt,
                 hasMore : cursor
-                ? listProduct[listProduct.length - 1].createdAt.toString() !==
-                  lastProduct[0].createdAt.toString()
+                ? listProduct[listProduct.length - 1].createdAt.toString() !== lastProduct[0]?.createdAt.toString()
                 : listProduct.length !== totalCount,
                 paginatedProducts : listProduct
             }

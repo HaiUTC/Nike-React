@@ -41,8 +41,8 @@ export class Product extends BaseEntity{
     title!: string
 
     @Field({nullable : true})
-    @Column({nullable : true})
-    labelSpecial?: string
+    @Column({default : null,nullable : true})
+    labelSpecial : string
 
     @Field()
     @Column()

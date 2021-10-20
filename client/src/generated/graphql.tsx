@@ -345,7 +345,7 @@ export type Product = {
   createdAt: Scalars['DateTime'];
   description: Scalars['String'];
   id: Scalars['ID'];
-  labelSpecial: Scalars['String'];
+  labelSpecial?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   numberColor: Scalars['Float'];
   numberReview: Scalars['Float'];
@@ -406,6 +406,7 @@ export type Query = {
   GetAddressId?: Maybe<Address>;
   GetAllAddress?: Maybe<AddressMutationResponse>;
   GetAllCollection?: Maybe<CollectionMutationResponse>;
+  GetAllProducts?: Maybe<PaginatedProductResponse>;
   GetAllcategory?: Maybe<CategoryMutationResponse>;
   GetCartOfUser?: Maybe<Array<CartItem>>;
   GetCategoryId?: Maybe<Category>;
@@ -418,6 +419,13 @@ export type Query = {
 
 export type QueryGetAddressIdArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryGetAllProductsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  sort?: Maybe<Scalars['String']>;
 };
 
 
@@ -434,13 +442,14 @@ export type QueryGetCollectionIdArgs = {
 export type QueryGetProductByCategoryAndCollectionArgs = {
   categoryId: Scalars['ID'];
   cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
   sort?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
 
 export type QueryGetProductIdArgs = {
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 export type RegisterInput = {
@@ -482,7 +491,7 @@ export type UserMutationResponse = IMutationResponse & {
   user?: Maybe<User>;
 };
 
-export type ProductIdsInfoFragment = { __typename?: 'Product', id: string, name: string, title: string, labelSpecial: string, price: number, size: Array<number>, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string> }> };
+export type ProductIdsInfoFragment = { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size: Array<number>, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string> }> };
 
 export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
 
@@ -518,24 +527,35 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', Register?: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } | null | undefined };
 
+export type GetAllProductsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+  sort?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetAllProductsQuery = { __typename?: 'Query', GetAllProducts?: { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> } | null | undefined };
+
 export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MyProfileQuery = { __typename?: 'Query', MyProfile?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined };
 
 export type GetProductIdQueryVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['ID'];
 }>;
 
 
-export type GetProductIdQuery = { __typename?: 'Query', GetProductId?: { __typename?: 'Product', id: string, name: string, title: string, labelSpecial: string, price: number, size: Array<number>, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string> }> } | null | undefined };
+export type GetProductIdQuery = { __typename?: 'Query', GetProductId?: { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size: Array<number>, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string> }> } | null | undefined };
 
 export type GetProductByCategoryAndCollectionQueryVariables = Exact<{
+  limit: Scalars['Int'];
   categoryId: Scalars['ID'];
+  cursor?: Maybe<Scalars['String']>;
 }>;
 
 
-export type GetProductByCategoryAndCollectionQuery = { __typename?: 'Query', GetProductByCategoryAndCollection?: { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, name: string, title: string, numberColor: number, price: number, labelSpecial: string }> } | null | undefined };
+export type GetProductByCategoryAndCollectionQuery = { __typename?: 'Query', GetProductByCategoryAndCollection?: { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> } | null | undefined };
 
 export const ProductIdsInfoFragmentDoc = gql`
     fragment ProductIdsInfo on Product {
@@ -718,6 +738,57 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const GetAllProductsDocument = gql`
+    query GetAllProducts($limit: Int!, $cursor: String, $sort: String) {
+  GetAllProducts(limit: $limit, cursor: $cursor, sort: $sort) {
+    totalCount
+    cursor
+    hasMore
+    paginatedProducts {
+      id
+      categoryId
+      name
+      title
+      numberColor
+      price
+      labelSpecial
+      picture {
+        url
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllProductsQuery__
+ *
+ * To run a query within a React component, call `useGetAllProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllProductsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetAllProductsQuery(baseOptions: Apollo.QueryHookOptions<GetAllProductsQuery, GetAllProductsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllProductsQuery, GetAllProductsQueryVariables>(GetAllProductsDocument, options);
+      }
+export function useGetAllProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllProductsQuery, GetAllProductsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllProductsQuery, GetAllProductsQueryVariables>(GetAllProductsDocument, options);
+        }
+export type GetAllProductsQueryHookResult = ReturnType<typeof useGetAllProductsQuery>;
+export type GetAllProductsLazyQueryHookResult = ReturnType<typeof useGetAllProductsLazyQuery>;
+export type GetAllProductsQueryResult = Apollo.QueryResult<GetAllProductsQuery, GetAllProductsQueryVariables>;
 export const MyProfileDocument = gql`
     query MyProfile {
   MyProfile {
@@ -753,7 +824,7 @@ export type MyProfileQueryHookResult = ReturnType<typeof useMyProfileQuery>;
 export type MyProfileLazyQueryHookResult = ReturnType<typeof useMyProfileLazyQuery>;
 export type MyProfileQueryResult = Apollo.QueryResult<MyProfileQuery, MyProfileQueryVariables>;
 export const GetProductIdDocument = gql`
-    query GetProductId($id: String!) {
+    query GetProductId($id: ID!) {
   GetProductId(id: $id) {
     ...ProductIdsInfo
   }
@@ -788,18 +859,26 @@ export type GetProductIdQueryHookResult = ReturnType<typeof useGetProductIdQuery
 export type GetProductIdLazyQueryHookResult = ReturnType<typeof useGetProductIdLazyQuery>;
 export type GetProductIdQueryResult = Apollo.QueryResult<GetProductIdQuery, GetProductIdQueryVariables>;
 export const GetProductByCategoryAndCollectionDocument = gql`
-    query GetProductByCategoryAndCollection($categoryId: ID!) {
-  GetProductByCategoryAndCollection(categoryId: $categoryId) {
+    query GetProductByCategoryAndCollection($limit: Int!, $categoryId: ID!, $cursor: String) {
+  GetProductByCategoryAndCollection(
+    categoryId: $categoryId
+    limit: $limit
+    cursor: $cursor
+  ) {
     totalCount
     cursor
     hasMore
     paginatedProducts {
       id
+      categoryId
       name
       title
       numberColor
       price
       labelSpecial
+      picture {
+        url
+      }
     }
   }
 }
@@ -817,7 +896,9 @@ export const GetProductByCategoryAndCollectionDocument = gql`
  * @example
  * const { data, loading, error } = useGetProductByCategoryAndCollectionQuery({
  *   variables: {
+ *      limit: // value for 'limit'
  *      categoryId: // value for 'categoryId'
+ *      cursor: // value for 'cursor'
  *   },
  * });
  */
