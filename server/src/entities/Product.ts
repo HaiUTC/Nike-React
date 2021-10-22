@@ -48,9 +48,13 @@ export class Product extends BaseEntity{
     @Column()
     price!: number
 
-    @Field(() => [Number])
+    @Field(() => [Number],{nullable : true})
     @Column("float", { array: true, default: {} })
-    size!: number[]
+    size?: number[]
+
+    @Field(() => [String],{nullable : true})
+    @Column("text", { array: true, default: {} })
+    sizeClothing?: string[]
 
     @Field()
     @Column()

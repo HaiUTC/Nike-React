@@ -7,16 +7,19 @@ import ListProductPerPage from '../../components/Templete/ListProductPerPage'
 import { addApolloState, initializeApollo } from '../../libs/apolloClient'
 import LoadingPage from '../../components/Atom/LoadingPage'
 import { GetProductByCategoryAndCollectionDocument, useGetProductByCategoryAndCollectionQuery } from '../../generated/graphql'
-import { isEmpty } from 'lodash'
-export const limit = 9
+import { limit } from './index'
 export let categoryId = 0
+export let sort
 const CategoryProduct = () => {
     const router = useRouter();
     categoryId = +(router.query?.categoryStruction.toString().split('-')[2])
+    sort = router.query.sort
+    
     const {data,loading,fetchMore, networkStatus} = useGetProductByCategoryAndCollectionQuery({
         variables : {
             limit,
             categoryId : categoryId.toString(),
+            sort : sort as string
         },
         notifyOnNetworkStatusChange: true
     })
@@ -25,6 +28,7 @@ const CategoryProduct = () => {
         fetchMore({ variables: {
             limit,
             categoryId : categoryId.toString(), 
+            sort : sort as string,
             cursor: data?.GetProductByCategoryAndCollection?.cursor
         } 
     })
@@ -62,7 +66,8 @@ export const getServerSideProps: GetServerSideProps = async (
 		query: GetProductByCategoryAndCollectionDocument,
 		variables: {
 			categoryId : categoryId,
-            limit
+            limit,
+            sort: sort as string
 		}
 	})
 

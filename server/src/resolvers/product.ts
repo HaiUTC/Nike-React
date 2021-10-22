@@ -28,7 +28,7 @@ export class ProductResolver {
         try {
             let order = {}
             const totalCount = await Product.count()
-            if(sort==='time') order =  {createdAt: 'DESC'}
+            if(sort==='newest') order =  {createdAt: 'DESC'}
             else if (sort==='priceAsc') order = {price: 'ASC'}
             else if(sort==='priceDesc') order = {price: 'DESC'}
             else order = {createdAt: 'DESC'}
@@ -70,7 +70,7 @@ export class ProductResolver {
             if(title!==undefined) where = {categoryId,title}
             else where = {categoryId}
             const totalCount = await Product.count({categoryId})
-            if(sort==='time') order =  {createdAt: 'DESC'}
+            if(sort==='newest') order =  {createdAt: 'DESC'}
             else if (sort==='priceAsc') order = {price: 'ASC'}
             else if(sort==='priceDesc') order = {price: 'DESC'}
             else order = {createdAt: 'DESC'}

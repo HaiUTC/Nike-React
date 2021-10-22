@@ -35,8 +35,11 @@ export class ProductInput{
     @Field()
     price : number
 
-    @Field(()=> [Number])
+    @Field(()=> [Number],{nullable : true})
     size : number[]
+
+    @Field(()=> [String],{nullable : true})
+    sizeClothing : string[]
 
     @Field()
     numberColor : number

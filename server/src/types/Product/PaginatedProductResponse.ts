@@ -7,7 +7,7 @@ export class PaginatedProductResponse{
     totalCount !: number
 
     @Field(_type => Date)
-	cursor!: Date
+	cursor!: number|Date
 
 	@Field()
 	hasMore!: boolean

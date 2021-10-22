@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import showSearchBox from './Header/showSearchBox'
+import showFilter  from './Product/showFilter'
 
 
 export const store = configureStore({
   reducer: {
-   showSearch : showSearchBox
+   showSearch : showSearchBox,
+   showFilter : showFilter
   },
 })
 

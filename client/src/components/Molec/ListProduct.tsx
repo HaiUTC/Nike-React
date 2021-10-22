@@ -7,7 +7,7 @@ const ListProduct = ({products,hasMore,fetchMore}) => {
       fetchMore()
       };
     return (
-        <div>
+        <div className='w-full'>
           <InfiniteScroll
             dataLength={products.length}
             next={fetchAPIProduct}

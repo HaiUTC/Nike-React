@@ -54,7 +54,7 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
                 Query : {
                     fields : {
                       GetProductByCategoryAndCollection : {
-                          keyArgs: false,
+                          keyArgs: ['categoryId','sort'],
                           merge(existing, incoming) {
                             let paginatedProducts: Product[] = []
 

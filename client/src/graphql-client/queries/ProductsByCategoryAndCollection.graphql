@@ -1,5 +1,5 @@
-query GetProductByCategoryAndCollection ($limit : Int!,$categoryId : ID!,$cursor : String) {
-    GetProductByCategoryAndCollection(categoryId : $categoryId, limit : $limit, cursor : $cursor) {
+query GetProductByCategoryAndCollection ($limit : Int!,$categoryId : ID!,$cursor : String,$sort : String) {
+    GetProductByCategoryAndCollection(categoryId : $categoryId, limit : $limit, cursor : $cursor,sort : $sort) {
         totalCount
         cursor
         hasMore

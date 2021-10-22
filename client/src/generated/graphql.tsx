@@ -552,6 +552,7 @@ export type GetProductByCategoryAndCollectionQueryVariables = Exact<{
   limit: Scalars['Int'];
   categoryId: Scalars['ID'];
   cursor?: Maybe<Scalars['String']>;
+  sort?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -859,11 +860,12 @@ export type GetProductIdQueryHookResult = ReturnType<typeof useGetProductIdQuery
 export type GetProductIdLazyQueryHookResult = ReturnType<typeof useGetProductIdLazyQuery>;
 export type GetProductIdQueryResult = Apollo.QueryResult<GetProductIdQuery, GetProductIdQueryVariables>;
 export const GetProductByCategoryAndCollectionDocument = gql`
-    query GetProductByCategoryAndCollection($limit: Int!, $categoryId: ID!, $cursor: String) {
+    query GetProductByCategoryAndCollection($limit: Int!, $categoryId: ID!, $cursor: String, $sort: String) {
   GetProductByCategoryAndCollection(
     categoryId: $categoryId
     limit: $limit
     cursor: $cursor
+    sort: $sort
   ) {
     totalCount
     cursor
@@ -899,6 +901,7 @@ export const GetProductByCategoryAndCollectionDocument = gql`
  *      limit: // value for 'limit'
  *      categoryId: // value for 'categoryId'
  *      cursor: // value for 'cursor'
+ *      sort: // value for 'sort'
  *   },
  * });
  */

@@ -3,5 +3,5 @@ server/node_modules
 server/.env
 .vscode
 NikeGraph
-Nike_React
+Nike-React
 client/node_modules
