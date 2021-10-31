@@ -1,0 +1,7 @@
+query AllProductIds($limit : Int!, $cursor : String){
+     GetAllProducts(limit : $limit, cursor : $cursor){ 
+        paginatedProducts {
+            id
+        }
+    }
+}

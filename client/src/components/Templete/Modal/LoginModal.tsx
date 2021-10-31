@@ -41,6 +41,7 @@ const LoginModal = ({handleClose}) => {
           }
           else if(response.data?.Login.user){
             setLoginSuccess(true)
+            handleClose()
           }
         },
       });
@@ -72,8 +73,9 @@ const LoginModal = ({handleClose}) => {
                     helperText={formik.touched.email && formik.errors.email}
                     label="Email" 
                     id="email" 
-                    name='email'/>
-                  <FormInputAtom 
+                    name='email'
+                />
+                <FormInputAtom 
                     formik={formik} 
                     value={formik.values.password} 
                     error={formik.touched.password && Boolean(formik.errors.password)}
@@ -81,20 +83,21 @@ const LoginModal = ({handleClose}) => {
                     label="Password" 
                     id="password" 
                     name='password' 
-                    type="password"/>
-                    <div className='grid grid-cols-2 gap-4 text-xs pt-6'>
-                        <div className="col-span-1 text-left">
-                            <input type="checkbox" className="kl-checkbox" />
-                            <span className="pl-2 text-gray-500">Keep me signed in</span>
-                        </div>
-                        <div className="col-span-1 text-right">
-                            <span className="text-gray-500 cursor-pointer" onClick={openForgotPasswordModal}>Fogotten your password?</span>
-                        </div>
+                    type="password"
+                />
+                <div className='grid grid-cols-2 gap-4 text-xs pt-6'>
+                    <div className="col-span-1 text-left">
+                        <input type="checkbox" className="kl-checkbox" />
+                        <span className="pl-2 text-gray-500">Keep me signed in</span>
                     </div>
-            <div className="pt-6 text-xs text-gray-500 text-center">
-              By logging in, you agrre to Nike's <a href="/" className='text-black underline'>Privacy Policy</a> and <a href="/" className='text-black underline'>Terms of Use</a>
-            </div>
-            <ButtonSubmit loading={_loginUserLoading} type="submit" />
+                    <div className="col-span-1 text-right">
+                        <span className="text-gray-500 cursor-pointer" onClick={openForgotPasswordModal}>Fogotten your password?</span>
+                    </div>
+                </div>
+                <div className="pt-6 text-xs text-gray-500 text-center">
+                    By logging in, you agrre to Nike's <a href="/" className='text-black underline'>Privacy Policy</a> and <a href="/" className='text-black underline'>Terms of Use</a>
+                </div>
+                <ButtonSubmit loading={_loginUserLoading} type="submit" />
             </form>
             <div className="text-xs text-gray-500 text-center">Not a member? <span className='cursor-pointer underline text-black' onClick={openRegisterModal}>Join Us</span></div>
         </DialogContent>

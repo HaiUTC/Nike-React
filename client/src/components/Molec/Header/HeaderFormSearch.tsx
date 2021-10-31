@@ -1,5 +1,4 @@
 import HeaderLogo from "./HeaderLogo"
-import Image from 'next/image'
 import { useAppDispatch, useAppSelector } from "../../../redux/hook"
 import { toggleShowSearchBox } from "../../../redux/Header/showSearchBox"
 
@@ -16,7 +15,7 @@ const HeaderFormSearch = () => {
 					<div className='col-span-6 w-full flex flex-col'>
 					<div className="flex px-3 py-2 rounded-full bg-gray-light  m-auto items-center hover:bg-gray-300" style={{width : "100%"}}>
 						<button className='border-0 bg-transparent flex items-center py-0.5' style={{outline : 'none'}}>
-							<Image src='/static/icons/search.svg' width="30px" height="30px"/>
+							<img src='/static/icons/search.svg' width="30px" height="30px"/>
 						</button>
 						<input className='border-0 bg-transparent w-full pl-4' type="text" placeholder="Search" style={{outline : 'none'}}></input>
 					</div>
@@ -32,7 +31,7 @@ const HeaderFormSearch = () => {
 					</div>
 					<div className="col-span-3 flex justify-center items-start ml-16 pt-2">
 						<button className="border-0 bg-transparent px-2.5 pt-2 pb-1 rounded-full hover:bg-gray-300" style={{outline : "none"}} onClick={toggleSearch}>
-							<Image src='/static/icons/exit.svg' height="15px" width="15px"/>
+							<img src='/static/icons/exit.svg' height="15px" width="15px"/>
 						</button>
 					</div>
 				</div>

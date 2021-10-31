@@ -10,6 +10,7 @@
 .container-loading-component-page {margin: auto;position: fixed;left: 0;top: 0;z-index: 103;background: rgb(0 0 0 / 74%);width: 100%;height: 100%;overflow: hidden;}
 .container-loading-component-page .spinner-page.spinner-large-page {width: 35px;height: 35px;text-align: center;margin: 20px auto;left: 50%;top: 40%;position: absolute;}
 .container-loading-component-page .spinner-page.spinner-large-page .spinner-blade-page {top: 11.5px;left: 15px;width: 5px;height: 12px;border-radius: 2.5px;}
+#title_required::after{content: "*";color: red; padding-left: 2px;}
 /*Mui*/
 .css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root{padding: 0 !important;}
 .css-15v22id-MuiAccordionDetails-root{padding: 5px 0 !important;}

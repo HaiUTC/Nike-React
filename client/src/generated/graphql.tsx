@@ -354,7 +354,8 @@ export type Product = {
   poster: Array<Picture>;
   price: Scalars['Float'];
   rating: Scalars['Float'];
-  size: Array<Scalars['Float']>;
+  size?: Maybe<Array<Scalars['Float']>>;
+  sizeClothing?: Maybe<Array<Scalars['String']>>;
   timerSale?: Maybe<Scalars['DateTime']>;
   title: Scalars['String'];
   updatedAt: Scalars['DateTime'];
@@ -370,7 +371,8 @@ export type ProductInput = {
   picture: ItemPictureInput;
   poster: Array<PictureInput>;
   price: Scalars['Float'];
-  size: Array<Scalars['Float']>;
+  size?: Maybe<Array<Scalars['Float']>>;
+  sizeClothing?: Maybe<Array<Scalars['String']>>;
   timerSale?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
@@ -491,7 +493,7 @@ export type UserMutationResponse = IMutationResponse & {
   user?: Maybe<User>;
 };
 
-export type ProductIdsInfoFragment = { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size: Array<number>, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string> }> };
+export type ProductIdsInfoFragment = { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size?: Array<number> | null | undefined, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string>, color?: string | null | undefined }> };
 
 export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
 
@@ -527,6 +529,14 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', Register?: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } | null | undefined };
 
+export type AllProductIdsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type AllProductIdsQuery = { __typename?: 'Query', GetAllProducts?: { __typename?: 'PaginatedProductResponse', paginatedProducts: Array<{ __typename?: 'Product', id: string }> } | null | undefined };
+
 export type GetAllProductsQueryVariables = Exact<{
   limit: Scalars['Int'];
   cursor?: Maybe<Scalars['String']>;
@@ -546,7 +556,7 @@ export type GetProductIdQueryVariables = Exact<{
 }>;
 
 
-export type GetProductIdQuery = { __typename?: 'Query', GetProductId?: { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size: Array<number>, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string> }> } | null | undefined };
+export type GetProductIdQuery = { __typename?: 'Query', GetProductId?: { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size?: Array<number> | null | undefined, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string>, color?: string | null | undefined }> } | null | undefined };
 
 export type GetProductByCategoryAndCollectionQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -570,6 +580,7 @@ export const ProductIdsInfoFragmentDoc = gql`
   description
   poster {
     url
+    color
   }
   percentSale
   timerSale
@@ -739,6 +750,44 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const AllProductIdsDocument = gql`
+    query AllProductIds($limit: Int!, $cursor: String) {
+  GetAllProducts(limit: $limit, cursor: $cursor) {
+    paginatedProducts {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useAllProductIdsQuery__
+ *
+ * To run a query within a React component, call `useAllProductIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllProductIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllProductIdsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useAllProductIdsQuery(baseOptions: Apollo.QueryHookOptions<AllProductIdsQuery, AllProductIdsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllProductIdsQuery, AllProductIdsQueryVariables>(AllProductIdsDocument, options);
+      }
+export function useAllProductIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllProductIdsQuery, AllProductIdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllProductIdsQuery, AllProductIdsQueryVariables>(AllProductIdsDocument, options);
+        }
+export type AllProductIdsQueryHookResult = ReturnType<typeof useAllProductIdsQuery>;
+export type AllProductIdsLazyQueryHookResult = ReturnType<typeof useAllProductIdsLazyQuery>;
+export type AllProductIdsQueryResult = Apollo.QueryResult<AllProductIdsQuery, AllProductIdsQueryVariables>;
 export const GetAllProductsDocument = gql`
     query GetAllProducts($limit: Int!, $cursor: String, $sort: String) {
   GetAllProducts(limit: $limit, cursor: $cursor, sort: $sort) {

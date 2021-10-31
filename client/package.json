@@ -30,6 +30,7 @@
     "react-hook-form": "^7.17.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-redux": "^7.2.5",
+    "react-star-ratings": "^2.3.0",
     "swiper": "^7.0.8",
     "tailwindcss": "^2.2.16",
     "yup": "^0.32.9"

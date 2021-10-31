@@ -9,6 +9,7 @@ fragment ProductIdsInfo on Product {
     description
     poster{
         url
+        color
     }
     percentSale
     timerSale

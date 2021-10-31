@@ -16,7 +16,7 @@ const DetailProduct = ({data}) => {
             <span className="text-gray-500">{numberColor} Colours</span>
             <span className="text-black py-2">${price}</span>
           </div>
-          <a href='/' className='absolute top-0 bottom-0 left-0 right-0 w-full h-auto'/>
+          <a href={`/t/${name.split(" ").map(x => x.toLowerCase()).join("-")}&id=${id}`} className='absolute top-0 bottom-0 left-0 right-0 w-full h-auto'/>
       </div>
     )
 }
