@@ -14,10 +14,10 @@ const ProductInfo = ({data,changeIndexPoster}) => {
     const haveSize = (val) => {setIsSize(val)}
     return (
         <>
-            <TitleProduct name={data.name} price={data.price} title={data.title} />
+            <div className='hidden lg:block'><TitleProduct name={data.name} price={data.price} title={data.title} /></div>
             <SelectColorDetailProduct data={data.poster} changeIndexPoster={changeIndexPoster} setSelected={setSelected} selected={selected} setIndex={setIndex}/>
             <SelectSize data={data.size} haveSize={isSize} changeSize={changeSize} />
-            <ButtonAddProduct />
+            <ButtonAddProduct urlImage={data.poster[0].url[0]} name={data.name} title={data.title} size="12" price={data.price}/>
             <Description color={data.poster[index].color} description={data.description} />
         </>
     )

@@ -15,7 +15,9 @@ const DetailProduct = () => {
     const [indexPoster, setIndexPoster] = useState(0)
     const changeIndexPoster = (newIndex) =>  setIndexPoster(newIndex)
 	const id = router.query.productStruction.toString().split("&id=")[1]
-	const {data, loading, error} = useGetProductIdQuery({variables : {id }})
+	const {data, loading, error} = useGetProductIdQuery({
+        variables : {id },
+    })
 	const { GetProductId } = data
     return (
         <>
@@ -30,7 +32,7 @@ const DetailProduct = () => {
                 {loading && <LoadingPage />}
 				<div className="main pt-10 max-w-screen-xl mx-auto">
                     <div className="lg:grid lg:grid-cols-12">
-                        {/* {window.innerWidth <1000 && <div className='px-2 md:px-6 pb-10'><TitleProduct data={GetProductId} /></div>} */}
+                        <div className='px-2 md:px-6 pb-10 block lg:hidden'><TitleProduct name={GetProductId.name} price={GetProductId.price} title={GetProductId.title}  /></div>
                         {/* list image */}
                         <div className="col-span-8 px-2 ">
                             <ListImageProduct data={GetProductId.poster} indexPoster={indexPoster}/>
