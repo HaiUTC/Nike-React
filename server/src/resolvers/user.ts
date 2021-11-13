@@ -13,6 +13,7 @@ import { LoginInput } from "../types/User/LoginInput";
 import { Context } from "../types/Context/Context";
 import { ChangePasswordInput } from "../types/User/ChangePasswordInput";
 import { ForgotPasswordInput } from "../types/User/ForgotPasswordInput";
+import { Cart } from "../entities/Cart";
 
 
 @Resolver(_of => User)
@@ -107,6 +108,10 @@ export class UserResolver {
             // session
             req.session.userId = newUser.id
             req.session.role = newUser.role
+
+            //create cart
+            const existingCart = await Cart.create({userId : req.session.userId,})
+            await existingCart.save()
             return {
                 code : 200,
                 success : true,

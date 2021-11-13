@@ -42,9 +42,11 @@ export type AddressMutationResponse = IMutationResponse & {
 
 export type Cart = {
   __typename?: 'Cart';
+  cartItems?: Maybe<Array<CartItem>>;
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
-  total: Scalars['Float'];
+  quantity?: Maybe<Scalars['Float']>;
+  total?: Maybe<Scalars['Float']>;
   updatedAt: Scalars['DateTime'];
   userId: Scalars['Float'];
 };
@@ -65,7 +67,7 @@ export type CartItem = {
   discount: Scalars['Float'];
   id: Scalars['ID'];
   monney: Scalars['Float'];
-  product: Product;
+  product?: Maybe<Product>;
   productId: Scalars['String'];
   quantity: Scalars['Float'];
   size: Scalars['Float'];
@@ -410,7 +412,7 @@ export type Query = {
   GetAllCollection?: Maybe<CollectionMutationResponse>;
   GetAllProducts?: Maybe<PaginatedProductResponse>;
   GetAllcategory?: Maybe<CategoryMutationResponse>;
-  GetCartOfUser?: Maybe<Array<CartItem>>;
+  GetCartOfUser: Cart;
   GetCategoryId?: Maybe<Category>;
   GetCollectionId?: Maybe<Collection>;
   GetProductByCategoryAndCollection?: Maybe<PaginatedProductResponse>;
@@ -493,6 +495,8 @@ export type UserMutationResponse = IMutationResponse & {
   user?: Maybe<User>;
 };
 
+export type CartMutationResponseFragment = { __typename?: 'CartMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
+
 export type ProductIdsInfoFragment = { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size?: Array<number> | null | undefined, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string>, color?: string | null | undefined }> };
 
 export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
@@ -502,6 +506,13 @@ export type ErrorsInfoFragment = { __typename?: 'FieldError', field: string, mes
 export type MutationStatusFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined };
 
 export type UserInfoFragment = { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string };
+
+export type AddProductToCartMutationVariables = Exact<{
+  cartInput: CartInput;
+}>;
+
+
+export type AddProductToCartMutation = { __typename?: 'Mutation', AddProductToCart: { __typename?: 'CartMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   forgotPasswordInput: ForgotPasswordInput;
@@ -546,6 +557,11 @@ export type GetAllProductsQueryVariables = Exact<{
 
 export type GetAllProductsQuery = { __typename?: 'Query', GetAllProducts?: { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> } | null | undefined };
 
+export type GetCartOfUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCartOfUserQuery = { __typename?: 'Query', GetCartOfUser: { __typename?: 'Cart', userId: number, total?: number | null | undefined, quantity?: number | null | undefined, cartItems?: Array<{ __typename?: 'CartItem', size: number, quantity: number, color: string, discount: number, monney: number, product?: { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined }> | null | undefined } };
+
 export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -568,6 +584,22 @@ export type GetProductByCategoryAndCollectionQueryVariables = Exact<{
 
 export type GetProductByCategoryAndCollectionQuery = { __typename?: 'Query', GetProductByCategoryAndCollection?: { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> } | null | undefined };
 
+export const ErrorsInfoFragmentDoc = gql`
+    fragment errorsInfo on FieldError {
+  field
+  message
+}
+    `;
+export const CartMutationResponseFragmentDoc = gql`
+    fragment cartMutationResponse on CartMutationResponse {
+  code
+  success
+  message
+  errors {
+    ...errorsInfo
+  }
+}
+    ${ErrorsInfoFragmentDoc}`;
 export const ProductIdsInfoFragmentDoc = gql`
     fragment ProductIdsInfo on Product {
   id
@@ -604,12 +636,6 @@ export const UserInfoFragmentDoc = gql`
   avatar
 }
     `;
-export const ErrorsInfoFragmentDoc = gql`
-    fragment errorsInfo on FieldError {
-  field
-  message
-}
-    `;
 export const UserMutationResponseFragmentDoc = gql`
     fragment userMutationResponse on UserMutationResponse {
   ...mutationStatus
@@ -623,6 +649,39 @@ export const UserMutationResponseFragmentDoc = gql`
     ${MutationStatusFragmentDoc}
 ${UserInfoFragmentDoc}
 ${ErrorsInfoFragmentDoc}`;
+export const AddProductToCartDocument = gql`
+    mutation AddProductToCart($cartInput: CartInput!) {
+  AddProductToCart(cartInput: $cartInput) {
+    ...cartMutationResponse
+  }
+}
+    ${CartMutationResponseFragmentDoc}`;
+export type AddProductToCartMutationFn = Apollo.MutationFunction<AddProductToCartMutation, AddProductToCartMutationVariables>;
+
+/**
+ * __useAddProductToCartMutation__
+ *
+ * To run a mutation, you first call `useAddProductToCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddProductToCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addProductToCartMutation, { data, loading, error }] = useAddProductToCartMutation({
+ *   variables: {
+ *      cartInput: // value for 'cartInput'
+ *   },
+ * });
+ */
+export function useAddProductToCartMutation(baseOptions?: Apollo.MutationHookOptions<AddProductToCartMutation, AddProductToCartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddProductToCartMutation, AddProductToCartMutationVariables>(AddProductToCartDocument, options);
+      }
+export type AddProductToCartMutationHookResult = ReturnType<typeof useAddProductToCartMutation>;
+export type AddProductToCartMutationResult = Apollo.MutationResult<AddProductToCartMutation>;
+export type AddProductToCartMutationOptions = Apollo.BaseMutationOptions<AddProductToCartMutation, AddProductToCartMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($forgotPasswordInput: ForgotPasswordInput!) {
   ForgotPassword(forgotPasswordInput: $forgotPasswordInput)
@@ -839,6 +898,58 @@ export function useGetAllProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetAllProductsQueryHookResult = ReturnType<typeof useGetAllProductsQuery>;
 export type GetAllProductsLazyQueryHookResult = ReturnType<typeof useGetAllProductsLazyQuery>;
 export type GetAllProductsQueryResult = Apollo.QueryResult<GetAllProductsQuery, GetAllProductsQueryVariables>;
+export const GetCartOfUserDocument = gql`
+    query getCartOfUser {
+  GetCartOfUser {
+    userId
+    total
+    quantity
+    cartItems {
+      product {
+        id
+        name
+        title
+        size
+        picture {
+          url
+        }
+      }
+      size
+      quantity
+      color
+      discount
+      monney
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCartOfUserQuery__
+ *
+ * To run a query within a React component, call `useGetCartOfUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCartOfUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCartOfUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCartOfUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCartOfUserQuery, GetCartOfUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCartOfUserQuery, GetCartOfUserQueryVariables>(GetCartOfUserDocument, options);
+      }
+export function useGetCartOfUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCartOfUserQuery, GetCartOfUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCartOfUserQuery, GetCartOfUserQueryVariables>(GetCartOfUserDocument, options);
+        }
+export type GetCartOfUserQueryHookResult = ReturnType<typeof useGetCartOfUserQuery>;
+export type GetCartOfUserLazyQueryHookResult = ReturnType<typeof useGetCartOfUserLazyQuery>;
+export type GetCartOfUserQueryResult = Apollo.QueryResult<GetCartOfUserQuery, GetCartOfUserQueryVariables>;
 export const MyProfileDocument = gql`
     query MyProfile {
   MyProfile {

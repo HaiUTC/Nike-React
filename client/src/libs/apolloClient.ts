@@ -20,7 +20,7 @@ const errorLink = onError(errors => {
 		errors.response
 	) {
 		errors.response.errors = undefined
-		Router.replace('/login')
+		Router.replace('/')
 	}
 })
 function createApolloClient(headers: IncomingHttpHeaders | null = null) {

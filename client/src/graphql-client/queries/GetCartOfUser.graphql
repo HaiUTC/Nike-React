@@ -1,0 +1,23 @@
+query getCartOfUser{
+    GetCartOfUser{
+        userId
+        total
+        quantity
+        cartItems{
+            product{
+                id
+                name
+                title
+                size
+                picture {
+                    url
+                }
+            }
+            size
+            quantity
+            color
+            discount
+            monney
+        }
+    }
+}

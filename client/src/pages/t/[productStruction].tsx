@@ -39,7 +39,7 @@ const DetailProduct = () => {
                         </div>
                         {/* user select -name - size -add & favorite -delivery -review(comment)  */}
                         <div className="col-span-4 px-2 md:pr-3 md:pl-6">
-                            <ProductInfomation data={GetProductId} changeIndexPoster={changeIndexPoster}/>
+                            <ProductInfomation data={GetProductId} changeIndexPoster={changeIndexPoster} productId={id}/>
                         </div>
                     </div>
 

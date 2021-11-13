@@ -4,10 +4,11 @@ import * as yup from 'yup';
 import { FormikHelpers, useFormik } from 'formik';
 import { FormInputAtom } from "../../Atom/Form/FormInput";
 import ButtonSubmit from "../../Atom/Button";
-import { LoginInput, MyProfileDocument, MyProfileQuery, useLoginMutation } from "../../../generated/graphql";
+import { GetCartOfUserDocument, GetCartOfUserQuery, LoginInput, MyProfileDocument, MyProfileQuery, useGetCartOfUserQuery, useLoginMutation } from "../../../generated/graphql";
 import { useState } from "react";
 import RegisterModal from './RegisterModal'
 import ForgetModal from "./ForgetModal";
+import { initializeApollo } from "../../../libs/apolloClient";
 
 const validationSchema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -34,7 +35,8 @@ const LoginModal = ({handleClose}) => {
                         data : {MyProfile : data.Login.user}
                     })
                 }
-            }
+            },
+
           })
           if(response?.data?.Login?.errors){
               setErrors({email : response.data.Login.message})
@@ -42,6 +44,8 @@ const LoginModal = ({handleClose}) => {
           else if(response.data?.Login.user){
             setLoginSuccess(true)
             handleClose()
+            const apolloClient = initializeApollo()
+			apolloClient.resetStore()
           }
         },
       });

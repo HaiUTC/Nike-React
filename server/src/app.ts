@@ -26,6 +26,7 @@ import { CategoryResolver } from './resolvers/category'
 import { UserResolver } from './resolvers/user'
 import { CartResolver } from './resolvers/cart'
 import { buildDataloader } from './untils/Dataloader/Dataloader'
+import { CartItemResolver } from './resolvers/cartItem'
 const PORT = process.env.PORT || 5000
 
 
@@ -67,7 +68,7 @@ const main = async () => {
     //create apollo server
     const apolloServer = new ApolloServer ({
         schema : await buildSchema({
-            resolvers : [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver,CartResolver],
+            resolvers : [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver,CartResolver,CartItemResolver],
             validate : false}),
         context : ({req,res}) : Context => ({req,res,connection,dataLoaders: buildDataloader()}),
         plugins : [ApolloServerPluginLandingPageGraphQLPlayground]

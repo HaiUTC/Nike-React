@@ -5,7 +5,7 @@ import Description from "./Description";
 import ButtonAddProduct from "./ButtonAddProduct";
 import SelectColorDetailProduct from "../../Atom/SelectColorDetaiProduct";
 
-const ProductInfo = ({data,changeIndexPoster}) => {
+const ProductInfo = ({data,changeIndexPoster,productId}) => {
     const [size, setSize] = useState(0);
     const [index,setIndex] = useState(0)
     const [selected, setSelected] = useState(0)
@@ -16,8 +16,8 @@ const ProductInfo = ({data,changeIndexPoster}) => {
         <>
             <div className='hidden lg:block'><TitleProduct name={data.name} price={data.price} title={data.title} /></div>
             <SelectColorDetailProduct data={data.poster} changeIndexPoster={changeIndexPoster} setSelected={setSelected} selected={selected} setIndex={setIndex}/>
-            <SelectSize data={data.size} haveSize={isSize} changeSize={changeSize} />
-            <ButtonAddProduct urlImage={data.poster[0].url[0]} name={data.name} title={data.title} size="12" price={data.price}/>
+            <SelectSize data={data.size} isSize={isSize} changeSize={changeSize} haveSize={haveSize}/>
+            <ButtonAddProduct urlImage={data.poster[0].url[0]} name={data.name} title={data.title} size={size} price={data.price} haveSize={haveSize} color={data.poster[index].color} productId={productId}/>
             <Description color={data.poster[index].color} description={data.description} />
         </>
     )

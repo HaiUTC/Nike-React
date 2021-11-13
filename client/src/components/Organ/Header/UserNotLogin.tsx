@@ -1,10 +1,15 @@
 import Link from 'next/link'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoginModal from '../../Templete/Modal/LoginModal';
 const UserNotLogin = () => {
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => {setOpen(true);};
     const handleClose = () => {setOpen(false);};
+    useEffect(()=> {
+        return () => {
+            setOpen(false); 
+          };
+    },[])
     return (
         <>
             <div className="m-auto text-xs">

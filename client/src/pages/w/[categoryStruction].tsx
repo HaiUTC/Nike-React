@@ -21,7 +21,8 @@ const CategoryProduct = () => {
             categoryId : categoryId.toString(),
             sort : sort as string
         },
-        notifyOnNetworkStatusChange: true
+        notifyOnNetworkStatusChange: true,
+        fetchPolicy : "network-only"
     })
     const loadingMoreProduct = networkStatus === NetworkStatus.fetchMore
     const loadMoreProducts = () => {

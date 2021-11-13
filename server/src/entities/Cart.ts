@@ -17,9 +17,13 @@ export class Cart extends BaseEntity{
     @OneToOne(()=> User, user => user.cart)
     user : User
 
-    @Field()
+    @Field({defaultValue : 0})
     @Column({default : 0})
     total : number
+
+    @Field({defaultValue : 0})
+    @Column({default : 0})
+    quantity : number
 
     @Field()
     @CreateDateColumn({type: "timestamptz"})

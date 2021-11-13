@@ -1,0 +1,8 @@
+fragment cartMutationResponse on CartMutationResponse {
+    code
+    success
+    message
+    errors {
+        ...errorsInfo
+    }
+}

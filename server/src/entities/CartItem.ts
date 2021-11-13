@@ -26,7 +26,7 @@ export class CartItem extends BaseEntity{
     @Column()
     productId : string
 
-    @Field(_type => Product)
+    @Field(_type => Product, {nullable : true})
     @OneToOne(()=> Product, product => product.cartItem)
     product : Product
 

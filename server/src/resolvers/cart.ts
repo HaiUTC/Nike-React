@@ -6,22 +6,20 @@ import { Context } from "../types/Context/Context";
 import { Product } from "../entities/Product";
 import { CartItem } from "../entities/CartItem";
 import { Cart } from "../entities/Cart";
-@Resolver(_of => CartItem)
+@Resolver(_of => Cart)
 export class CartResolver{
-
-    @FieldResolver(_return => Product)
-    async product(@Root() root: CartItem){
-        return await Product.findOne(root.productId)
+    @FieldResolver(_return => [CartItem], {nullable : true})
+    async cartItems(@Root() root: Cart){
+        return await CartItem.find({cartId : root.id})
     }
 
-    @Query(_return => [CartItem], {nullable : true})
+    @Query(_return => Cart)
     @UseMiddleware(checkAuthUser)
     async GetCartOfUser(
         @Ctx() {req} : Context
-    ):Promise<CartItem[] | undefined>{
+    ):Promise<Cart | undefined>{
         try {
-            const existingCart = await Cart.findOne({userId : req.session.userId})
-            return await CartItem.find({cartId : existingCart?.id})
+            return await Cart.findOne({userId : req.session.userId})
         } catch (error) {
             console.log(`Something went wrong in DeleteProductInCart : ${error.message}`)
             return undefined
@@ -35,13 +33,7 @@ export class CartResolver{
         @Ctx() {req} : Context
     ):Promise<CartMutationResponse>{
         try {
-            let existingCart = await Cart.findOne({userId : req.session.userId})
-            if(!existingCart){
-                existingCart = await Cart.create({
-                    userId : req.session.userId,
-                })
-                await existingCart.save()
-            }
+            const existingCart = await Cart.findOne({userId : req.session.userId})
             const existingProduct = await Product.findOne(productId)
             if(!existingProduct)
                 return{
@@ -56,13 +48,13 @@ export class CartResolver{
                     ]
                 }
             let existingCartItem = await CartItem.findOne({
-                where : {productId,size,cartId : existingCart.id}
+                where : {productId,size,cartId : existingCart?.id}
             })
             
             if(!existingCartItem){
                 const monney = existingProduct.price * (100-discount)/100
                 existingCartItem = await CartItem.create({
-                    cartId : existingCart.id,
+                    cartId : existingCart?.id,
                     productId,
                     size,
                     quantity : 1,
@@ -77,6 +69,12 @@ export class CartResolver{
                 existingCartItem.monney = existingProduct.price * existingCartItem.quantity * (100-discount)/100
                 await existingCartItem.save()
             }
+            if(existingCart){
+                const listOfCartItem = await CartItem.find({cartId : existingCart?.id})
+                existingCart.quantity = await CartItem.count({ cartId : existingCart?.id})
+                existingCart.total = listOfCartItem.reduce((total, num) => {return total + num.monney},0)
+                await existingCart.save()
+            }
             return{
                 code : 200,
                 success : true,
@@ -86,8 +84,7 @@ export class CartResolver{
             return {
                 code : 500,
                 success : false,
-                message : `Something went wrong in AddToCart : ${error.message}`,
-                
+                message : `Something went wrong in AddToCart : ${error.message}`,    
             }
         }
     }

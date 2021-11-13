@@ -12,7 +12,6 @@ export const useCheckAuth = () => {
                 router.replace('/')
             }
             else if (!data?.MyProfile){
-                //trigger a modal
             }
         }
     },[data,loading,router])

@@ -7,9 +7,9 @@ const ListFavorite = ({data}) => {
             {data ? (
                 <>
                     <div><ProductFavorite /></div>
-                    <a href="/favorite" className="flex text-gray-500 text-xs md:text-lg underline">Go to Favorites</a>
+                    <a href="/favorite" className="flex text-gray-500 text-base underline">Go to Favorites</a>
                 </>
-            ) : (<span className="text-xs md:text-lg h-20">There are no items in your favorite.</span>)}
+            ) : (<span className="text-base h-20">There are no items in your favorite.</span>)}
         </div>
     )
 }
