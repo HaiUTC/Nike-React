@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 import { useMemo } from "react"
 import { onError } from '@apollo/client/link/error'
 import Router from 'next/router'
-import { Product } from "../generated/graphql"
+import { CartItem, Product } from "../generated/graphql"
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
@@ -84,7 +84,24 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
 
                             return { ...incoming, paginatedProducts }
                           }
-                        }
+                        },
+                        // GetCartOfUser : {
+                        //   keyArgs: false,
+                        //   merge(existing, incoming){
+                        //     console.log(existing)
+                        //     let allCart : CartItem[] = []
+                        //     if (existing && existing.paginatedProducts) {
+                        //       allCart = allCart.concat(existing.paginatedProducts)
+                        //     }
+
+                        //     if (incoming && incoming.paginatedProducts) {
+                        //       allCart = allCart.concat(incoming.paginatedProducts)
+                        //     }
+
+                        //     return { ...incoming, allCart }
+
+                        //   }
+                        // }
                     }
                 }
             }

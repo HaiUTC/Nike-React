@@ -1,0 +1,7 @@
+fragment cartInfo on Cart {
+    total
+    quantity
+      cartItems{
+        ...cartItemInfo
+      }
+}

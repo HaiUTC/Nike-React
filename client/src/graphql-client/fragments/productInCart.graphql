@@ -1,0 +1,9 @@
+fragment productInCart on Product {
+    id
+    name
+    title
+    size
+    picture {
+        url
+    }
+}

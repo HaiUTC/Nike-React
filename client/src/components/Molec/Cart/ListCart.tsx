@@ -9,7 +9,7 @@ const ListCart = ({ removeItem, listProduct, loading }) => {
             </div>
             {loading && <LoadingElement />}
                 <>
-                    {(listProduct?.length !== 0 || listProduct === undefined) ? (
+                    {(listProduct?.length !== 0 ) ? (
                         <div>
                             {listProduct?.map((item) => (
                                 <ProductCart

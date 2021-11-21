@@ -1,19 +1,29 @@
 import { useState } from "react";
-import { useAddProductToCartMutation, useMyProfileQuery } from "../../../generated/graphql";
+import { useAddProductToCartMutation } from "../../../generated/graphql";
+import { changeNumCart } from "../../../redux/Cart/countNumber";
+import { useAppDispatch, useAppSelector } from "../../../redux/hook";
+import { useCheckAuth } from "../../../utils/useCheckAuth";
 import NotificationAddProductToCart from "../../Atom/NotificationAddProductToCart";
 import LoginModal from "../../Templete/Modal/LoginModal";
 
 
 const ButtonAddProduct = ({urlImage,name,title,size,price,haveSize,color,productId}) => {
-    const {data} = useMyProfileQuery()
+    const { isUser} = useCheckAuth()
     const [addProductTocart, {loading : _addProductTocartLoading}] = useAddProductToCartMutation()
+
+    const numCart = useAppSelector((state) => state.countNumber.numCart);
+    const dispatch = useAppDispatch();
+
     const [open, setOpen] = useState(false);
-    const [isLogin, setIsLogin] = useState(false)
+    const [login, setLogin] = useState(false);
+
+
     const handleClose = () => { setOpen(false)}
-    const handleCloseModal = () => { setIsLogin(false) }
+    const handleCloseModal = () => { setLogin(false) }
+
+
     const addTocart = async () => {
-        if(!data.MyProfile){setIsLogin(true)}
-        else{
+        if(isUser){
             if(size=== 0){ haveSize(false) }
             else{
                 const response = await addProductTocart({
@@ -29,11 +39,17 @@ const ButtonAddProduct = ({urlImage,name,title,size,price,haveSize,color,product
                     console.log(response.data.AddProductToCart.message)
                 }
                 else if(response.data.AddProductToCart.success){
+                    dispatch(changeNumCart(numCart+1))
                     setOpen(true)
                 }
             }
         }
+        else{
+            setLogin(true)
+        }
     }
+
+
     return (
         <>
             <NotificationAddProductToCart open={open} handleClose={handleClose} urlImage={urlImage} name={name} title={title} size={size} price={price}/>
@@ -41,7 +57,7 @@ const ButtonAddProduct = ({urlImage,name,title,size,price,haveSize,color,product
                 <div><button className='bg-black py-4 px-6 border-2 rounded-full text-white align-center w-full text-base ' style={{outline : 'none'}} onClick={addTocart}>Add to Bag</button></div>
                 <div><button className='mt-2 border-gray-300 border-2 bg-white py-4 px-6 rounded-full text-black align-center w-full text-base ' style={{outline : 'none'}}>Favorite</button></div>
             </div>
-            {isLogin && <LoginModal handleClose={handleCloseModal}/>}
+            {login && <LoginModal handleClose={handleCloseModal}/>}
         </>
     )
 }

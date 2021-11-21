@@ -31,7 +31,7 @@ export class CartItem extends BaseEntity{
     product : Product
 
     @Field()
-    @Column()
+    @Column('decimal',{default : 42})
     size!: number
 
     @Field()
@@ -43,11 +43,11 @@ export class CartItem extends BaseEntity{
     color: string
 
     @Field()
-    @Column({default : 0})
+    @Column('decimal',{default : 0})
     discount:number
 
     @Field()
-    @Column()
+    @Column('decimal', {default : 0})
     monney : number
 
     @Field()

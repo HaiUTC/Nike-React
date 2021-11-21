@@ -1,0 +1,5 @@
+mutation DeleteProductInCart($id : ID!){
+    DeleteProductInCart(id : $id){
+       ...cartMutationResponse
+    }
+}

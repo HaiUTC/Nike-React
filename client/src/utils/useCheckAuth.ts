@@ -1,19 +1,19 @@
-import { useRouter } from "next/dist/client/router"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useMyProfileQuery } from "../generated/graphql"
-import RegisterModal from "../components/Templete/Modal/RegisterModal"
 export const useCheckAuth = () => {
-    const router = useRouter()
     const {data, loading} = useMyProfileQuery()
-
+    const [isUser, setIsUser] = useState(false)
     useEffect(() => {
         if(!loading){
             if(data?.MyProfile){
-                router.replace('/')
+                setIsUser(true)
             }
             else if (!data?.MyProfile){
+                setIsUser(false)
             }
         }
-    },[data,loading,router])
-    return {data,loading}
+    },[data,loading])
+
+   return {isUser}
+    
 }

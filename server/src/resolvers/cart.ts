@@ -17,12 +17,12 @@ export class CartResolver{
     @UseMiddleware(checkAuthUser)
     async GetCartOfUser(
         @Ctx() {req} : Context
-    ):Promise<Cart | undefined>{
+    ):Promise<Cart | null>{
         try {
-            return await Cart.findOne({userId : req.session.userId})
+            return await Cart.findOne({userId : req.session.userId}) || null
         } catch (error) {
             console.log(`Something went wrong in DeleteProductInCart : ${error.message}`)
-            return undefined
+            return null
         }
     }
 
@@ -72,13 +72,14 @@ export class CartResolver{
             if(existingCart){
                 const listOfCartItem = await CartItem.find({cartId : existingCart?.id})
                 existingCart.quantity = await CartItem.count({ cartId : existingCart?.id})
-                existingCart.total = listOfCartItem.reduce((total, num) => {return total + num.monney},0)
+                existingCart.total = listOfCartItem.reduce((total, num) => {return Number.parseFloat(total.toString()) + Number.parseFloat(num.monney.toString())},0)
                 await existingCart.save()
             }
             return{
                 code : 200,
                 success : true,
-                message : 'Add product to cart successfully'
+                message : 'Add product to cart successfully',
+                cart : existingCart
             }
         } catch (error) {
             return {
@@ -98,14 +99,23 @@ export class CartResolver{
         try {
             const existingCart = await Cart.findOne({userId : req.session.userId})
             const cartItem = await CartItem.findOne({
-                where : {id,cartId : existingCart?.id}
+                where : {productId:id,cartId : existingCart?.id}
             })
+            console.log('Cart Item : ',cartItem)
             if(cartItem) {
                 await CartItem.remove(cartItem)  
+                if(existingCart){
+                    const listOfCartItem = await CartItem.find({cartId : existingCart?.id})
+                    existingCart.quantity = await CartItem.count({ cartId : existingCart?.id})
+                    existingCart.total = listOfCartItem.reduce((total, num) => {return Number.parseFloat(total.toString()) + Number.parseFloat(num.monney.toString())},0
+                    )
+                    await existingCart.save()
+                }
                 return {
                     code : 200,
                     success : true,
-                    message : 'Delete product in cart successfully'
+                    message : 'Delete product in cart successfully',
+                    cart : existingCart
                 }
             } 
             return {

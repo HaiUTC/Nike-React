@@ -21,7 +21,7 @@ export class CheckOut extends BaseEntity{
     cartItem : CartItem
 
     @Field()
-    @Column()
+    @Column('decimal')
     total : number
 
     @Field()

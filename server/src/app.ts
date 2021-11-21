@@ -56,7 +56,7 @@ const main = async () => {
         name : COOKIE_NAME,
         store : MongoStore.create({mongoUrl}),
         cookie : {
-            maxAge : 1000*60*60*30,
+            maxAge : 1000*60*60*30*12,
             httpOnly : true,
             secure : __prod__,
             sameSite : 'lax'

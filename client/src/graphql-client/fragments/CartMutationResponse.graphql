@@ -5,4 +5,7 @@ fragment cartMutationResponse on CartMutationResponse {
     errors {
         ...errorsInfo
     }
+    cart{
+       ...cartInfo
+    }
 }

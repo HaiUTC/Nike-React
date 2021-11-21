@@ -1,18 +1,48 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { useEffect, useState } from 'react'
+import { addApolloState, initializeApollo } from '../libs/apolloClient'
+import { GetCartOfUserDocument, useDeleteProductInCartMutation, useGetCartOfUserQuery } from '../generated/graphql'
 import Head from 'next/head'
-import { useEffect } from 'react'
 import SummaryCart from '../components/Atom/SummaryCart'
 import ListCart from '../components/Molec/Cart/ListCart'
 import ListFavorite from '../components/Molec/Cart/ListFavorite'
 import Layout from '../components/Templete/Layout/Layout'
-import { GetCartOfUserDocument, useGetAllProductsQuery, useGetCartOfUserQuery } from '../generated/graphql'
-import { addApolloState, initializeApollo } from '../libs/apolloClient'
+import { changeNumCart } from '../redux/Cart/countNumber'
+import { useAppDispatch, useAppSelector } from '../redux/hook'
 const Cart = () => {
-    const {data , loading } = useGetCartOfUserQuery()
-    useEffect(()=>{
-        console.log('change')
-        localStorage.setItem('quantityCart',JSON.stringify(data?.GetCartOfUser.quantity)) 
-    },[])
+    const numCart = useAppSelector((state) => state.countNumber.numCart);
+    const dispatch = useAppDispatch();
+
+    const {data: _cartData , loading } = useGetCartOfUserQuery()
+
+    const [cart,setCart] = useState({
+        product : _cartData.GetCartOfUser.cartItems,
+        total : _cartData.GetCartOfUser.total
+    })
+
+    const [remoteProductFormCart, {loading : _loadingRemove}] = useDeleteProductInCartMutation()
+
+
+    const removeItem = async (productId: string) => {
+        console.log(productId)
+        const response = await remoteProductFormCart({
+            variables : {
+                id : productId
+            }
+        })
+        if(response.data?.DeleteProductInCart.errors){
+            console.log(response.data.DeleteProductInCart.message)
+        }
+        else if(response.data?.DeleteProductInCart.success){
+            setCart(
+                {
+                    product : response.data.DeleteProductInCart.cart.cartItems,
+                    total : response.data.DeleteProductInCart.cart.total
+                }
+            )
+            dispatch(changeNumCart(numCart-1))
+        }
+    }
     return (
         <>
             <Head>
@@ -25,11 +55,11 @@ const Cart = () => {
             <Layout>
                 <div className="main flex flex-col px-2 py-10 justify-between border-b-2 md:px-6 lg:px-14 lg:justify-center lg:flex-row">
                     <div className="w-full lg:w-2/4">
-                        <ListCart listProduct={data?.GetCartOfUser.cartItems} loading={loading} removeItem={undefined} />
+                        <ListCart listProduct={cart.product} loading={loading} removeItem={removeItem} />
                         <ListFavorite data={null} />
                     </div>
                     <div className="w-full lg:w-80">
-                        <SummaryCart price={data?.GetCartOfUser.total} />
+                        <SummaryCart listProduct={cart.product} price={cart.total} />
                     </div>
 
                     {/* More product same */}

@@ -1,6 +1,6 @@
 import ButtonCheckout from "./ButtonCheckout"
 
-const SummaryCart = ({ price}) => {
+const SummaryCart = ({listProduct, price}) => {
     return (
         <div>
           <div className=" text-lg md:text-2xl py-4"><span>Summary</span></div>
@@ -18,7 +18,7 @@ const SummaryCart = ({ price}) => {
             <div className='col-span-9'>Total</div>
             <div className='col-span-3 flex justify-end lg:justify-start items-center'><p>{price+29 || 0} $</p></div>
           </div>
-          <div className='pt-8'>
+          <div className={"pt-8" + (listProduct?.length >0  ? 'block' : "hidden" )} >
             <ButtonCheckout />
           </div>
     </div>

@@ -18,7 +18,7 @@ export class Cart extends BaseEntity{
     user : User
 
     @Field({defaultValue : 0})
-    @Column({default : 0})
+    @Column('decimal',{default : 0})
     total : number
 
     @Field({defaultValue : 0})

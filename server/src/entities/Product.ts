@@ -45,7 +45,7 @@ export class Product extends BaseEntity{
     labelSpecial : string
 
     @Field()
-    @Column()
+    @Column("decimal", {default : 0})
     price!: number
 
     @Field(() => [Number],{nullable : true})

@@ -45,7 +45,7 @@ const ProductCart = ({product,haveSize,quantity,removeItem,monney,color}) => {
               <div className="pr-3 cursor-pointer">
                 <span>Move to Favorites</span>
               </div>
-              <div className="cursor-pointer" onClick={removeItem}>
+              <div className="cursor-pointer" onClick={() => removeItem(product.id)}>
                 <span>Remove</span>
               </div>
             </div>

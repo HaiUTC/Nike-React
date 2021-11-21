@@ -495,15 +495,21 @@ export type UserMutationResponse = IMutationResponse & {
   user?: Maybe<User>;
 };
 
-export type CartMutationResponseFragment = { __typename?: 'CartMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
+export type CartMutationResponseFragment = { __typename?: 'CartMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, cart?: { __typename?: 'Cart', total?: number | null | undefined, quantity?: number | null | undefined, cartItems?: Array<{ __typename?: 'CartItem', size: number, quantity: number, color: string, discount: number, monney: number, product?: { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined }> | null | undefined } | null | undefined };
 
 export type ProductIdsInfoFragment = { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size?: Array<number> | null | undefined, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string>, color?: string | null | undefined }> };
 
 export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
 
+export type CartInfoFragment = { __typename?: 'Cart', total?: number | null | undefined, quantity?: number | null | undefined, cartItems?: Array<{ __typename?: 'CartItem', size: number, quantity: number, color: string, discount: number, monney: number, product?: { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined }> | null | undefined };
+
+export type CartItemInfoFragment = { __typename?: 'CartItem', size: number, quantity: number, color: string, discount: number, monney: number, product?: { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined };
+
 export type ErrorsInfoFragment = { __typename?: 'FieldError', field: string, message: string };
 
 export type MutationStatusFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined };
+
+export type ProductInCartFragment = { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } };
 
 export type UserInfoFragment = { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string };
 
@@ -512,7 +518,7 @@ export type AddProductToCartMutationVariables = Exact<{
 }>;
 
 
-export type AddProductToCartMutation = { __typename?: 'Mutation', AddProductToCart: { __typename?: 'CartMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } };
+export type AddProductToCartMutation = { __typename?: 'Mutation', AddProductToCart: { __typename?: 'CartMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, cart?: { __typename?: 'Cart', total?: number | null | undefined, quantity?: number | null | undefined, cartItems?: Array<{ __typename?: 'CartItem', size: number, quantity: number, color: string, discount: number, monney: number, product?: { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined }> | null | undefined } | null | undefined } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   forgotPasswordInput: ForgotPasswordInput;
@@ -539,6 +545,13 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', Register?: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } | null | undefined };
+
+export type DeleteProductInCartMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteProductInCartMutation = { __typename?: 'Mutation', DeleteProductInCart: { __typename?: 'CartMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, cart?: { __typename?: 'Cart', total?: number | null | undefined, quantity?: number | null | undefined, cartItems?: Array<{ __typename?: 'CartItem', size: number, quantity: number, color: string, discount: number, monney: number, product?: { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined }> | null | undefined } | null | undefined } };
 
 export type AllProductIdsQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -590,6 +603,38 @@ export const ErrorsInfoFragmentDoc = gql`
   message
 }
     `;
+export const ProductInCartFragmentDoc = gql`
+    fragment productInCart on Product {
+  id
+  name
+  title
+  size
+  picture {
+    url
+  }
+}
+    `;
+export const CartItemInfoFragmentDoc = gql`
+    fragment cartItemInfo on CartItem {
+  size
+  quantity
+  color
+  discount
+  monney
+  product {
+    ...productInCart
+  }
+}
+    ${ProductInCartFragmentDoc}`;
+export const CartInfoFragmentDoc = gql`
+    fragment cartInfo on Cart {
+  total
+  quantity
+  cartItems {
+    ...cartItemInfo
+  }
+}
+    ${CartItemInfoFragmentDoc}`;
 export const CartMutationResponseFragmentDoc = gql`
     fragment cartMutationResponse on CartMutationResponse {
   code
@@ -598,8 +643,12 @@ export const CartMutationResponseFragmentDoc = gql`
   errors {
     ...errorsInfo
   }
+  cart {
+    ...cartInfo
+  }
 }
-    ${ErrorsInfoFragmentDoc}`;
+    ${ErrorsInfoFragmentDoc}
+${CartInfoFragmentDoc}`;
 export const ProductIdsInfoFragmentDoc = gql`
     fragment ProductIdsInfo on Product {
   id
@@ -809,6 +858,39 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const DeleteProductInCartDocument = gql`
+    mutation DeleteProductInCart($id: ID!) {
+  DeleteProductInCart(id: $id) {
+    ...cartMutationResponse
+  }
+}
+    ${CartMutationResponseFragmentDoc}`;
+export type DeleteProductInCartMutationFn = Apollo.MutationFunction<DeleteProductInCartMutation, DeleteProductInCartMutationVariables>;
+
+/**
+ * __useDeleteProductInCartMutation__
+ *
+ * To run a mutation, you first call `useDeleteProductInCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteProductInCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteProductInCartMutation, { data, loading, error }] = useDeleteProductInCartMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteProductInCartMutation(baseOptions?: Apollo.MutationHookOptions<DeleteProductInCartMutation, DeleteProductInCartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteProductInCartMutation, DeleteProductInCartMutationVariables>(DeleteProductInCartDocument, options);
+      }
+export type DeleteProductInCartMutationHookResult = ReturnType<typeof useDeleteProductInCartMutation>;
+export type DeleteProductInCartMutationResult = Apollo.MutationResult<DeleteProductInCartMutation>;
+export type DeleteProductInCartMutationOptions = Apollo.BaseMutationOptions<DeleteProductInCartMutation, DeleteProductInCartMutationVariables>;
 export const AllProductIdsDocument = gql`
     query AllProductIds($limit: Int!, $cursor: String) {
   GetAllProducts(limit: $limit, cursor: $cursor) {

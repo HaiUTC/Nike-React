@@ -1,0 +1,10 @@
+fragment cartItemInfo on CartItem {
+    size
+    quantity
+    color
+    discount
+    monney
+    product{
+        ...productInCart
+    }
+}
