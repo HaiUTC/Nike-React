@@ -1,20 +1,23 @@
 import HeaderLogo from "./HeaderLogo"
 import { useAppDispatch, useAppSelector } from "../../../redux/hook"
 import { toggleShowSearchBox } from "../../../redux/Header/showSearchBox"
+import { useRouter } from "next/router"
 
 const HeaderFormSearch = () => {
+	const router = useRouter()
 	const dispatch = useAppDispatch()
     const toggleSearch = () => {dispatch(toggleShowSearchBox())}
 	const isShowSearchBox = useAppSelector((state) => state.showSearch.isShowSearchBox)
+	const searchEvent = async (values) => {
+		router.replace(`/s?q=asdas`)
+	}
     return (
         <div id='formSearch' className={"absolute top-0 left-0 right-0 z-10 bg-white "+(isShowSearchBox?null:'hidden')}>
 				<div className="flex justify-between w-full px-10 py-4 grid grid-cols-12">
-					<div className="pr-1/6 col-span-3">
-						<HeaderLogo />
-					</div>
+					<div className="pr-1/6 col-span-3"><HeaderLogo /></div>
 					<div className='col-span-6 w-full flex flex-col'>
 					<div className="flex px-3 py-2 rounded-full bg-gray-light  m-auto items-center hover:bg-gray-300" style={{width : "100%"}}>
-						<button className='border-0 bg-transparent flex items-center py-0.5' style={{outline : 'none'}}>
+						<button className='border-0 bg-transparent flex items-center py-0.5' style={{outline : 'none'}} onClick={searchEvent}>
 							<img src='/static/icons/search.svg' width="30px" height="30px"/>
 						</button>
 						<input className='border-0 bg-transparent w-full pl-4' type="text" placeholder="Search" style={{outline : 'none'}}></input>

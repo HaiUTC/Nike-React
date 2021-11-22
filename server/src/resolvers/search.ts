@@ -1,17 +1,36 @@
 import { Product } from "../entities/Product";
-import { SearchMutationResponse } from "../types/Search/SearchMutationResponse";
-import { Arg, Mutation, Resolver } from "type-graphql";
+import { Arg, Int, Query, Resolver } from "type-graphql";
 import {Search} from '../entities/Search'
-import { ILike } from "typeorm";
+import { ILike, LessThan } from "typeorm";
+import { PaginatedProductResponse } from "../types/Product/PaginatedProductResponse";
 
 @Resolver(_of => Search)
 export class SearchResolver {
-    @Mutation(_return => SearchMutationResponse)
+    @Query(_return => PaginatedProductResponse)
     async SearchResult(
-        @Arg('keyword') keyword : string
-    ) : Promise<SearchMutationResponse>{
+        @Arg('limit', _type => Int, {nullable : true}) limit?: number,
+        @Arg('keyword') keyword?: string,
+        @Arg('cursor', { nullable: true }) cursor?: string,
+    ) : Promise<PaginatedProductResponse | undefined>{
         try {
-            let products : Product[] = []
+            const totalCount =await Product.count({
+                where :[
+                    { name : ILike(`%${keyword}%`)},
+                    { title : ILike(`%${keyword}%`)},
+                    { labelSpecial : ILike(`%${keyword}%`)},
+                    
+                ],
+            })
+            const findOptions: { [key: string]: any } = {
+                createdAt: 'DESC',
+                where :[
+                    { name : ILike(`%${keyword}%`)},
+                    { title : ILike(`%${keyword}%`)},
+                    { labelSpecial : ILike(`%${keyword}%`)},
+                    
+                ],
+				take: limit||9,
+			}
             const existingKeywordSearch = await Search.findOne({keyword: keyword})
             if(!existingKeywordSearch){
                 const newKey = Search.create({
@@ -25,28 +44,25 @@ export class SearchResolver {
                 await existingKeywordSearch.save()
             }
 
-            products = await (Product).find({
-                where :[
-                    { name : ILike(`%${keyword}%`)},
-                    { title : ILike(`%${keyword}%`)},
-                    { labelSpecial : ILike(`%${keyword}%`)},
-                    
-                ]
-            })
+            let lastProduct: Product[] = []
+			if (cursor) {
+				findOptions.where = { createdAt: LessThan(cursor) }
+				lastProduct = await Product.find({ order : {createdAt : 'ASC'}, take: 1})
+			}
+            const products = await (Product).find(findOptions)
 
-            return{
-                code : 200,
-                success : true,
-                message : 'Find product....',
-                length : products.length || 0,
-                products 
-            }
-        } catch (error) {
             return {
-                code : 500,
-                success : false,
-                message : `Something went wrong in SearchResult : ${error.message}`,   
+                totalCount : totalCount,
+                cursor: products[products.length-1].createdAt,
+                hasMore : cursor
+                ? products[products.length - 1].createdAt.toString() !== lastProduct[0]?.createdAt.toString()
+                : products.length !== totalCount,
+                paginatedProducts : products
             }
+           
+        } catch (error) {
+            console.log(error)
+            return undefined
         }
     }
 }

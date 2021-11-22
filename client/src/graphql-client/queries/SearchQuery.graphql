@@ -1,0 +1,5 @@
+query SearchQuery($keyword : String!){
+    SearchResult(keyword : $keyword){
+        ...searchResponse
+    }
+}

@@ -1,4 +1,4 @@
-fragment searchMutationResponse on SearchMutationResponse {
+fragment searchResponse on SearchMutationResponse {
     code
     success
     message

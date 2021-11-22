@@ -194,7 +194,6 @@ export type Mutation = {
   Login: UserMutationResponse;
   Logout: Scalars['Boolean'];
   Register?: Maybe<UserMutationResponse>;
-  SearchResult: SearchMutationResponse;
   UpdateAddress?: Maybe<AddressMutationResponse>;
   UpdateCategory: CategoryMutationResponse;
   UpdateCollection: CollectionMutationResponse;
@@ -294,11 +293,6 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   registerInput: RegisterInput;
-};
-
-
-export type MutationSearchResultArgs = {
-  keyword: Scalars['String'];
 };
 
 
@@ -424,6 +418,7 @@ export type Query = {
   GetProductByCategoryAndCollection?: Maybe<PaginatedProductResponse>;
   GetProductId?: Maybe<Product>;
   MyProfile?: Maybe<User>;
+  SearchResult: SearchMutationResponse;
 };
 
 
@@ -460,6 +455,11 @@ export type QueryGetProductByCategoryAndCollectionArgs = {
 
 export type QueryGetProductIdArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QuerySearchResultArgs = {
+  keyword: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -527,7 +527,7 @@ export type MutationStatusFragment = { __typename?: 'UserMutationResponse', code
 
 export type ProductInCartFragment = { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } };
 
-export type SearchMutationResponseFragment = { __typename?: 'SearchMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, products?: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> | null | undefined };
+export type SearchResponseFragment = { __typename?: 'SearchMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, products?: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> | null | undefined };
 
 export type UserInfoFragment = { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string };
 
@@ -614,6 +614,13 @@ export type GetProductByCategoryAndCollectionQueryVariables = Exact<{
 
 
 export type GetProductByCategoryAndCollectionQuery = { __typename?: 'Query', GetProductByCategoryAndCollection?: { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> } | null | undefined };
+
+export type SearchQueryQueryVariables = Exact<{
+  keyword: Scalars['String'];
+}>;
+
+
+export type SearchQueryQuery = { __typename?: 'Query', SearchResult: { __typename?: 'SearchMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, products?: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> | null | undefined } };
 
 export const ErrorsInfoFragmentDoc = gql`
     fragment errorsInfo on FieldError {
@@ -716,8 +723,8 @@ export const UserMutationResponseFragmentDoc = gql`
     ${MutationStatusFragmentDoc}
 ${UserInfoFragmentDoc}
 ${ErrorsInfoFragmentDoc}`;
-export const SearchMutationResponseFragmentDoc = gql`
-    fragment searchMutationResponse on SearchMutationResponse {
+export const SearchResponseFragmentDoc = gql`
+    fragment searchResponse on SearchMutationResponse {
   code
   success
   message
@@ -1198,3 +1205,38 @@ export function useGetProductByCategoryAndCollectionLazyQuery(baseOptions?: Apol
 export type GetProductByCategoryAndCollectionQueryHookResult = ReturnType<typeof useGetProductByCategoryAndCollectionQuery>;
 export type GetProductByCategoryAndCollectionLazyQueryHookResult = ReturnType<typeof useGetProductByCategoryAndCollectionLazyQuery>;
 export type GetProductByCategoryAndCollectionQueryResult = Apollo.QueryResult<GetProductByCategoryAndCollectionQuery, GetProductByCategoryAndCollectionQueryVariables>;
+export const SearchQueryDocument = gql`
+    query SearchQuery($keyword: String!) {
+  SearchResult(keyword: $keyword) {
+    ...searchResponse
+  }
+}
+    ${SearchResponseFragmentDoc}`;
+
+/**
+ * __useSearchQueryQuery__
+ *
+ * To run a query within a React component, call `useSearchQueryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchQueryQuery({
+ *   variables: {
+ *      keyword: // value for 'keyword'
+ *   },
+ * });
+ */
+export function useSearchQueryQuery(baseOptions: Apollo.QueryHookOptions<SearchQueryQuery, SearchQueryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchQueryQuery, SearchQueryQueryVariables>(SearchQueryDocument, options);
+      }
+export function useSearchQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchQueryQuery, SearchQueryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchQueryQuery, SearchQueryQueryVariables>(SearchQueryDocument, options);
+        }
+export type SearchQueryQueryHookResult = ReturnType<typeof useSearchQueryQuery>;
+export type SearchQueryLazyQueryHookResult = ReturnType<typeof useSearchQueryLazyQuery>;
+export type SearchQueryQueryResult = Apollo.QueryResult<SearchQueryQuery, SearchQueryQueryVariables>;
