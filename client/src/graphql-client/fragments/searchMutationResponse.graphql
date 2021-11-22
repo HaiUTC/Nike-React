@@ -1,0 +1,20 @@
+fragment searchMutationResponse on SearchMutationResponse {
+    code
+    success
+    message
+    errors {
+        ...errorsInfo
+    }
+    products {
+        id
+        categoryId
+        name
+        title
+        numberColor
+        price
+        labelSpecial
+        picture{
+            url
+        }
+    }
+}

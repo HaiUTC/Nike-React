@@ -194,6 +194,7 @@ export type Mutation = {
   Login: UserMutationResponse;
   Logout: Scalars['Boolean'];
   Register?: Maybe<UserMutationResponse>;
+  SearchResult: SearchMutationResponse;
   UpdateAddress?: Maybe<AddressMutationResponse>;
   UpdateCategory: CategoryMutationResponse;
   UpdateCollection: CollectionMutationResponse;
@@ -293,6 +294,11 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   registerInput: RegisterInput;
+};
+
+
+export type MutationSearchResultArgs = {
+  keyword: Scalars['String'];
 };
 
 
@@ -465,6 +471,16 @@ export type RegisterInput = {
   password: Scalars['String'];
 };
 
+export type SearchMutationResponse = IMutationResponse & {
+  __typename?: 'SearchMutationResponse';
+  code: Scalars['Float'];
+  errors?: Maybe<Array<FieldError>>;
+  length?: Maybe<Scalars['Float']>;
+  message?: Maybe<Scalars['String']>;
+  products?: Maybe<Array<Product>>;
+  success: Scalars['Boolean'];
+};
+
 export type UpdateAddressInput = {
   commune?: Maybe<Scalars['String']>;
   detail?: Maybe<Scalars['String']>;
@@ -510,6 +526,8 @@ export type ErrorsInfoFragment = { __typename?: 'FieldError', field: string, mes
 export type MutationStatusFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined };
 
 export type ProductInCartFragment = { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } };
+
+export type SearchMutationResponseFragment = { __typename?: 'SearchMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, products?: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> | null | undefined };
 
 export type UserInfoFragment = { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string };
 
@@ -698,6 +716,28 @@ export const UserMutationResponseFragmentDoc = gql`
     ${MutationStatusFragmentDoc}
 ${UserInfoFragmentDoc}
 ${ErrorsInfoFragmentDoc}`;
+export const SearchMutationResponseFragmentDoc = gql`
+    fragment searchMutationResponse on SearchMutationResponse {
+  code
+  success
+  message
+  errors {
+    ...errorsInfo
+  }
+  products {
+    id
+    categoryId
+    name
+    title
+    numberColor
+    price
+    labelSpecial
+    picture {
+      url
+    }
+  }
+}
+    ${ErrorsInfoFragmentDoc}`;
 export const AddProductToCartDocument = gql`
     mutation AddProductToCart($cartInput: CartInput!) {
   AddProductToCart(cartInput: $cartInput) {

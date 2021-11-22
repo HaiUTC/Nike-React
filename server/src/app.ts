@@ -17,6 +17,7 @@ import { Product } from './entities/Product'
 import { Category } from './entities/Category'
 import { Collection } from './entities/Collection'
 import { Cart } from './entities/Cart'
+import { Search } from './entities/Search'
 import { CartItem } from './entities/CartItem'
 import { CheckOut } from './entities/CheckOut'
 import { ProductResolver } from './resolvers/product'
@@ -27,6 +28,7 @@ import { UserResolver } from './resolvers/user'
 import { CartResolver } from './resolvers/cart'
 import { buildDataloader } from './untils/Dataloader/Dataloader'
 import { CartItemResolver } from './resolvers/cartItem'
+import { SearchResolver } from './resolvers/search'
 const PORT = process.env.PORT || 5000
 
 
@@ -39,7 +41,7 @@ const main = async () => {
         password : process.env.DB_PASSWORD,
         logging : true,
         synchronize : true,
-        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut]
+        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search]
     })
     const app = express()
     app.use(cors({
@@ -68,7 +70,7 @@ const main = async () => {
     //create apollo server
     const apolloServer = new ApolloServer ({
         schema : await buildSchema({
-            resolvers : [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver,CartResolver,CartItemResolver],
+            resolvers : [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver,CartResolver,CartItemResolver,SearchResolver],
             validate : false}),
         context : ({req,res}) : Context => ({req,res,connection,dataLoaders: buildDataloader()}),
         plugins : [ApolloServerPluginLandingPageGraphQLPlayground]

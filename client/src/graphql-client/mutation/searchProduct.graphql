@@ -1,0 +1,5 @@
+mutation SearchResult($keyword : string){
+    SearchResult(keyword : $keyword){
+        
+    }
+}
