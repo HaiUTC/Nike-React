@@ -4,18 +4,20 @@ import * as yup from 'yup';
 import { FormikHelpers, useFormik } from 'formik';
 import { FormInputAtom } from "../../Atom/Form/FormInput";
 import ButtonSubmit from "../../Atom/Button";
-import { LoginInput, MyProfileDocument, MyProfileQuery, useLoginMutation } from "../../../generated/graphql";
+import { LoginInput, MyProfileDocument, MyProfileQuery, useGetCartOfUserQuery, useLoginMutation } from "../../../generated/graphql";
 import { useState } from "react";
 import RegisterModal from './RegisterModal'
 import ForgetModal from "./ForgetModal";
 import { initializeApollo } from "../../../libs/apolloClient";
+import { useAppDispatch } from "../../../redux/hook";
+import { changeNumCart } from "../../../redux/Cart/countNumber";
 
 const validationSchema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
     password: yup.string().required('Password is required'),
 })
 const LoginModal = ({handleClose}) => {
-    const [loginSuccess,setLoginSuccess] = useState(false)
+    const dispatch = useAppDispatch()
     const [openRegister, setOpenRegister] = useState(false)
     const [openForgot, setOpenForgot] = useState(false)
     const [loginUser, {loading : _loginUserLoading}] = useLoginMutation()
@@ -36,16 +38,14 @@ const LoginModal = ({handleClose}) => {
                     })
                 }
             },
-
           })
           if(response?.data?.Login?.errors){
               setErrors({email : response.data.Login.message})
           }
           else if(response.data?.Login.user){
-            setLoginSuccess(true)
             handleClose()
             const apolloClient = initializeApollo()
-			apolloClient.resetStore()
+            apolloClient.resetStore()
           }
         },
       });
@@ -55,11 +55,6 @@ const LoginModal = ({handleClose}) => {
       const handleCloseForgotModal = () => {setOpenForgot(false);};
     return (
         <>
-        {loginSuccess &&  
-            <Snackbar open={true} anchorOrigin={ {vertical: 'top', horizontal: 'right'} }  autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>Login Successfully!</Alert>
-            </Snackbar>
-        }
         <Dialog open={true} maxWidth="xs" scroll='body' onClose={handleClose}>
         <DialogTitle id="alert-dialog-title">
         <div className="flex flex-col items-center">

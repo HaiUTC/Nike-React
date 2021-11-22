@@ -21,8 +21,7 @@ const CategoryProduct = () => {
             categoryId : categoryId.toString(),
             sort : sort as string
         },
-        notifyOnNetworkStatusChange: true,
-        fetchPolicy : "network-only"
+        notifyOnNetworkStatusChange: true
     })
     const loadingMoreProduct = networkStatus === NetworkStatus.fetchMore
     const loadMoreProducts = () => {
@@ -45,7 +44,7 @@ const CategoryProduct = () => {
             </Head>
             <Layout>
                 
-                {loading && !loadingMoreProduct ? <LoadingPage /> : (                    
+                {(loading && !loadingMoreProduct) ? <LoadingPage /> : (                    
                     <ListProductPerPage 
                         categoryId={categoryId}
                         products={data?.GetProductByCategoryAndCollection?.paginatedProducts}

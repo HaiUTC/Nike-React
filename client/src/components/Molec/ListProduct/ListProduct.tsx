@@ -3,9 +3,7 @@ import DetailProduct from "../../Atom/DetailProduct"
 import LoadingElement from "../../Atom/LoadingElement";
 
 const ListProduct = ({products,hasMore,fetchMore}) => {
-    const fetchAPIProduct = () => {
-      fetchMore()
-      };
+    const fetchAPIProduct = () => {fetchMore()};
     return (
         <div className='w-full'>
           <InfiniteScroll

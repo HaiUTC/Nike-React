@@ -14,16 +14,15 @@ const Cart = () => {
     const dispatch = useAppDispatch();
 
     const {data: _cartData , loading } = useGetCartOfUserQuery()
+    if(!loading && _cartData) dispatch(changeNumCart(_cartData.GetCartOfUser.quantity))
 
     const [cart,setCart] = useState({
         product : _cartData.GetCartOfUser.cartItems,
         total : _cartData.GetCartOfUser.total
     })
-
     const [remoteProductFormCart, {loading : _loadingRemove}] = useDeleteProductInCartMutation()
 
-
-    const removeItem = async (productId: string) => {
+    const removeItem = async (productId: string,quantity:number) => {
         console.log(productId)
         const response = await remoteProductFormCart({
             variables : {
@@ -40,7 +39,7 @@ const Cart = () => {
                     total : response.data.DeleteProductInCart.cart.total
                 }
             )
-            dispatch(changeNumCart(numCart-1))
+            dispatch(changeNumCart(numCart-quantity))
         }
     }
     return (

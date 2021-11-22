@@ -10,8 +10,6 @@ const ProductCart = ({product,haveSize,quantity,removeItem,monney,color}) => {
         // setAge(event.target.value);
     }
 
-    let options= []
-    for(let i=1;i<=10;i++){options.push( <MenuItem key={i} value={i}><pre>{i}  </pre></MenuItem>)}
     return (
         <div className="grid grid-cols-12 md:gap-6 py-4">
           {/*image */}
@@ -29,15 +27,13 @@ const ProductCart = ({product,haveSize,quantity,removeItem,monney,color}) => {
               <div>
                 <span className='pr-2'>Size</span>
                 <Select defaultValue={haveSize} onChange={handleChangeSize}>
-                  {product.size.map((item, index) => (
-                     <MenuItem key={index} value={item}><pre className='text-base'>{item}  </pre></MenuItem>
-                  ))}
+                    <MenuItem value={haveSize}><pre className='text-base'>{haveSize}  </pre></MenuItem>
                 </Select>
               </div>
               <div className='px-4'>
                 <span className='pr-2'>Quantity</span>
                 <Select defaultValue={quantity} onChange={handleChangeQuantity}>
-                  {options}
+                  <MenuItem value={quantity}><pre>{quantity}  </pre></MenuItem>
                 </Select>
               </div>
             </div>
@@ -45,7 +41,7 @@ const ProductCart = ({product,haveSize,quantity,removeItem,monney,color}) => {
               <div className="pr-3 cursor-pointer">
                 <span>Move to Favorites</span>
               </div>
-              <div className="cursor-pointer" onClick={() => removeItem(product.id)}>
+              <div className="cursor-pointer" onClick={() => removeItem(product.id,quantity)}>
                 <span>Remove</span>
               </div>
             </div>

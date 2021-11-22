@@ -13,6 +13,7 @@ const UserLogin = ({data}) => {
             data : {MyProfile : null}
           })
         }
+        
       }
     })
   }

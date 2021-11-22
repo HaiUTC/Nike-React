@@ -7,7 +7,7 @@ interface countNumber {
   
   // Define the initial state using that type
   const initialState: countNumber = {
-    numCart: 0,
+    numCart:(typeof window !== "undefined") && JSON.parse(localStorage.getItem('numcart')) || 0,
   }
 
   export const countNumber = createSlice({
@@ -17,6 +17,7 @@ interface countNumber {
     reducers: {
         changeNumCart : (state, action) => {
             state.numCart = action.payload
+            localStorage.setItem('numcart', (state.numCart).toString())
         }
      
     },
