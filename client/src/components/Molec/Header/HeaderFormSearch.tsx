@@ -2,14 +2,17 @@ import HeaderLogo from "./HeaderLogo"
 import { useAppDispatch, useAppSelector } from "../../../redux/hook"
 import { toggleShowSearchBox } from "../../../redux/Header/showSearchBox"
 import { useRouter } from "next/router"
+import { useRef } from "react"
 
 const HeaderFormSearch = () => {
 	const router = useRouter()
+	const inputRef = useRef(null)
 	const dispatch = useAppDispatch()
     const toggleSearch = () => {dispatch(toggleShowSearchBox())}
 	const isShowSearchBox = useAppSelector((state) => state.showSearch.isShowSearchBox)
-	const searchEvent = async (values) => {
-		router.replace(`/s?q=asdas`)
+	const searchEvent = async () => {
+		toggleSearch()
+		router.replace(`/s?q=${inputRef.current.value}`)
 	}
     return (
         <div id='formSearch' className={"absolute top-0 left-0 right-0 z-10 bg-white "+(isShowSearchBox?null:'hidden')}>
@@ -20,7 +23,7 @@ const HeaderFormSearch = () => {
 						<button className='border-0 bg-transparent flex items-center py-0.5' style={{outline : 'none'}} onClick={searchEvent}>
 							<img src='/static/icons/search.svg' width="30px" height="30px"/>
 						</button>
-						<input className='border-0 bg-transparent w-full pl-4' type="text" placeholder="Search" style={{outline : 'none'}}></input>
+						<input className='border-0 bg-transparent w-full pl-4' type="text" placeholder="Search" style={{outline : 'none'}} ref={inputRef}></input>
 					</div>
 						<div className="left-0 py-10"> 
 							<h2 className="text-2xl">Popular Search Term</h2>

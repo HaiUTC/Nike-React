@@ -85,23 +85,22 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
                             return { ...incoming, paginatedProducts }
                           }
                         },
-                        // GetCartOfUser : {
-                        //   keyArgs: false,
-                        //   merge(existing, incoming){
-                        //     console.log(existing)
-                        //     let allCart : CartItem[] = []
-                        //     if (existing && existing.paginatedProducts) {
-                        //       allCart = allCart.concat(existing.paginatedProducts)
-                        //     }
+                        SearchResult : {
+                          keyArgs: ['keyword'],
+                          merge(existing, incoming) {
+                            let paginatedProducts: Product[] = []
 
-                        //     if (incoming && incoming.paginatedProducts) {
-                        //       allCart = allCart.concat(incoming.paginatedProducts)
-                        //     }
+                            if (existing && existing.paginatedProducts) {
+                              paginatedProducts = paginatedProducts.concat(existing.paginatedProducts)
+                            }
 
-                        //     return { ...incoming, allCart }
+                            if (incoming && incoming.paginatedProducts) {
+                              paginatedProducts = paginatedProducts.concat(incoming.paginatedProducts)
+                            }
 
-                        //   }
-                        // }
+                            return { ...incoming, paginatedProducts }
+                          }
+                        }
                     }
                 }
             }

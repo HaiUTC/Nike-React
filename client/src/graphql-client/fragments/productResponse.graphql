@@ -1,11 +1,8 @@
-fragment searchResponse on SearchMutationResponse {
-    code
-    success
-    message
-    errors {
-        ...errorsInfo
-    }
-    products {
+fragment productResponse on PaginatedProductResponse {
+    totalCount
+    cursor
+    hasMore
+    paginatedProducts {
         id
         categoryId
         name

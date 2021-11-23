@@ -1,5 +1,5 @@
-query SearchQuery($keyword : String!){
-    SearchResult(keyword : $keyword){
-        ...searchResponse
+query SearchQuery($keyword : String!, $limit : Int!,$cursor : String){
+    SearchResult(keyword : $keyword,limit : $limit, cursor : $cursor){
+        ...productResponse
     }
 }

@@ -13,6 +13,7 @@ export class SearchResolver {
         @Arg('cursor', { nullable: true }) cursor?: string,
     ) : Promise<PaginatedProductResponse | undefined>{
         try {
+            let order = {createdAt: 'DESC'}
             const totalCount =await Product.count({
                 where :[
                     { name : ILike(`%${keyword}%`)},
@@ -21,13 +22,12 @@ export class SearchResolver {
                     
                 ],
             })
-            const findOptions: { [key: string]: any } = {
-                createdAt: 'DESC',
+            let findOptions: { [key: string]: any } = {
+                order,
                 where :[
                     { name : ILike(`%${keyword}%`)},
                     { title : ILike(`%${keyword}%`)},
-                    { labelSpecial : ILike(`%${keyword}%`)},
-                    
+                    { labelSpecial : ILike(`%${keyword}%`)}, 
                 ],
 				take: limit||9,
 			}
@@ -46,10 +46,19 @@ export class SearchResolver {
 
             let lastProduct: Product[] = []
 			if (cursor) {
-				findOptions.where = { createdAt: LessThan(cursor) }
-				lastProduct = await Product.find({ order : {createdAt : 'ASC'}, take: 1})
+				findOptions.where = {
+                        createdAt: LessThan(cursor)
+                }
+				lastProduct = await Product.find({ 
+                    where :[
+                        { name : ILike(`%${keyword}%`)},
+                        { title : ILike(`%${keyword}%`)},
+                        { labelSpecial : ILike(`%${keyword}%`)}, 
+                    ],
+                    order : {createdAt : 'ASC'}, 
+                    take: 1})
 			}
-            const products = await (Product).find(findOptions)
+            const products = await Product.find(findOptions)
 
             return {
                 totalCount : totalCount,

@@ -4,7 +4,7 @@ import { Field, ObjectType } from "type-graphql";
 @ObjectType()
 export class PaginatedProductResponse{
     @Field()
-    totalCount !: number
+    totalCount!: number
 
     @Field(_type => Date)
 	cursor!: number|Date

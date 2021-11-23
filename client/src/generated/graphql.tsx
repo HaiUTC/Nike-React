@@ -418,7 +418,7 @@ export type Query = {
   GetProductByCategoryAndCollection?: Maybe<PaginatedProductResponse>;
   GetProductId?: Maybe<Product>;
   MyProfile?: Maybe<User>;
-  SearchResult: SearchMutationResponse;
+  SearchResult: PaginatedProductResponse;
 };
 
 
@@ -459,7 +459,9 @@ export type QueryGetProductIdArgs = {
 
 
 export type QuerySearchResultArgs = {
+  cursor?: Maybe<Scalars['String']>;
   keyword: Scalars['String'];
+  limit?: Maybe<Scalars['Int']>;
 };
 
 export type RegisterInput = {
@@ -469,16 +471,6 @@ export type RegisterInput = {
   gender: Scalars['String'];
   lastName: Scalars['String'];
   password: Scalars['String'];
-};
-
-export type SearchMutationResponse = IMutationResponse & {
-  __typename?: 'SearchMutationResponse';
-  code: Scalars['Float'];
-  errors?: Maybe<Array<FieldError>>;
-  length?: Maybe<Scalars['Float']>;
-  message?: Maybe<Scalars['String']>;
-  products?: Maybe<Array<Product>>;
-  success: Scalars['Boolean'];
 };
 
 export type UpdateAddressInput = {
@@ -527,7 +519,7 @@ export type MutationStatusFragment = { __typename?: 'UserMutationResponse', code
 
 export type ProductInCartFragment = { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } };
 
-export type SearchResponseFragment = { __typename?: 'SearchMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, products?: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> | null | undefined };
+export type ProductResponseFragment = { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> };
 
 export type UserInfoFragment = { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string };
 
@@ -617,10 +609,12 @@ export type GetProductByCategoryAndCollectionQuery = { __typename?: 'Query', Get
 
 export type SearchQueryQueryVariables = Exact<{
   keyword: Scalars['String'];
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
 }>;
 
 
-export type SearchQueryQuery = { __typename?: 'Query', SearchResult: { __typename?: 'SearchMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, products?: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> | null | undefined } };
+export type SearchQueryQuery = { __typename?: 'Query', SearchResult: { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> } };
 
 export const ErrorsInfoFragmentDoc = gql`
     fragment errorsInfo on FieldError {
@@ -723,15 +717,12 @@ export const UserMutationResponseFragmentDoc = gql`
     ${MutationStatusFragmentDoc}
 ${UserInfoFragmentDoc}
 ${ErrorsInfoFragmentDoc}`;
-export const SearchResponseFragmentDoc = gql`
-    fragment searchResponse on SearchMutationResponse {
-  code
-  success
-  message
-  errors {
-    ...errorsInfo
-  }
-  products {
+export const ProductResponseFragmentDoc = gql`
+    fragment productResponse on PaginatedProductResponse {
+  totalCount
+  cursor
+  hasMore
+  paginatedProducts {
     id
     categoryId
     name
@@ -744,7 +735,7 @@ export const SearchResponseFragmentDoc = gql`
     }
   }
 }
-    ${ErrorsInfoFragmentDoc}`;
+    `;
 export const AddProductToCartDocument = gql`
     mutation AddProductToCart($cartInput: CartInput!) {
   AddProductToCart(cartInput: $cartInput) {
@@ -979,24 +970,10 @@ export type AllProductIdsQueryResult = Apollo.QueryResult<AllProductIdsQuery, Al
 export const GetAllProductsDocument = gql`
     query GetAllProducts($limit: Int!, $cursor: String, $sort: String) {
   GetAllProducts(limit: $limit, cursor: $cursor, sort: $sort) {
-    totalCount
-    cursor
-    hasMore
-    paginatedProducts {
-      id
-      categoryId
-      name
-      title
-      numberColor
-      price
-      labelSpecial
-      picture {
-        url
-      }
-    }
+    ...productResponse
   }
 }
-    `;
+    ${ProductResponseFragmentDoc}`;
 
 /**
  * __useGetAllProductsQuery__
@@ -1206,12 +1183,12 @@ export type GetProductByCategoryAndCollectionQueryHookResult = ReturnType<typeof
 export type GetProductByCategoryAndCollectionLazyQueryHookResult = ReturnType<typeof useGetProductByCategoryAndCollectionLazyQuery>;
 export type GetProductByCategoryAndCollectionQueryResult = Apollo.QueryResult<GetProductByCategoryAndCollectionQuery, GetProductByCategoryAndCollectionQueryVariables>;
 export const SearchQueryDocument = gql`
-    query SearchQuery($keyword: String!) {
-  SearchResult(keyword: $keyword) {
-    ...searchResponse
+    query SearchQuery($keyword: String!, $limit: Int!, $cursor: String) {
+  SearchResult(keyword: $keyword, limit: $limit, cursor: $cursor) {
+    ...productResponse
   }
 }
-    ${SearchResponseFragmentDoc}`;
+    ${ProductResponseFragmentDoc}`;
 
 /**
  * __useSearchQueryQuery__
@@ -1226,6 +1203,8 @@ export const SearchQueryDocument = gql`
  * const { data, loading, error } = useSearchQueryQuery({
  *   variables: {
  *      keyword: // value for 'keyword'
+ *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
  *   },
  * });
  */

@@ -8,8 +8,6 @@ import { GetAllProductsDocument, useGetAllProductsQuery } from '../../generated/
 import { addApolloState, initializeApollo } from '../../libs/apolloClient'
 export const limit = 9
 const Index = () => {
-
-
     const {data,loading,fetchMore, networkStatus} = useGetAllProductsQuery({
         variables : {
             limit
