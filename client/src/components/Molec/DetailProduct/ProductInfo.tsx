@@ -1,9 +1,10 @@
+import dynamic from 'next/dynamic'
 import { useState } from "react";
-import TitleProduct from "../../Atom/TitleProduct";
-import SelectSize from "../../Atom/SelectSize";
-import Description from "./Description";
-import ButtonAddProduct from "./ButtonAddProduct";
-import SelectColorDetailProduct from "../../Atom/SelectColorDetaiProduct";
+const TitleProduct = dynamic(() => import("../../Atom/TitleProduct"),{ ssr: false })
+const SelectSize = dynamic(() => import("../../Atom/SelectSize"),{ ssr: false })
+const Description = dynamic(() => import("./Description"),{ ssr: false })
+const ButtonAddProduct = dynamic(() => import("./ButtonAddProduct"),{ ssr: false })
+const SelectColorDetailProduct = dynamic(() => import("../../Atom/SelectColorDetaiProduct"),{ ssr: false })
 
 const ProductInfo = ({data,changeIndexPoster,productId}) => {
     const [size, setSize] = useState(0);

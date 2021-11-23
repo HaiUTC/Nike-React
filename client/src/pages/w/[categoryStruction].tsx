@@ -1,15 +1,17 @@
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { NetworkStatus } from '@apollo/client'
 import { GetServerSideProps, GetServerSidePropsContext} from 'next'
 import { useRouter } from 'next/router'
-import Layout from '../../components/Templete/Layout/Layout'
-import ListProductPerPage from '../../components/Templete/ListProductPerPage'
-import { addApolloState, initializeApollo } from '../../libs/apolloClient'
-import LoadingPage from '../../components/Atom/LoadingPage'
 import { GetProductByCategoryAndCollectionDocument, useGetProductByCategoryAndCollectionQuery } from '../../generated/graphql'
+import { addApolloState, initializeApollo } from '../../libs/apolloClient'
+const Layout = dynamic(() => import('../../components/Templete/Layout/Layout'),{ ssr: false })
+const ListProductPerPage = dynamic(() => import('../../components/Templete/ListProductPerPage'),{ ssr: false })
+const LoadingPage = dynamic(() => import('../../components/Atom/LoadingPage'),{ ssr: false })
 import { limit } from './index'
 export let categoryId = 0
 export let sort
+
 const CategoryProduct = () => {
     const router = useRouter();
     categoryId = +(router.query?.categoryStruction.toString().split('-')[2])

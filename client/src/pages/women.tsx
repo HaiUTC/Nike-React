@@ -1,9 +1,10 @@
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import CategoryHeaderSelect from '../components/Atom/CategoryHeaderSelect';
-import CategoryContent from '../components/Templete/ContentLikeTrending/CategoryContent';
-import Layout from '../components/Templete/Layout/Layout'
-import ListProductShowUp from '../components/Templete/ListProductShowUp/ListProductShowUp';
-import Main from '../components/Templete/Main/Main';
+const CategoryHeaderSelect = dynamic(() => import('../components/Atom/CategoryHeaderSelect'),{ ssr: false })
+const CategoryContent = dynamic(() => import('../components/Templete/ContentLikeTrending/CategoryContent'),{ ssr: false })
+const Layout = dynamic(() => import('../components/Templete/Layout/Layout'),{ ssr: false })
+const ListProductShowUp = dynamic(() => import('../components/Templete/ListProductShowUp/ListProductShowUp'),{ ssr: false })
+const Main = dynamic(() => import('../components/Templete/Main/Main'),{ ssr: false })
 
 const Women = ({contentTrending,contentMoreNike,contentMain,listProduct,headerData}) => {
     return (

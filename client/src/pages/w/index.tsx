@@ -1,11 +1,12 @@
+import dynamic from 'next/dynamic'
 import { NetworkStatus } from '@apollo/client'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
-import LoadingPage from '../../components/Atom/LoadingPage'
-import Layout from '../../components/Templete/Layout/Layout'
-import ListProductPerPage from '../../components/Templete/ListProductPerPage'
+const DynamicListProductPerPage = dynamic(() => import('../../components/Templete/ListProductPerPage'),{ ssr: false })
 import { GetAllProductsDocument, useGetAllProductsQuery } from '../../generated/graphql'
 import { addApolloState, initializeApollo } from '../../libs/apolloClient'
+const Layout = dynamic(() => import('../../components/Templete/Layout/Layout'),{ ssr: false })
+const LoadingPage = dynamic(() => import('../../components/Atom/LoadingPage'),{ ssr: false })
 export const limit = 9
 const Index = () => {
     const {data,loading,fetchMore, networkStatus} = useGetAllProductsQuery({
@@ -33,7 +34,7 @@ const Index = () => {
             </Head>
             <Layout>
                 {loading && !loadingMoreProduct ? <LoadingPage /> : (                    
-                    <ListProductPerPage 
+                    <DynamicListProductPerPage 
                         products={data?.GetAllProducts?.paginatedProducts}
                         totalCount={data?.GetAllProducts?.totalCount}
                         hasMore={data?.GetAllProducts?.hasMore}

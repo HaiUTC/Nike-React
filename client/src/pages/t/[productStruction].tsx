@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import { useRouter } from "next/router";
 import Head from 'next/head'
 import Layout from "../../components/Templete/Layout/Layout";
@@ -5,10 +6,10 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { addApolloState, initializeApollo } from "../../libs/apolloClient";
 import { AllProductIdsDocument, AllProductIdsQuery, GetProductIdDocument, GetProductIdQuery, useGetProductIdQuery } from "../../generated/graphql";
 import {limit} from '../w/index'
-import LoadingPage from "../../components/Atom/LoadingPage";
-import ListImageProduct from "../../components/Atom/ListImageProduct";
-import TitleProduct from "../../components/Atom/TitleProduct";
-import ProductInfomation from "../../components/Organ/Product/ProductInfomation";
+const LoadingPage = dynamic(() => import("../../components/Atom/LoadingPage"),{ ssr: false })
+const ListImageProduct = dynamic(() => import("../../components/Atom/ListImageProduct"),{ ssr: false })
+const TitleProduct = dynamic(() => import("../../components/Atom/TitleProduct"),{ ssr: false })
+const ProductInfomation = dynamic(() => import("../../components/Organ/Product/ProductInfomation"),{ ssr: false })
 import { useState } from "react";
 const DetailProduct = () => {
     const router = useRouter();

@@ -1,14 +1,15 @@
+import dynamic from 'next/dynamic'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { useEffect, useState } from 'react'
 import { addApolloState, initializeApollo } from '../libs/apolloClient'
 import { GetCartOfUserDocument, useDeleteProductInCartMutation, useGetCartOfUserQuery } from '../generated/graphql'
 import Head from 'next/head'
-import SummaryCart from '../components/Atom/SummaryCart'
-import ListCart from '../components/Molec/Cart/ListCart'
-import ListFavorite from '../components/Molec/Cart/ListFavorite'
-import Layout from '../components/Templete/Layout/Layout'
-import { changeNumCart } from '../redux/Cart/countNumber'
 import { useAppDispatch, useAppSelector } from '../redux/hook'
+const SummaryCart = dynamic(() => import('../components/Atom/SummaryCart'),{ ssr: false })
+const ListCart = dynamic(() => import('../components/Molec/Cart/ListCart'),{ ssr: false })
+const ListFavorite = dynamic(() => import('../components/Molec/Cart/ListFavorite'),{ ssr: false })
+const Layout = dynamic(() => import('../components/Templete/Layout/Layout'),{ ssr: false })
+import { changeNumCart } from '../redux/Cart/countNumber'
 const Cart = () => {
     const numCart = useAppSelector((state) => state.countNumber.numCart);
     const dispatch = useAppDispatch();

@@ -1,12 +1,14 @@
+import dynamic from 'next/dynamic'
 import { NetworkStatus } from '@apollo/client'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 import { useRouter } from "next/router"
-import LoadingPage from '../../components/Atom/LoadingPage'
-import Layout from "../../components/Templete/Layout/Layout"
-import ListProductPerPage from '../../components/Templete/ListProductPerPage'
 import { SearchQueryDocument, useSearchQueryQuery } from '../../generated/graphql'
 import { addApolloState, initializeApollo } from '../../libs/apolloClient'
+const LoadingPage = dynamic(() => import('../../components/Atom/LoadingPage'),{ ssr: false }) 
+const Layout = dynamic(() => import("../../components/Templete/Layout/Layout"),{ ssr: false })
+const ListProductPerPage = dynamic(() => import('../../components/Templete/ListProductPerPage'),{ ssr: false })
+
 const limit = 9
 let keyword = ""
 const Index = () => {

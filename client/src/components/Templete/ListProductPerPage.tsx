@@ -1,12 +1,13 @@
+import dynamic from 'next/dynamic'
 import { isEmpty } from "lodash";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import HeaderCategory from "../Molec/ListProduct/HeaderCategory";
-import NoHaveProduct from "../Atom/NoHaveProduct";
-import ListProduct from "../Molec/ListProduct/ListProduct";
-import FilterProduct from "../Organ/Product/FilterProduct";
-import HeaderCategoryMb from "../Molec/ListProduct/HeaderCategoryMb";
 import { toggleShowFilter } from "../../redux/Product/showFilter";
+const HeaderCategory  = dynamic(() => import("../Molec/ListProduct/HeaderCategory"))
+const NoHaveProduct  = dynamic(() => import("../Atom/NoHaveProduct"))
+const ListProduct = dynamic(() => import("../Molec/ListProduct/ListProduct"))
+const FilterProduct = dynamic(() => import("../Organ/Product/FilterProduct"))
+const HeaderCategoryMb = dynamic(() => import("../Molec/ListProduct/HeaderCategoryMb"))
 
 interface IListProductPerPage {
   products: any;

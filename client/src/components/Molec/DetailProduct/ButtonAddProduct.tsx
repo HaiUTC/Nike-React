@@ -1,10 +1,11 @@
+import dynamic from 'next/dynamic'
 import { useState } from "react";
 import { useAddProductToCartMutation } from "../../../generated/graphql";
 import { changeNumCart } from "../../../redux/Cart/countNumber";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 import { useCheckAuth } from "../../../utils/useCheckAuth";
-import NotificationAddProductToCart from "../../Atom/NotificationAddProductToCart";
-import LoginModal from "../../Templete/Modal/LoginModal";
+const NotificationAddProductToCart = dynamic(() => import("../../Atom/NotificationAddProductToCart"),{ ssr: false })
+const LoginModal = dynamic(() => import("../../Templete/Modal/LoginModal"),{ ssr: false })
 
 
 const ButtonAddProduct = ({urlImage,name,title,size,price,haveSize,color,productId}) => {
