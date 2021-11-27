@@ -7,17 +7,17 @@ import { ProductMutationResponse } from "../types/Product/ProductMutationRespons
 import { ProductInput } from "../types/Product/ProductInput";
 import { PaginatedProductResponse } from "../types/Product/PaginatedProductResponse";
 import { ProductUpdateInput } from '../types/Product/ProductUpdateInput'
-import { __Type } from "graphql";
+
+
 
 @Resolver(_of => Product)
 export class ProductResolver {
 
     @FieldResolver(_return => Category)
-	async category(
-		@Root() root: Product
-	) {
+	async category(@Root() root: Product) {
 		return await Category.findOne(root.categoryId)
 	}
+
 
     @Query(_return => PaginatedProductResponse,{ nullable : true})
     async GetAllProducts(

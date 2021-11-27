@@ -4,6 +4,8 @@ import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql'
 import cors from 'cors'
+import { createServer } from "http";
+import { Server } from "socket.io";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { createConnection } from 'typeorm'
 import session from 'express-session'
@@ -30,8 +32,11 @@ import { buildDataloader } from './untils/Dataloader/Dataloader'
 import { CartItemResolver } from './resolvers/cartItem'
 import { SearchResolver } from './resolvers/search'
 const PORT = process.env.PORT || 5000
-
-
+const app = express()
+const server = createServer(app)
+import {RunSocket} from './socket'
+import { Comment } from './entities/Comment'
+import { CommentResolver } from './resolvers/comment'
 const main = async () => {
     //conect posgresql
     const connection = await createConnection({
@@ -41,9 +46,9 @@ const main = async () => {
         password : process.env.DB_PASSWORD,
         logging : true,
         synchronize : true,
-        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search]
+        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search,Comment]
     })
-    const app = express()
+    
     app.use(cors({
         origin : 'http://localhost:3000',
         credentials : true
@@ -70,13 +75,29 @@ const main = async () => {
     //create apollo server
     const apolloServer = new ApolloServer ({
         schema : await buildSchema({
-            resolvers : [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver,CartResolver,CartItemResolver,SearchResolver],
+            resolvers : [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver,CartResolver,CartItemResolver,SearchResolver, CommentResolver],
             validate : false}),
         context : ({req,res}) : Context => ({req,res,connection,dataLoaders: buildDataloader()}),
         plugins : [ApolloServerPluginLandingPageGraphQLPlayground]
     })
     await apolloServer.start()
     apolloServer.applyMiddleware({app , cors : false})
+
+    //socket io
+    const io = new Server(server, {
+        cors : {
+          origin: 'http://localhost:3000',
+          methods: ["GET", "POST", "DELETE", "PUT"],
+          allowedHeaders: [
+            "Access-Control-Allow-Origin",
+            "Access-Control-Header",
+            "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+            "Access-Control-Allow-Methods",
+          ],
+          credentials: true,
+        }
+      })
+      RunSocket(io)
     app.listen(PORT,() => {
         console.log(`Server started on http://localhost:${PORT}. Graphql started on http://localhost:${PORT}${apolloServer.graphqlPath}`)
     })

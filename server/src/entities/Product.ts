@@ -3,6 +3,7 @@ import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToOne, Prim
 import { CartItem } from "./CartItem";
 import { Category } from "./Category";
 
+
 @ObjectType()
 export class Picture {
     @Field(_type => [String])
@@ -81,12 +82,12 @@ export class Product extends BaseEntity{
     timerSale: Date
 
     @Field()
-    @Column({default : 0,nullable : true})
-    numberReview: number
+    @Column({default : 0})
+    numberReview!: number
 
     @Field()
-    @Column({ default : 0,nullable : true})
-    rating: number
+    @Column({ default : 0})
+    rating!: number
 
     @Field()
     @CreateDateColumn({type: "timestamptz"})
@@ -103,5 +104,6 @@ export class Product extends BaseEntity{
     @Field(_type => CartItem)
     @OneToOne(()=> CartItem, cartItem => cartItem.product)
     cartItem : CartItem
+
 }
 

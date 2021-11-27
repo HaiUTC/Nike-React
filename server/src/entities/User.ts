@@ -3,6 +3,7 @@ import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Address } from "./Address";
 import { Cart } from "./Cart";
+import { Comment } from "./Comment";
 
 @ObjectType()
 @Entity()
@@ -43,8 +44,8 @@ export class User extends BaseEntity {
     // @OneToMany(()=> Checkout, checkout => checkout.user)
     // checkouts : Checkout[]
 
-    // @OneToMany(() => Comment, comment => comment.user)
-    // comments : Comment[]
+    @OneToMany(() => Comment, comment => comment.user)
+    comments : Comment[]
 
     @Field()
     @CreateDateColumn({type: "timestamptz"})
