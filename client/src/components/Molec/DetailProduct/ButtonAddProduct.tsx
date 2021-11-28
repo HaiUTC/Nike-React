@@ -1,15 +1,15 @@
 import dynamic from 'next/dynamic'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAddProductToCartMutation } from "../../../generated/graphql";
+import { UserContext } from '../../../libs/UserContext';
 import { changeNumCart } from "../../../redux/Cart/countNumber";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
-import { useCheckAuth } from "../../../utils/useCheckAuth";
 const NotificationAddProductToCart = dynamic(() => import("../../Atom/NotificationAddProductToCart"),{ ssr: false })
 const LoginModal = dynamic(() => import("../../Templete/Modal/LoginModal"),{ ssr: false })
 
 
 const ButtonAddProduct = ({urlImage,name,title,size,price,haveSize,color,productId}) => {
-    const { isUser} = useCheckAuth()
+    const [isUser] = useContext(UserContext)
     const [addProductTocart, {loading : _addProductTocartLoading}] = useAddProductToCartMutation()
 
     const numCart = useAppSelector((state) => state.countNumber.numCart);

@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { UserContext } from '../../../libs/UserContext'
 import { useAppSelector } from '../../../redux/hook'
-import { useCheckAuth } from '../../../utils/useCheckAuth'
 import LoginModal from '../../Templete/Modal/LoginModal'
 
 const Cart = () => {
-    const {isUser} = useCheckAuth()
+    const [isUser] = useContext(UserContext)
     const [isClick,setIsClick] = useState(false)
     const checkUser = (e) => {
         if(!isUser){

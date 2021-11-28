@@ -98,7 +98,7 @@ const main = async () => {
         }
       })
       RunSocket(io)
-    app.listen(PORT,() => {
+      server.listen(PORT,() => {
         console.log(`Server started on http://localhost:${PORT}. Graphql started on http://localhost:${PORT}${apolloServer.graphqlPath}`)
     })
 

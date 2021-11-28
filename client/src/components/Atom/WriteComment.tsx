@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import StarRatings from "react-star-ratings";
 import { useMyProfileQuery } from "../../generated/graphql";
+import { UserContext } from "../../libs/UserContext";
 import Review from "../Molec/DetailProduct/Review";
 import LoginModal from "../Templete/Modal/LoginModal";
 import ReviewModal from "../Templete/Modal/ReviewModal";
 const WriteComment = () => {
     const [showWriteComment, setShowWriteComment] = useState(false);
     const [showLogin, setShowLogin] = useState(false)
-
+    const [isUser] = useContext(UserContext)
     const {data} = useMyProfileQuery()
     const showWriteCmt = () => {
-        if(data.MyProfile){
+        if(isUser){
             setShowWriteComment(true);
             setShowLogin(false)
         }
