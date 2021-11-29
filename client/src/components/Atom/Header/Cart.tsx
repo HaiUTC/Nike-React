@@ -5,10 +5,10 @@ import { useAppSelector } from '../../../redux/hook'
 import LoginModal from '../../Templete/Modal/LoginModal'
 
 const Cart = () => {
-    const [isUser] = useContext(UserContext)
+    const {isUser} = useContext(UserContext)
     const [isClick,setIsClick] = useState(false)
     const checkUser = (e) => {
-        if(!isUser){
+        if(!isUser[0]){
             e.preventDefault();
             setIsClick(true)
         }

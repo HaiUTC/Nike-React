@@ -9,7 +9,7 @@ const LoginModal = dynamic(() => import("../../Templete/Modal/LoginModal"),{ ssr
 
 
 const ButtonAddProduct = ({urlImage,name,title,size,price,haveSize,color,productId}) => {
-    const [isUser] = useContext(UserContext)
+    const {isUser} = useContext(UserContext)
     const [addProductTocart, {loading : _addProductTocartLoading}] = useAddProductToCartMutation()
 
     const numCart = useAppSelector((state) => state.countNumber.numCart);
@@ -24,7 +24,7 @@ const ButtonAddProduct = ({urlImage,name,title,size,price,haveSize,color,product
 
 
     const addTocart = async () => {
-        if(isUser){
+        if(isUser[0]){
             if(size=== 0){ haveSize(false) }
             else{
                 const response = await addProductTocart({

@@ -8,10 +8,9 @@ import ReviewModal from "../Templete/Modal/ReviewModal";
 const WriteComment = () => {
     const [showWriteComment, setShowWriteComment] = useState(false);
     const [showLogin, setShowLogin] = useState(false)
-    const [isUser] = useContext(UserContext)
-    const {data} = useMyProfileQuery()
+    const {isUser} = useContext(UserContext)
     const showWriteCmt = () => {
-        if(isUser){
+        if(isUser[0]){
             setShowWriteComment(true);
             setShowLogin(false)
         }

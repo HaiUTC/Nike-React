@@ -1,3 +1,4 @@
+import { useState } from "react";
 import dynamic from 'next/dynamic'
 import { useRouter } from "next/router";
 import Head from 'next/head'
@@ -6,18 +7,28 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { addApolloState, initializeApollo } from "../../libs/apolloClient";
 import { AllProductIdsDocument, AllProductIdsQuery, GetProductIdDocument, GetProductIdQuery, useGetProductIdQuery } from "../../generated/graphql";
 import {limit} from '../w/index'
+import ListComment from "../../components/Molec/Comment/ListComment";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import {hideListComment} from "../../redux/Comment/showListComment";
 const LoadingPage = dynamic(() => import("../../components/Atom/LoadingPage"),{ ssr: false })
 const ListImageProduct = dynamic(() => import("../../components/Atom/ListImageProduct"),{ ssr: false })
 const TitleProduct = dynamic(() => import("../../components/Atom/TitleProduct"),{ ssr: false })
 const ProductInfomation = dynamic(() => import("../../components/Organ/Product/ProductInfomation"),{ ssr: false })
-import { useState } from "react";
 const DetailProduct = () => {
     const router = useRouter();
+    const dispatch = useAppDispatch()
+
+    const isShowListComment = useAppSelector((state) => state.showList.isShow);
+    console.log(isShowListComment)
     const [indexPoster, setIndexPoster] = useState(0)
+
     const changeIndexPoster = (newIndex) =>  setIndexPoster(newIndex)
+    const handleCloseListComment = () => { dispatch(hideListComment())}
+
 	const id = router.query.productStruction.toString().split("&id=")[1]
-	const {data, loading, error} = useGetProductIdQuery({
-        variables : {id },
+
+	const {data, loading} = useGetProductIdQuery({
+        variables : {id }
     })
 	const { GetProductId } = data
     return (
@@ -45,7 +56,12 @@ const DetailProduct = () => {
                     </div>
 
                 {/* product same */}
-              
+
+
+
+                {/* List comment */}
+                {isShowListComment && <ListComment handleCloseListComment={handleCloseListComment}/>}
+                
                 </div>
             </Layout>
         </>

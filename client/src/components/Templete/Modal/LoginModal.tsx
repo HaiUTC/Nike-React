@@ -9,15 +9,13 @@ import { useState } from "react";
 import RegisterModal from './RegisterModal'
 import ForgetModal from "./ForgetModal";
 import { initializeApollo } from "../../../libs/apolloClient";
-import { useAppDispatch } from "../../../redux/hook";
-import { changeNumCart } from "../../../redux/Cart/countNumber";
+
 
 const validationSchema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
     password: yup.string().required('Password is required'),
 })
 const LoginModal = ({handleClose}) => {
-    const dispatch = useAppDispatch()
     const [openRegister, setOpenRegister] = useState(false)
     const [openForgot, setOpenForgot] = useState(false)
     const [loginUser, {loading : _loginUserLoading}] = useLoginMutation()
