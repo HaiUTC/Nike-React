@@ -11,14 +11,17 @@ const Transition = React.forwardRef(function Transition(props: TransitionProps, 
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
-const ListComment = ({handleCloseListComment}) => {
+const ListComment = props => {
     return (
         <Dialog fullScreen open={true} TransitionComponent={Transition}>
-            <div className='px-4'><HeaderListCommnent handleCloseListComment={handleCloseListComment}/></div>
+            <div className='px-4'><HeaderListCommnent handleCloseListComment={props.handleCloseListComment}/></div>
             <div className="overflow-scroll h-full">
                 <div className='px-60'>
-                    <TitleListComment lengthComment={10} reviewRating={5} />
-                    <Comment />
+                    <TitleListComment lengthComment={props.lengthComment} reviewRating={props.reviewRating} />
+                    {props.dataComment.map(item => (
+                        <Comment key={item.createdAt} item={item}/>
+                    ))}
+                    
                 </div>
             </div>
         </Dialog>

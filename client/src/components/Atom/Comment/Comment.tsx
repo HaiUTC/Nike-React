@@ -2,13 +2,11 @@ import React from 'react';
 import MainComment from './MainComment';
 
 
-const Comment = () => {
+const Comment = (props) => {
     return (
             
         <div>
-            <MainComment 
-           
-            />
+            <MainComment item={props.item}/>
         </div>
     );
 }

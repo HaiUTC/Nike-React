@@ -4,7 +4,7 @@ import ActionComment from "./ActionComment";
 import ReplyComment from "./ReplyComment";
 
 
-const MainComment = () => {
+const MainComment = (props) => {
     const [showReply, setShowReply] = useState(false)
     const showReplyOptions = (value) => {
         setShowReply(value)
@@ -13,13 +13,18 @@ const MainComment = () => {
         <div className='grid grid-cols-12 gap-4 py-10'>
                 {/* Main Comment */}
             <div className='col-span-1 pt-6'>
-                <img className='h-10 w-10 rounded-full' alt='text'/>
+                <img className='h-10 w-10 rounded-full' src={props.item.user.avatar} alt='text'/>
             </div>
             <div className='col-span-11 '>
-                <UserComment 
-                    
+                <UserComment item={props.item}/>
+                <ActionComment 
+                    typeAction={'main'} 
+                    showReplyOptions={showReplyOptions} 
+                    showReply={showReply} 
+                    replyLength={0} 
+                    like={props.item.like}
+                    dislike={props.item.dislike}
                 />
-                <ActionComment typeAction={'main'} showReplyOptions={showReplyOptions} showReply={showReply} replyLength={0}/>
                 {/* Reply Comment if user click btn reply ---TODO */}
                {showReply &&  <ReplyComment 
                    

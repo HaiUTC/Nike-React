@@ -6,6 +6,9 @@ export class PaginatedCommentResponse {
     @Field()
     totalCount!: number
 
+	@Field()
+    reviewRating!: number
+
     @Field(_type => Date)
 	cursor!: number|Date
 

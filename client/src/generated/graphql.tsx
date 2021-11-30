@@ -128,6 +128,24 @@ export type CollectionMutationResponse = IMutationResponse & {
   success: Scalars['Boolean'];
 };
 
+export type Comment = {
+  __typename?: 'Comment';
+  content: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  dislike: Scalars['Float'];
+  editComment?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  like: Scalars['Float'];
+  product: Product;
+  productId: Scalars['String'];
+  reply: Array<ReplyComment>;
+  star: Scalars['Float'];
+  title: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
+  userId: Scalars['Float'];
+};
+
 export type CreateAddressInput = {
   commune: Scalars['String'];
   detail: Scalars['String'];
@@ -315,6 +333,15 @@ export type MutationUpdateProductArgs = {
   productInput: ProductUpdateInput;
 };
 
+export type PaginatedCommentResponse = {
+  __typename?: 'PaginatedCommentResponse';
+  cursor: Scalars['DateTime'];
+  hasMore: Scalars['Boolean'];
+  paginatedComments: Array<Comment>;
+  reviewRating: Scalars['Float'];
+  totalCount: Scalars['Float'];
+};
+
 export type PaginatedProductResponse = {
   __typename?: 'PaginatedProductResponse';
   cursor: Scalars['DateTime'];
@@ -415,6 +442,7 @@ export type Query = {
   GetCartOfUser: Cart;
   GetCategoryId?: Maybe<Category>;
   GetCollectionId?: Maybe<Collection>;
+  GetComment?: Maybe<PaginatedCommentResponse>;
   GetProductByCategoryAndCollection?: Maybe<PaginatedProductResponse>;
   GetProductId?: Maybe<Product>;
   MyProfile?: Maybe<User>;
@@ -441,6 +469,13 @@ export type QueryGetCategoryIdArgs = {
 
 export type QueryGetCollectionIdArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryGetCommentArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  productId: Scalars['ID'];
 };
 
 
@@ -471,6 +506,20 @@ export type RegisterInput = {
   gender: Scalars['String'];
   lastName: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type ReplyComment = {
+  __typename?: 'ReplyComment';
+  commentId: Scalars['Float'];
+  content: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  dislike: Scalars['Float'];
+  editComment?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  like: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
+  userId: Scalars['Float'];
 };
 
 export type UpdateAddressInput = {
@@ -584,6 +633,15 @@ export type GetCartOfUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCartOfUserQuery = { __typename?: 'Query', GetCartOfUser: { __typename?: 'Cart', userId: number, total?: number | null | undefined, quantity?: number | null | undefined, cartItems?: Array<{ __typename?: 'CartItem', size: number, quantity: number, color: string, discount: number, monney: number, product?: { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined }> | null | undefined } };
+
+export type GetCommentQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  productId: Scalars['ID'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetCommentQuery = { __typename?: 'Query', GetComment?: { __typename?: 'PaginatedCommentResponse', totalCount: number, reviewRating: number, cursor: any, hasMore: boolean, paginatedComments: Array<{ __typename?: 'Comment', title: string, content: string, star: number, createdAt: any, like: number, dislike: number, user: { __typename?: 'User', name: string, avatar: string }, reply: Array<{ __typename?: 'ReplyComment', content: string, like: number, dislike: number, user: { __typename?: 'User', name: string, avatar: string } }> }> } | null | undefined };
 
 export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1056,6 +1114,67 @@ export function useGetCartOfUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetCartOfUserQueryHookResult = ReturnType<typeof useGetCartOfUserQuery>;
 export type GetCartOfUserLazyQueryHookResult = ReturnType<typeof useGetCartOfUserLazyQuery>;
 export type GetCartOfUserQueryResult = Apollo.QueryResult<GetCartOfUserQuery, GetCartOfUserQueryVariables>;
+export const GetCommentDocument = gql`
+    query GetComment($limit: Int!, $productId: ID!, $cursor: String) {
+  GetComment(productId: $productId, limit: $limit, cursor: $cursor) {
+    totalCount
+    reviewRating
+    cursor
+    hasMore
+    paginatedComments {
+      title
+      content
+      star
+      createdAt
+      like
+      dislike
+      user {
+        name
+        avatar
+      }
+      reply {
+        content
+        like
+        dislike
+        user {
+          name
+          avatar
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCommentQuery__
+ *
+ * To run a query within a React component, call `useGetCommentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCommentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCommentQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      productId: // value for 'productId'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useGetCommentQuery(baseOptions: Apollo.QueryHookOptions<GetCommentQuery, GetCommentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCommentQuery, GetCommentQueryVariables>(GetCommentDocument, options);
+      }
+export function useGetCommentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCommentQuery, GetCommentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCommentQuery, GetCommentQueryVariables>(GetCommentDocument, options);
+        }
+export type GetCommentQueryHookResult = ReturnType<typeof useGetCommentQuery>;
+export type GetCommentLazyQueryHookResult = ReturnType<typeof useGetCommentLazyQuery>;
+export type GetCommentQueryResult = Apollo.QueryResult<GetCommentQuery, GetCommentQueryVariables>;
 export const MyProfileDocument = gql`
     query MyProfile {
   MyProfile {

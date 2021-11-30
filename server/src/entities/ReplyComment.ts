@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Comment } from "./Comment";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
@@ -16,6 +16,10 @@ export class ReplyComment extends BaseEntity {
     @Field()
     @Column()
     userId!: number
+
+    @Field(_type => User)
+    @ManyToOne(()=> User, user => user.comments)
+    user : User
 
     @Field()
     @Column()
@@ -33,11 +37,6 @@ export class ReplyComment extends BaseEntity {
     @Field({ defaultValue : false})
     @Column({default : false})
     editComment!: boolean
-
-    @Field(() => [Comment])
-    @Column({type : 'json'})
-    reply : Comment[]
-
 
     @Field()
     @CreateDateColumn({type: "timestamptz"})

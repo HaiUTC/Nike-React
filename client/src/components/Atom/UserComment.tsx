@@ -1,8 +1,9 @@
 import StarRatings from "react-star-ratings";
-const UserComment = () => {
+import changeDateTime from '../../utils/changeDateTime'
+const UserComment = ({item}) => {
     return (
-        <div className='flex flex-col relative py-6' >
-            <div><span className='text-base text-black-500 helve py-1'>Great shoes</span></div>
+        <div className='flex flex-col relative' >
+            <div><span className='text-base text-black-500 helve py-1'>{item.title}</span></div>
             <div className='flex justify-start items-center pb-2'>
                 <div className='flex items-center'>
                     <StarRatings 
@@ -11,15 +12,15 @@ const UserComment = () => {
                         starHoverColor="black"
                         starSpacing="2px"
                         numberOfStars={5}
-                        rating={5}
+                        rating={item.star}
                     />
                 </div>
 
-                <div className='pl-6 text-base text-gray-500'><span>Alex_rod - Nov 28, 2021</span></div>
+                <div className='pl-6 text-base text-gray-500'><span>{changeDateTime(item.user.name,item.createdAt)}</span></div>
             </div>
 
             <div>
-                <p className='text-base m-0'>These shoes are stylish and can go with almost anything. I recommend getting a pair!</p>
+                <p className='text-base m-0'>{item.content}</p>
             </div>
             {/* {showActive===true && socket!==undefined && <div className='absolute right-0 cursor-pointer p-2' onClick={showActionDetail}>
                 <span className='text-3xl font-extrabold'>&#8942;</span>

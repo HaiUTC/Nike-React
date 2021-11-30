@@ -10,13 +10,19 @@ const UserContextProvider = (props) => {
     const [countUserOnline, setCountUserOnline] = useState(null)
 
     const {data, loading} = useMyProfileQuery()
-    const [user,setUser] = useState({data : null})
+    const [user,setUser] = useState(null)
     const [isUser, setIsUser] = useState(false)
 
     //Join room
     useEffect(()=>{
         if(socket) socket.emit('countUserOnline',1111)
     },[socket])
+
+    //get data user
+    useEffect(() => {
+        console.log('get data user')
+        setUser(data)
+    },[loading])
 
     //Sum accout online
 

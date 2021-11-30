@@ -1,0 +1,29 @@
+query GetComment($limit : Int!,$productId : ID!,$cursor : String) {
+    GetComment(productId : $productId, limit : $limit, cursor : $cursor){
+        totalCount
+        reviewRating
+        cursor
+        hasMore
+        paginatedComments{
+            title
+            content
+            star
+            createdAt
+            like
+            dislike
+            user{
+                name
+                avatar
+            }
+            reply{
+                content
+                like
+                dislike
+                user{
+                    name
+                    avatar
+                }
+            }
+        }
+    }
+} 

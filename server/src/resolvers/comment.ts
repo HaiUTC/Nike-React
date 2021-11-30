@@ -28,7 +28,7 @@ export class CommentResolver {
         @Arg('productId',_type=> ID) productId : number,
         @Arg('limit', _type => Int, {nullable : true}) limit ?: number,
         @Arg('cursor', { nullable: true }) cursor?: string,
-       // @Arg('sort', {nullable : true}) sort?: string,
+    //    @Arg('sort', {nullable : true}) sort?: string,
     ): Promise<PaginatedCommentResponse | undefined>{
         try {
             let order = {createdAt: 'DESC'}
@@ -44,8 +44,11 @@ export class CommentResolver {
 				lastComment = await Comment.find({ order : {createdAt : 'ASC'}, take: 1})
 			}
             const listComment = await Comment.find(findOptions)
+            const product = await Product.findOne({id : productId})
+            const reviewRating = (product && product.numberReview > 0) ? product.rating / product.numberReview : 0
             return {
                 totalCount,
+                reviewRating,
                 cursor: listComment[listComment.length-1].createdAt,
                 hasMore : cursor
                 ? listComment[listComment.length - 1].createdAt.toString() !== lastComment[0]?.createdAt.toString()

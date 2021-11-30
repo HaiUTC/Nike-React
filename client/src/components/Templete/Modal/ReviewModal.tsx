@@ -5,23 +5,35 @@ import { useState } from "react";
 import StarRatings from "react-star-ratings";
 import ButtonSubmit from '../../Atom/Button'
 import * as yup from 'yup';
-import { number } from "yup/lib/locale";
 import { FormInputAtom } from "../../Atom/Form/FormInput";
+import { useAppDispatch } from "../../../redux/hook";
+import {showListComment} from "../../../redux/Comment/showListComment";
 const validationSchema = yup.object({
     reviewTitle: yup.string().required('Review Title is required'),
-    reviewContent: yup.string().required('Review is required'),
+    reviewContent: yup.string().required('Review Content is required'),
 })
-const ReviewModal = ({handleCloseModal}) => {
+const ReviewModal = (props) => {
+    const dispath = useAppDispatch()
     const [rating, setRating] = useState(5);
     const changeRating = (newRating) => setRating(newRating)
     const initialValues = {star : 5, reviewTitle : "", reviewContent: ""}
     const formik = useFormik({
         initialValues,
         validationSchema: validationSchema,
-        onSubmit : () =>{}
+        onSubmit : async (values) =>{
+            props.socket.emit("userCreateComment" ,{
+                productId : props.productId,
+                title : values.reviewTitle.trim(),
+                content : values.reviewContent.trim(),
+                star : rating,
+                userId : props.user[0].MyProfile.id
+            })
+            props.handleCloseModal()
+            dispath(showListComment())
+        }
     })
     return (
-        <Dialog open={true} maxWidth="md" scroll='body' onClose={handleCloseModal}>
+        <Dialog open={true} maxWidth="md" scroll='body' onClose={props.handleCloseModal}>
             <DialogTitle id="alert-dialog-title">
             <div className="flex flex-col items-center">
                 <div><Image src='/static/icons/logo.svg' width="60px" height="60px"/></div>
@@ -29,17 +41,17 @@ const ReviewModal = ({handleCloseModal}) => {
             </div>
             </DialogTitle>
             <DialogContent>
-                    <form>
+                    <form onSubmit={formik.handleSubmit}>
                         <div className="py-10">
                             <span id='title_required' className="text-lg pr-20">Rating : </span>
                             <StarRatings
-                            starDimension="25px"
-                            starRatedColor="black"
-                            starHoverColor="black"
-                            starSpacing="3px"
-                            numberOfStars={5}
-                            changeRating={changeRating}
-                            rating={rating}
+                                starDimension="25px"
+                                starRatedColor="black"
+                                starHoverColor="black"
+                                starSpacing="3px"
+                                numberOfStars={5}
+                                changeRating={changeRating}
+                                rating={rating}
                             />
                         </div>
                         <div className="grid grid-cols-12 gap-2">
@@ -58,7 +70,7 @@ const ReviewModal = ({handleCloseModal}) => {
                             </div>
                         </div>
                         <div className="grid grid-cols-12 gap-2 pt-8">
-                            <span id='title_required' className="text-lg pr-4 col-span-2">Review : </span>
+                            <span id='title_required' className="text-lg pr-4 col-span-2">Review: </span>
                             <div className='col-span-10'>
                                 <FormInputAtom
                                     focus="true" 

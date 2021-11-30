@@ -65,23 +65,23 @@ export const RunSocket = ( io : Server )  => {
         //Create Comment
         socket.on('userCreateComment', async (msg) => {
           try {
-            const {productId, title, content,star,send,_commentId,_userId} = msg
-            const user = await User.findByIds(_userId)
+            const {productId, title, content,star,send,commentId,userId} = msg
+            console.log(msg)
+            const user = await User.findOne(userId)
             const product = await Product.findOne(productId)
-            if(user){
+            if(user){ 
               const newComment = await Comment.create({
-                userId : _userId,
-                productId : productId,
+                userId,
+                productId,
                 title,
                 content,
                 star
               })
-              let numberReview = 0
-              if(product) numberReview = product.numberReview
+              const numberReview = product?.numberReview
               const rating = product?.rating
               const data = {
                 rating : star > 0 ? rating + star : rating,
-                numReview : star > 0 ? numberReview + 1 : numberReview
+                numReview : numberReview !== undefined && star > 0 ? numberReview + 1 : numberReview
               }
               await getConnection()
               .createQueryBuilder()
@@ -92,12 +92,12 @@ export const RunSocket = ( io : Server )  => {
 
               if(send === 'replyComment'){
                 const replyComment = await ReplyComment.create({
-                  commentId : _commentId,
-                  userId : _userId,
+                  commentId,
+                  userId,
                   content
                 })
 
-                const comment = await Comment.findOne(_commentId)
+                const comment = await Comment.findOne(commentId)
                 if(comment){
                   comment.reply.push(replyComment)
                   await comment.save()
@@ -106,11 +106,10 @@ export const RunSocket = ( io : Server )  => {
               }
               else{
                 await newComment.save()
-                const dataComment = await Comment.find(productId)
+                const dataComment = await Comment.find({productId})
                 const resultData = {
                   length : dataComment.length,
                   comment : newComment,
-                  product : product,
                   reviewRating : product ? (product.numberReview > 0 && product.rating > 0) ? (product.rating / product.numberReview) : 0 : null,
                 }
                 io.to(newComment.productId).emit("ServerUserCreateComment", resultData)
@@ -119,7 +118,7 @@ export const RunSocket = ( io : Server )  => {
             else{
               const noUsers = {
                 accountDelete: true,
-                _userId
+                userId
               }
               io.sockets.emit("serverDeleteAccount", noUsers);
             }
@@ -148,7 +147,7 @@ export const RunSocket = ( io : Server )  => {
               //delete if have reply
               if(dataReply){
                 for(let i = 0 ; i < dataReply.length ; i++){
-                  const dataReplyComment = dataReply[i]
+                const dataReplyComment = dataReply[i]
                   const reply = Array.from(dataReply[i].reply)
                   if(reply.length > 0) {
                     for(let j=0;j<reply.length;j++){
@@ -223,7 +222,7 @@ export const RunSocket = ( io : Server )  => {
                   if(dataReply){
                       for(let i=0;i<dataReply.length;i++){
                           const dataReplyComment = dataReply[i]
-                          const reply = Array.from(dataReply[i].reply)
+                          const reply = Array.from(dataReply[i].reply) 
                           if(reply.length > 0) {
                             for(let j=0;j<reply.length;j++){
                               const element: ReplyComment = reply[j]
@@ -301,4 +300,4 @@ export const RunSocket = ( io : Server )  => {
     })
 
     
-}
+  }
