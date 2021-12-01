@@ -132,15 +132,15 @@ export const RunSocket = ( io : Server )  => {
           try {
             const { id, productId, userId} = msg;
             const user = await User.findOne({id : userId});
-            const dataReply = await Comment.find(productId)
+            const dataReply = await Comment.find({productId})
             if(user){
+              const comment = await Comment.findOne(id)
               await getConnection()
               .createQueryBuilder()
               .delete()
               .from(Comment)
               .where("id = :id", { id })
               .execute();
-              const comment = await Comment.findOne(id)
             
               const product = await Product.findOne(productId)
 
@@ -191,8 +191,7 @@ export const RunSocket = ( io : Server )  => {
                 const resultData = {
                   length : dataComment.length,
                   comment : comment,
-                  product : product,
-                  reviewRating : product ? (product.numberReview > 0 && product.rating > 0) ? (product.rating / product.numberReview) : 0 : 0,
+                  reviewRating : product ? (product.numberReview > 0 && product.rating > 0) ? (product.rating / product.numberReview) : 0 : null,
                 }
                 io.to(productId).emit('ServerUserDeleteComment', resultData)
                 }

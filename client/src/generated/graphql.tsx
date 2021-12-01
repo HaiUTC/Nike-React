@@ -641,7 +641,7 @@ export type GetCommentQueryVariables = Exact<{
 }>;
 
 
-export type GetCommentQuery = { __typename?: 'Query', GetComment?: { __typename?: 'PaginatedCommentResponse', totalCount: number, reviewRating: number, cursor: any, hasMore: boolean, paginatedComments: Array<{ __typename?: 'Comment', title: string, content: string, star: number, createdAt: any, like: number, dislike: number, user: { __typename?: 'User', name: string, avatar: string }, reply: Array<{ __typename?: 'ReplyComment', content: string, like: number, dislike: number, user: { __typename?: 'User', name: string, avatar: string } }> }> } | null | undefined };
+export type GetCommentQuery = { __typename?: 'Query', GetComment?: { __typename?: 'PaginatedCommentResponse', totalCount: number, reviewRating: number, cursor: any, hasMore: boolean, paginatedComments: Array<{ __typename?: 'Comment', id: string, title: string, content: string, star: number, createdAt: any, like: number, dislike: number, user: { __typename?: 'User', id: string, name: string, avatar: string }, reply: Array<{ __typename?: 'ReplyComment', content: string, like: number, dislike: number, user: { __typename?: 'User', id: string, name: string, avatar: string } }> }> } | null | undefined };
 
 export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1122,6 +1122,7 @@ export const GetCommentDocument = gql`
     cursor
     hasMore
     paginatedComments {
+      id
       title
       content
       star
@@ -1129,6 +1130,7 @@ export const GetCommentDocument = gql`
       like
       dislike
       user {
+        id
         name
         avatar
       }
@@ -1137,6 +1139,7 @@ export const GetCommentDocument = gql`
         like
         dislike
         user {
+          id
           name
           avatar
         }

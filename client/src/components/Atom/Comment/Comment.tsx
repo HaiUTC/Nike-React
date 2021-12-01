@@ -3,10 +3,14 @@ import MainComment from './MainComment';
 
 
 const Comment = (props) => {
-    return (
-            
+    return ( 
         <div>
-            <MainComment item={props.item}/>
+            <MainComment 
+                item={props.item}
+                socket={props.socket}
+                user={props.user}
+                productId={props.productId}
+            />
         </div>
     );
 }

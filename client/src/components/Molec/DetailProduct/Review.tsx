@@ -41,7 +41,14 @@ const Review = (props) => {
                     {!isEmpty(props.dataComment) && (
                         <>
                             {props.dataComment.slice(0,3).map(item => (
-                                <div className='py-6' key={item.createdAt}><UserComment item={item}/></div>
+                                <div className='py-6' key={item.createdAt}>
+                                    <UserComment 
+                                        item={item}
+                                        productId={props.productId}
+                                        socket={props.socket}
+                                        user={props.user}
+                                    />
+                                </div>
                             ))}
                             <div className='pb-20 pt-4'>
                                 <button className="cursor-pointer py-1 border-b-2 border-black text-base" onClick={showListCommentClick}>More Reviews</button>

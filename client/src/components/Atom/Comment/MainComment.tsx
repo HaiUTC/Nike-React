@@ -6,9 +6,7 @@ import ReplyComment from "./ReplyComment";
 
 const MainComment = (props) => {
     const [showReply, setShowReply] = useState(false)
-    const showReplyOptions = (value) => {
-        setShowReply(value)
-    }
+    const showReplyOptions = (value) => { setShowReply(value) }
     return (
         <div className='grid grid-cols-12 gap-4 py-10'>
                 {/* Main Comment */}
@@ -16,7 +14,12 @@ const MainComment = (props) => {
                 <img className='h-10 w-10 rounded-full' src={props.item.user.avatar} alt='text'/>
             </div>
             <div className='col-span-11 '>
-                <UserComment item={props.item}/>
+                <UserComment 
+                    item={props.item}
+                    socket={props.socket}
+                    user={props.user}
+                    productId={props.productId}
+                />
                 <ActionComment 
                     typeAction={'main'} 
                     showReplyOptions={showReplyOptions} 

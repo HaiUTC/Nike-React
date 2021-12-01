@@ -19,7 +19,13 @@ const ListComment = props => {
                 <div className='px-60'>
                     <TitleListComment lengthComment={props.lengthComment} reviewRating={props.reviewRating} />
                     {props.dataComment.map(item => (
-                        <Comment key={item.createdAt} item={item}/>
+                        <Comment 
+                            key={item.createdAt} 
+                            item={item}
+                            socket={props.socket}
+                            user={props.user}
+                            productId={props.productId}
+                        />
                     ))}
                     
                 </div>

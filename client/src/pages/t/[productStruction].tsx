@@ -70,12 +70,12 @@ const DetailProduct = () => {
   });
 
   useEffect(() => {
-    if(_dataComment){
-      setDataComment(_dataComment?.GetComment.paginatedComments)
-      setLengthComment(_dataComment?.GetComment.totalCount)
-      setReviewRating(_dataComment?.GetComment.reviewRating)
+    if( _dataComment){
+      setDataComment(_dataComment?.GetComment?.paginatedComments || [])
+      setLengthComment(_dataComment?.GetComment?.totalCount || 0)
+      setReviewRating(_dataComment?.GetComment?.reviewRating || 0)
     }
-  },[_loadingComment])
+  },[lengthComment || _loadingComment])
 
 
   //join room
@@ -89,16 +89,31 @@ const DetailProduct = () => {
   useEffect(() => {
     if (socket) {
       socket.on("ServerUserCreateComment", (msg) => {
+        console.log('create')
         const { comment, length, reviewRating } = msg;
-        if (msg) {
-          setDataComment([comment, ...dataComment]);
-          setLengthComment(length);
-          setReviewRating(reviewRating);
-        }
+        setDataComment([comment, ...dataComment]);
+        setLengthComment(length);
+        setReviewRating(reviewRating);
       });
       return () => socket.off("ServerUserCreateComment");
     }
   }, [dataComment, socket]);
+
+   //delete comment
+   useEffect(() => {
+    if(socket){
+      socket.on('ServerUserDeleteComment', data => {
+        const dataCmt = [...dataComment]
+        const index = dataCmt.findIndex(item => item.id === data.comment.id)
+        dataCmt.splice(index,1)
+        setLengthComment(data.length)
+        setDataComment(dataCmt)
+        setReviewRating(data.reviewRating)
+      })
+      return () => socket.off('ServerUserDeleteComment')
+    }
+  },[socket,dataComment])
+
   return (
     <>
       <Head>
@@ -158,6 +173,10 @@ const DetailProduct = () => {
               lengthComment={lengthComment}
               reviewRating={reviewRating}
               dataComment={dataComment}
+              //socket
+              user={user}
+              socket={socket}
+              productId={id}
             />
           }
         </div>

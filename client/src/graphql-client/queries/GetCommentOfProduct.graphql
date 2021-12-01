@@ -5,6 +5,7 @@ query GetComment($limit : Int!,$productId : ID!,$cursor : String) {
         cursor
         hasMore
         paginatedComments{
+            id
             title
             content
             star
@@ -12,6 +13,7 @@ query GetComment($limit : Int!,$productId : ID!,$cursor : String) {
             like
             dislike
             user{
+                id
                 name
                 avatar
             }
@@ -20,6 +22,7 @@ query GetComment($limit : Int!,$productId : ID!,$cursor : String) {
                 like
                 dislike
                 user{
+                    id
                     name
                     avatar
                 }

@@ -29,7 +29,7 @@ const ReviewModal = (props) => {
                 userId : props.user[0].MyProfile.id
             })
             props.handleCloseModal()
-            dispath(showListComment())
+            // dispath(showListComment())
         }
     })
     return (
