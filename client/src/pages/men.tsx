@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 const CategoryHeaderSelect = dynamic(() => import('../components/Atom/CategoryHeaderSelect'),{ ssr: false })
 const CategoryContent = dynamic(() => import('../components/Templete/ContentLikeTrending/CategoryContent'),{ ssr: false })
 const Layout = dynamic(() => import('../components/Templete/Layout/Layout'),{ ssr: false })
-const ListProductShowUp = dynamic(() => import('../components/Templete/ListProductShowUp/ListProductShowUp'),{ ssr: false })
+const ListProductShowUp = dynamic(() => import('../components/Templete/ListProductShowUp/ListProductShowUp'))
 const Main = dynamic(() => import('../components/Templete/Main/Main'),{ ssr: false })
 
 const Men = ({contentTrending,contentMoreNike,contentMain,listProduct,headerData}) => {

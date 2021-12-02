@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Comment } from "./Comment";
 import { User } from "./User";
 
 @ObjectType()
@@ -53,4 +54,8 @@ export class ReplyComment extends BaseEntity {
     @Field()
     @UpdateDateColumn({type: "timestamptz"})
     updatedAt : Date
+
+    @Field(_type => Comment)
+    @ManyToOne(() => Comment, comment => comment.replys)
+    comment: Comment
 }

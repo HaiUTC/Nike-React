@@ -2,8 +2,8 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 const Layout = dynamic(() => import('../components/Templete/Layout/Layout'),{ ssr: false })
 const Main = dynamic(() => import('../components/Templete/Main/Main'),{ ssr: false })
-const ListProductShowUp = dynamic(() => import('../components/Templete/ListProductShowUp/ListProductShowUp'),{ ssr: false })
-const CategoryContent = dynamic(() => import('../components/Templete/ContentLikeTrending/CategoryContent'),{ ssr: false })
+const ListProductShowUp = dynamic(() => import('../components/Templete/ListProductShowUp/ListProductShowUp'))
+const CategoryContent = dynamic(() => import('../components/Templete/ContentLikeTrending/CategoryContent'))
 
 const Index = ({contentTrending,contentMoreNike,contentMain,listProduct}) => (
   <>

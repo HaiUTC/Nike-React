@@ -1,16 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { cloneDeep } from 'lodash'
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Layout from "../../components/Templete/Layout/Layout";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { addApolloState, initializeApollo } from "../../libs/apolloClient";
 import { UserContext } from "../../libs/UserContext";
 import {
-  AllProductIdsDocument,
-  AllProductIdsQuery,
   GetProductIdDocument,
-  GetProductIdQuery,
   useGetCommentQuery,
   useGetProductIdQuery,
 } from "../../generated/graphql";
@@ -33,10 +31,12 @@ const ProductInfomation = dynamic(
   () => import("../../components/Organ/Product/ProductInfomation"),
   { ssr: false }
 );
+
+let id = ""
 const DetailProduct = () => {
   //define
   const router = useRouter();
-  const id = router.query.productStruction.toString().split("&id=")[1];
+  id = router.query.productStruction.toString().split("&id=")[1];
   const dispatch = useAppDispatch();
 
   //socket, redux
@@ -59,10 +59,8 @@ const DetailProduct = () => {
 
   //get product
   const { data, loading } = useGetProductIdQuery({
-    variables: { id },
+    variables: { id : id as string },
   });
-  const { GetProductId } = data;
-
   //get comment
   const { data: _dataComment, loading: _loadingComment } = useGetCommentQuery({
     variables: {
@@ -89,6 +87,7 @@ const DetailProduct = () => {
   useEffect(() => {
     if (socket) {
       socket.on("ServerUserCreateComment", (msg) => {
+        console.log(msg)
         const { comment, length, reviewRating } = msg;
         setDataComment([comment, ...dataComment]);
         setLengthComment(length);
@@ -97,6 +96,25 @@ const DetailProduct = () => {
       return () => socket.off("ServerUserCreateComment");
     }
   }, [dataComment, socket]);
+
+   //create reply comment
+   useEffect(()=>{
+    if(socket){
+      socket.on('ServerUserCreateCommentReply', msg => {
+        if(msg){
+          const index = dataComment.findIndex(cmt => cmt.id  === msg.newReply.commentId)
+          if(index !== -1) {
+            let newDataComment = cloneDeep(dataComment)
+            newDataComment[index].replys.push(msg.newReply)
+            setDataComment(newDataComment)
+          }
+          
+        }
+      })
+      return () => socket.off("ServerUserCreateCommentReply")
+    }
+    
+  },[socket,dataComment])
 
    //delete comment
    useEffect(() => {
@@ -130,27 +148,27 @@ const DetailProduct = () => {
         <title>Men's Shoes, Clothing &amp; Accessories. Nike VN</title>
       </Head>
       <Layout>
-        {loading && <LoadingPage />}
+        {loading  ? <LoadingPage /> : 
         <div className="main pt-10 max-w-screen-xl mx-auto">
           <div className="lg:grid lg:grid-cols-12">
             <div className="px-2 md:px-6 pb-10 block lg:hidden">
               <TitleProduct
-                name={GetProductId.name}
-                price={GetProductId.price}
-                title={GetProductId.title}
+                name={data?.GetProductId.name}
+                price={data?.GetProductId.price}
+                title={data?.GetProductId.title}
               />
             </div>
             {/* list image */}
             <div className="col-span-8 px-2 ">
               <ListImageProduct
-                data={GetProductId.poster}
+                data={data?.GetProductId.poster}
                 indexPoster={indexPoster}
               />
             </div>
             {/* user select -name - size -add & favorite -delivery -review(comment)  */}
             <div className="col-span-4 px-2 md:pr-3 md:pl-6">
               <ProductInfomation
-                data={GetProductId}
+                data={data?.GetProductId}
                 changeIndexPoster={changeIndexPoster}
                 dataComment={dataComment}
                 lengthComment={lengthComment}
@@ -179,36 +197,26 @@ const DetailProduct = () => {
             />
           }
         </div>
+        }
       </Layout>
     </>
   );
 };
-export const getStaticPaths: GetStaticPaths = async () => {
-  const apolloClient = initializeApollo();
 
-  const { data } = await apolloClient.query<AllProductIdsQuery>({
-    query: AllProductIdsDocument,
-    variables: { limit },
-  });
+export const getServerSideProps: GetServerSideProps = async (
+	context: GetServerSidePropsContext
+) => {
+	const apolloClient = initializeApollo({ headers: context.req.headers })
 
-  return {
-    paths: data.GetAllProducts!.paginatedProducts.map((product) => ({
-      params: { productStruction: `${product.id}` },
-    })),
-    fallback: "blocking",
-  };
-};
+	await apolloClient.query({
+		query: GetProductIdDocument,
+		variables: { id : id},
+	})
 
-export const getStaticProps: GetStaticProps<
-  { [key: string]: any },
-  { productStruction: string }
-> = async ({ params }) => {
-  const apolloClient = initializeApollo();
-  await apolloClient.query<GetProductIdQuery>({
-    query: GetProductIdDocument,
-    variables: { id: params?.productStruction.split("&id=")[1] },
-  });
+	return addApolloState(apolloClient, {
+		props: {},
+        
+	})
+}
 
-  return addApolloState(apolloClient, { props: {} });
-};
 export default DetailProduct;

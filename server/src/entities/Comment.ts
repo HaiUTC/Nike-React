@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ReplyComment } from "./ReplyComment";
 import { User } from "./User";
 
@@ -22,9 +22,7 @@ export class Comment extends BaseEntity {
     @Column()
     avatar!: string
 
-    @Field(_type => User)
-    @ManyToOne(()=> User, user => user.comments)
-    user : User
+    
 
     @Field()
     @Column()
@@ -55,9 +53,6 @@ export class Comment extends BaseEntity {
     @Column({default : false})
     editComment!: boolean
 
-    @Field(() => [ReplyComment])
-    @Column({type : 'json', default : []})
-    reply : ReplyComment[]
 
     @Field()
     @CreateDateColumn({type: "timestamptz"})
@@ -66,5 +61,13 @@ export class Comment extends BaseEntity {
     @Field()
     @UpdateDateColumn({type: "timestamptz"})
     updatedAt : Date
+
+    @Field(_type => User)
+    @ManyToOne(()=> User, user => user.comments)
+    user : User
+
+    @Field(_type => [ReplyComment])
+    @OneToMany(()=> ReplyComment, reply => reply.comment)
+    replys : ReplyComment[]
 
 }

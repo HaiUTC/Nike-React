@@ -5,6 +5,7 @@ import { Product } from "../entities/Product";
 import { Context } from "../types/Context/Context";
 import { PaginatedCommentResponse } from "../types/Comment/PaginatedCommentResponse";
 import { LessThan } from "typeorm";
+import { ReplyComment } from "../entities/ReplyComment";
 
 @Resolver(_of => Comment)
 export class CommentResolver {
@@ -15,6 +16,13 @@ export class CommentResolver {
         @Ctx() {dataLoaders : {userLoader}} : Context
     ){
         return await userLoader.load(root.userId)
+    }
+
+    @FieldResolver(_return => [ReplyComment])
+    async replys(
+        @Root() root: Comment
+    ){
+        return await ReplyComment.find({commentId : root.id})
     }
 
 

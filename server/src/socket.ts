@@ -67,29 +67,16 @@ export const RunSocket = ( io : Server )  => {
           try {
             const {productId, title, content,star,send,commentId,userId,name,avatar} = msg
             const user = await User.findOne(userId)
-            
-            if(user){ 
-              const newComment = await Comment.create({
-                userId,
-                name,
-                avatar,
-                productId,
-                title,
-                content,
-                star
-              })
-
+            if(user){              
               if(send === 'replyComment'){
-                const replyComment = await ReplyComment.create({commentId,userId,content,name,avatar})
                 const comment = await Comment.findOne(commentId)
                 if(comment){
-                  comment.reply.push(replyComment)
-                  await comment.save()
-                  io.to(comment.productId).emit('ServerUserCreateCommentReply', comment)
+                  const newReply = await ReplyComment.create({commentId,userId,name,avatar,content}).save()
+                  io.to(comment.productId).emit('ServerUserCreateCommentReply', {newReply,commentId})
                 }
               }
               else{
-                await newComment.save()
+                const newComment = await Comment.create({userId,name,avatar,productId,title,content,star}).save()
                 const dataComment = await Comment.find({productId})
                 const product = await Product.findOne(productId)
                 const resultData = {
@@ -115,58 +102,41 @@ export const RunSocket = ( io : Server )  => {
         //Delete Comment
         socket.on('UserDeleteComment', async (msg) => {
           try {
-            const { id, productId, userId} = msg;
+            const { id, productId, userId,send} = msg;
             const user = await User.findOne({id : userId});
-            const dataReply = await Comment.find({productId})
             if(user){
-              const comment = await Comment.findOne(id)
-              await getConnection()
-              .createQueryBuilder()
-              .delete()
-              .from(Comment)
-              .where("id = :id", { id : `${id}`})
-              .execute();
-            
-              const product = await Product.findOne(productId)
-
-              //delete if have reply
-              if(dataReply){
-                for(let i = 0 ; i < dataReply.length ; i++){
-                const dataReplyComment = dataReply[i]
-                  const reply = Array.from(dataReply[i].reply)
-                  if(reply.length > 0) {
-                    for(let j=0;j<reply.length;j++){
-                      const element : ReplyComment = reply[j]
-                      if(element.id ==id) {
-                        await getConnection()
-                        .createQueryBuilder()
-                        .delete()
-                        .from(ReplyComment)
-                        .where("id = :id", { id : element.id })
-                        .execute();
-                        
-                        const data = {
-                          comment : dataReplyComment
-                        }
-                        io.to(dataReplyComment.productId).emit('ServerUserDeleteReplyComment', data)
-                        break
-                      }
-                    }
-                  }
+              //delete if is reply
+              if(send === 'replyComment'){
+                const dataReply = await ReplyComment.findOne(id)
+                if(dataReply){
+                  await getConnection()
+                          .createQueryBuilder()
+                          .delete()
+                          .from(ReplyComment)
+                          .where("id = :id", {id})
+                          .execute();
+                  io.to(dataReply.id).emit('ServerUserDeleteReplyComment', dataReply)
                 }
               }
+              //delete if is comment
+              else{
+                const comment = await Comment.findOne(id)
+                await getConnection()
+                  .createQueryBuilder()
+                  .delete()
+                  .from(Comment)
+                  .where("id = :id", { id : `${id}`})
+                  .execute();
 
-
-              //delete if not reply
-              if(comment){
                 const dataComment = await Comment.find({productId})
+                const product = await Product.findOne(productId)
                 const resultData = {
                   length : dataComment.length,
                   comment : comment,
                   reviewRating : product && product.rating /product?.numberReview
                 }
                 io.to(productId).emit('ServerUserDeleteComment', resultData)
-                }
+              }
             }
             else{
               const noUsers = {
@@ -183,53 +153,41 @@ export const RunSocket = ( io : Server )  => {
         //Edit comment
         socket.on('UserEditComment' ,async (msg) =>{
           try {
-              const {content, id, productId,userId} = msg
+              const {title,content,star, id,userId,send} = msg
               const user = await User.findOne(userId)
               if(user){
-                  const comment = await Comment.findOne(id)
-                  const dataReply = await Comment.find({productId})
-
-                  //Edit reply content
+                if(send === 'replyComment'){
+                  const dataReply = await ReplyComment.findOne(id)
                   if(dataReply){
-                      for(let i=0;i<dataReply.length;i++){
-                          const dataReplyComment = dataReply[i]
-                          const reply = Array.from(dataReply[i].reply) 
-                          if(reply.length > 0) {
-                            for(let j=0;j<reply.length;j++){
-                              const element: ReplyComment = reply[j]
-                              if(element.id===id) {
-                                await getConnection()
-                                .createQueryBuilder()
-                                .update(ReplyComment)
-                                .set({ content })
-                                .where("id = :id", { id: element.id })
-                                .execute();
-                                io.to(dataReplyComment.productId).emit('ServerUserEditReplyComment', dataReplyComment)
-                                break
-                              }
-                            }
-                          }
-                        }
+                    await getConnection()
+                            .createQueryBuilder()
+                            .update(ReplyComment)
+                            .set({ content })
+                            .where("id = :id", { id:id })
+                            .execute();
+                    io.to(dataReply.id).emit('ServerUserEditReplyComment', dataReply)
                   }
-
-                  //Edit no reply
+                }
+                else{
+                  const comment = await Comment.findOne(id)
                   if(comment){
                     await getConnection()
-                    .createQueryBuilder()
-                    .update(Comment)
-                    .set({ content })
-                    .where("id = :id", { id })
-                    .execute();
-                      const resultData = { comment }
-                      io.to(comment.productId).emit("ServerUserEditComment", resultData);
+                      .createQueryBuilder()
+                      .update(Comment)
+                      .set({ content,star,title })
+                      .where("id = :id", { id })
+                      .execute();
+                    const resultData = { comment }
+                    io.to(comment.productId).emit("ServerUserEditComment", resultData);
                   }
+                }
               }
               else{
                   const noUsers = {
                       accountDelete: true,
                       _userId: userId
                     }
-                    io.sockets.emit("serverDeleteAccount", noUsers);
+                  io.sockets.emit("serverDeleteAccount", noUsers);
               }
           } catch (error) {
               console.log(error)

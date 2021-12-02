@@ -15,13 +15,16 @@ query GetComment($limit : Int!,$productId : ID!,$cursor : String) {
             userId
             name
             avatar
-            reply{
+            replys{
+                id
                 userId
+                name
+                avatar
                 content
                 like
                 dislike
-                name
-                avatar
+                createdAt
+                
             }
         }
     }

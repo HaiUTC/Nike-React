@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { GetProductByCategoryAndCollectionDocument, useGetProductByCategoryAndCollectionQuery } from '../../generated/graphql'
 import { addApolloState, initializeApollo } from '../../libs/apolloClient'
 const Layout = dynamic(() => import('../../components/Templete/Layout/Layout'),{ ssr: false })
-const ListProductPerPage = dynamic(() => import('../../components/Templete/ListProductPerPage'),{ ssr: false })
+const ListProductPerPage = dynamic(() => import('../../components/Templete/ListProductPerPage'))
 const LoadingPage = dynamic(() => import('../../components/Atom/LoadingPage'),{ ssr: false })
 import { limit } from './index'
 export let categoryId = 0

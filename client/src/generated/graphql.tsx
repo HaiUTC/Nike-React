@@ -130,17 +130,16 @@ export type CollectionMutationResponse = IMutationResponse & {
 
 export type Comment = {
   __typename?: 'Comment';
-  avatar: Scalars['Float'];
+  avatar: Scalars['String'];
   content: Scalars['String'];
   createdAt: Scalars['DateTime'];
   dislike: Scalars['Float'];
   editComment?: Maybe<Scalars['Boolean']>;
   id: Scalars['ID'];
   like: Scalars['Float'];
-  name: Scalars['Float'];
-  product: Product;
+  name: Scalars['String'];
   productId: Scalars['String'];
-  reply: Array<ReplyComment>;
+  replys: Array<ReplyComment>;
   star: Scalars['Float'];
   title: Scalars['String'];
   updatedAt: Scalars['DateTime'];
@@ -512,15 +511,16 @@ export type RegisterInput = {
 
 export type ReplyComment = {
   __typename?: 'ReplyComment';
-  avatar: Scalars['Float'];
-  commentId: Scalars['Float'];
+  avatar: Scalars['String'];
+  comment: Comment;
+  commentId: Scalars['String'];
   content: Scalars['String'];
   createdAt: Scalars['DateTime'];
   dislike: Scalars['Float'];
   editComment?: Maybe<Scalars['Boolean']>;
   id: Scalars['ID'];
   like: Scalars['Float'];
-  name: Scalars['Float'];
+  name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   user: User;
   userId: Scalars['Float'];
@@ -645,7 +645,7 @@ export type GetCommentQueryVariables = Exact<{
 }>;
 
 
-export type GetCommentQuery = { __typename?: 'Query', GetComment?: { __typename?: 'PaginatedCommentResponse', totalCount: number, reviewRating: number, cursor: any, hasMore: boolean, paginatedComments: Array<{ __typename?: 'Comment', id: string, title: string, content: string, star: number, createdAt: any, like: number, dislike: number, userId: number, name: number, avatar: number, reply: Array<{ __typename?: 'ReplyComment', userId: number, content: string, like: number, dislike: number, name: number, avatar: number }> }> } | null | undefined };
+export type GetCommentQuery = { __typename?: 'Query', GetComment?: { __typename?: 'PaginatedCommentResponse', totalCount: number, reviewRating: number, cursor: any, hasMore: boolean, paginatedComments: Array<{ __typename?: 'Comment', id: string, title: string, content: string, star: number, createdAt: any, like: number, dislike: number, userId: number, name: string, avatar: string, replys: Array<{ __typename?: 'ReplyComment', id: string, userId: number, name: string, avatar: string, content: string, like: number, dislike: number, createdAt: any }> }> } | null | undefined };
 
 export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1136,13 +1136,15 @@ export const GetCommentDocument = gql`
       userId
       name
       avatar
-      reply {
+      replys {
+        id
         userId
+        name
+        avatar
         content
         like
         dislike
-        name
-        avatar
+        createdAt
       }
     }
   }
