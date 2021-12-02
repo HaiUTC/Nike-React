@@ -31,7 +31,7 @@ const ReviewModal = (props) => {
                 avatar : props.user[0].MyProfile.avatar,
             })
             props.handleCloseModal()
-            // dispath(showListComment())
+            dispath(showListComment())
         }
     })
     return (

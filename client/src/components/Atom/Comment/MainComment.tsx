@@ -11,7 +11,7 @@ const MainComment = (props) => {
         <div className='grid grid-cols-12 gap-4 py-10'>
                 {/* Main Comment */}
             <div className='col-span-1 pt-6'>
-                <img className='h-10 w-10 rounded-full' src={props.item.user.avatar} alt='text'/>
+                <img className='h-10 w-10 rounded-full' src={props.item.avatar} alt='text'/>
             </div>
             <div className='col-span-11 '>
                 <UserComment 
