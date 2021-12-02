@@ -130,12 +130,14 @@ export type CollectionMutationResponse = IMutationResponse & {
 
 export type Comment = {
   __typename?: 'Comment';
+  avatar: Scalars['Float'];
   content: Scalars['String'];
   createdAt: Scalars['DateTime'];
   dislike: Scalars['Float'];
   editComment?: Maybe<Scalars['Boolean']>;
   id: Scalars['ID'];
   like: Scalars['Float'];
+  name: Scalars['Float'];
   product: Product;
   productId: Scalars['String'];
   reply: Array<ReplyComment>;
@@ -510,6 +512,7 @@ export type RegisterInput = {
 
 export type ReplyComment = {
   __typename?: 'ReplyComment';
+  avatar: Scalars['Float'];
   commentId: Scalars['Float'];
   content: Scalars['String'];
   createdAt: Scalars['DateTime'];
@@ -517,6 +520,7 @@ export type ReplyComment = {
   editComment?: Maybe<Scalars['Boolean']>;
   id: Scalars['ID'];
   like: Scalars['Float'];
+  name: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
   user: User;
   userId: Scalars['Float'];
@@ -641,7 +645,7 @@ export type GetCommentQueryVariables = Exact<{
 }>;
 
 
-export type GetCommentQuery = { __typename?: 'Query', GetComment?: { __typename?: 'PaginatedCommentResponse', totalCount: number, reviewRating: number, cursor: any, hasMore: boolean, paginatedComments: Array<{ __typename?: 'Comment', id: string, title: string, content: string, star: number, createdAt: any, like: number, dislike: number, user: { __typename?: 'User', id: string, name: string, avatar: string }, reply: Array<{ __typename?: 'ReplyComment', content: string, like: number, dislike: number, user: { __typename?: 'User', id: string, name: string, avatar: string } }> }> } | null | undefined };
+export type GetCommentQuery = { __typename?: 'Query', GetComment?: { __typename?: 'PaginatedCommentResponse', totalCount: number, reviewRating: number, cursor: any, hasMore: boolean, paginatedComments: Array<{ __typename?: 'Comment', id: string, title: string, content: string, star: number, createdAt: any, like: number, dislike: number, userId: number, name: number, avatar: number, reply: Array<{ __typename?: 'ReplyComment', userId: number, content: string, like: number, dislike: number, name: number, avatar: number }> }> } | null | undefined };
 
 export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1129,20 +1133,16 @@ export const GetCommentDocument = gql`
       createdAt
       like
       dislike
-      user {
-        id
-        name
-        avatar
-      }
+      userId
+      name
+      avatar
       reply {
+        userId
         content
         like
         dislike
-        user {
-          id
-          name
-          avatar
-        }
+        name
+        avatar
       }
     }
   }

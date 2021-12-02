@@ -18,14 +18,10 @@ export class CommentResolver {
     }
 
 
-    @FieldResolver(_return => Product)
-    async product(@Root() root: Comment){
-        return await Product.findOne({id : root.id})
-    }
 
     @Query(_return => PaginatedCommentResponse, {nullable : true})
     async GetComment(
-        @Arg('productId',_type=> ID) productId : number,
+        @Arg('productId',_type=> ID) productId : string,
         @Arg('limit', _type => Int, {nullable : true}) limit ?: number,
         @Arg('cursor', { nullable: true }) cursor?: string,
     //    @Arg('sort', {nullable : true}) sort?: string,
@@ -49,7 +45,7 @@ export class CommentResolver {
             return {
                 totalCount,
                 reviewRating,
-                cursor: listComment[listComment.length-1].createdAt,
+                cursor: listComment && listComment[listComment.length-1].createdAt,
                 hasMore : cursor
                 ? listComment[listComment.length - 1].createdAt.toString() !== lastComment[0]?.createdAt.toString()
                 : listComment.length !== totalCount,

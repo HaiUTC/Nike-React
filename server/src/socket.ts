@@ -65,38 +65,22 @@ export const RunSocket = ( io : Server )  => {
         //Create Comment
         socket.on('userCreateComment', async (msg) => {
           try {
-            const {productId, title, content,star,send,commentId,userId} = msg
-            console.log(msg)
+            const {productId, title, content,star,send,commentId,userId,name,avatar} = msg
             const user = await User.findOne(userId)
-            const product = await Product.findOne(productId)
+            
             if(user){ 
               const newComment = await Comment.create({
                 userId,
+                name,
+                avatar,
                 productId,
                 title,
                 content,
                 star
               })
-              const numberReview = product?.numberReview
-              const rating = product?.rating
-              const data = {
-                rating : star > 0 ? rating + star : rating,
-                numReview : numberReview !== undefined && star > 0 ? numberReview + 1 : numberReview
-              }
-              await getConnection()
-              .createQueryBuilder()
-              .update(Product)
-              .set({ numberReview: data.numReview, rating: data.rating })
-              .where("id = :id", { id: productId })
-              .execute();
 
               if(send === 'replyComment'){
-                const replyComment = await ReplyComment.create({
-                  commentId,
-                  userId,
-                  content
-                })
-
+                const replyComment = await ReplyComment.create({commentId,userId,content,name,avatar})
                 const comment = await Comment.findOne(commentId)
                 if(comment){
                   comment.reply.push(replyComment)
@@ -107,10 +91,11 @@ export const RunSocket = ( io : Server )  => {
               else{
                 await newComment.save()
                 const dataComment = await Comment.find({productId})
+                const product = await Product.findOne(productId)
                 const resultData = {
                   length : dataComment.length,
                   comment : newComment,
-                  reviewRating : product ? (product.numberReview > 0 && product.rating > 0) ? (product.rating / product.numberReview) : 0 : null,
+                  reviewRating : (product) && (product.rating / product.numberReview) 
                 }
                 io.to(newComment.productId).emit("ServerUserCreateComment", resultData)
               }
@@ -139,7 +124,7 @@ export const RunSocket = ( io : Server )  => {
               .createQueryBuilder()
               .delete()
               .from(Comment)
-              .where("id = :id", { id })
+              .where("id = :id", { id : `${id}`})
               .execute();
             
               const product = await Product.findOne(productId)
@@ -174,24 +159,11 @@ export const RunSocket = ( io : Server )  => {
 
               //delete if not reply
               if(comment){
-                const num = product?.numberReview
-                const rate = product?.rating
-                const starCmt = comment.star
-                const data = {
-                  rating : rate ? starCmt > 0 ? rate - starCmt : rate : 0,
-                  numReview : num ? starCmt > 0 ? num - 1 : num : 0 
-                }
-                await getConnection()
-                .createQueryBuilder()
-                .update(Product)
-                .set({ numberReview : data.numReview, rating : data.rating })
-                .where("id = :id", { id: productId })
-                .execute();
                 const dataComment = await Comment.find({productId})
                 const resultData = {
                   length : dataComment.length,
                   comment : comment,
-                  reviewRating : product ? (product.numberReview > 0 && product.rating > 0) ? (product.rating / product.numberReview) : 0 : null,
+                  reviewRating : product && product.rating /product?.numberReview
                 }
                 io.to(productId).emit('ServerUserDeleteComment', resultData)
                 }

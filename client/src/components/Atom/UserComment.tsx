@@ -4,14 +4,16 @@ import changeDateTime from '../../utils/changeDateTime'
 const UserComment = (props) => {
     const [showActive,setShowActive] = useState(false)
     const [showActionDeatail,setShowActionDetail] = useState(false)
-    const showOption = () => {  if(props.user && props.item.user.id === props.user[0].MyProfile.id) setShowActive(true) }
+    const showOption = () => {  
+        if(props.user && props.item.userId == props.user[0].MyProfile.id) setShowActive(true)
+     }
     const closeOption = () => setShowActive(false)
     const showActionDetail = () => setShowActionDetail(!showActionDeatail)
     const deleteComment = () => {
         props.socket.emit('UserDeleteComment',{
             id : props.item.id,
             productId : props.productId,
-            userId : props.item.user.id
+            userId : props.item.userId
         })
     }
     return (
@@ -29,7 +31,7 @@ const UserComment = (props) => {
                     />
                 </div>
 
-                <div className='pl-6 text-base text-gray-500'><span>{changeDateTime(props.item.createdAt)}</span></div>
+                <div className='pl-6 text-base text-gray-500'><span>{changeDateTime(props.item.name,props.item.createdAt)}</span></div>
             </div>
 
             <div>

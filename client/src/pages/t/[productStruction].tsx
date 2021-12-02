@@ -49,6 +49,8 @@ const DetailProduct = () => {
   const [lengthComment, setLengthComment] = useState(null);
   const [reviewRating, setReviewRating] = useState(null);
 
+  //change state to get comment again
+
   //func
   const changeIndexPoster = (newIndex) => setIndexPoster(newIndex);
   const handleCloseListComment = () => {
@@ -70,12 +72,10 @@ const DetailProduct = () => {
   });
 
   useEffect(() => {
-    if( _dataComment){
       setDataComment(_dataComment?.GetComment?.paginatedComments || [])
       setLengthComment(_dataComment?.GetComment?.totalCount || 0)
       setReviewRating(_dataComment?.GetComment?.reviewRating || 0)
-    }
-  },[lengthComment || _loadingComment])
+  },[_loadingComment])
 
 
   //join room
@@ -89,7 +89,6 @@ const DetailProduct = () => {
   useEffect(() => {
     if (socket) {
       socket.on("ServerUserCreateComment", (msg) => {
-        console.log('create')
         const { comment, length, reviewRating } = msg;
         setDataComment([comment, ...dataComment]);
         setLengthComment(length);

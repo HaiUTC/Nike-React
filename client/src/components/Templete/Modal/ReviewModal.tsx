@@ -26,7 +26,9 @@ const ReviewModal = (props) => {
                 title : values.reviewTitle.trim(),
                 content : values.reviewContent.trim(),
                 star : rating,
-                userId : props.user[0].MyProfile.id
+                userId : props.user[0].MyProfile.id,
+                name : props.user[0].MyProfile.name,
+                avatar : props.user[0].MyProfile.avatar,
             })
             props.handleCloseModal()
             // dispath(showListComment())

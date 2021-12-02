@@ -9,7 +9,7 @@ import { Product } from "./Product";
 export class CartItem extends BaseEntity{
     @Field(_type => ID)
     @PrimaryGeneratedColumn('uuid')
-    id!: number
+    id!: string
 
     @Field()
     @Column()

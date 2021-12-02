@@ -12,20 +12,16 @@ query GetComment($limit : Int!,$productId : ID!,$cursor : String) {
             createdAt
             like
             dislike
-            user{
-                id
-                name
-                avatar
-            }
+            userId
+            name
+            avatar
             reply{
+                userId
                 content
                 like
                 dislike
-                user{
-                    id
-                    name
-                    avatar
-                }
+                name
+                avatar
             }
         }
     }

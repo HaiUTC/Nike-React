@@ -8,11 +8,19 @@ import { User } from "./User";
 export class Comment extends BaseEntity {
     @Field(_type => ID)
     @PrimaryGeneratedColumn('uuid')
-    id!: number
+    id!: string
 
     @Field()
     @Column()
     userId!: number
+
+    @Field()
+    @Column()
+    name!: string
+
+    @Field()
+    @Column()
+    avatar!: string
 
     @Field(_type => User)
     @ManyToOne(()=> User, user => user.comments)

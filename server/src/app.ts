@@ -37,6 +37,7 @@ const server = createServer(app)
 import {RunSocket} from './socket'
 import { Comment } from './entities/Comment'
 import { CommentResolver } from './resolvers/comment'
+import { ReplyComment } from './entities/ReplyComment'
 const main = async () => {
     //conect posgresql
     const connection = await createConnection({
@@ -46,7 +47,7 @@ const main = async () => {
         password : process.env.DB_PASSWORD,
         logging : true,
         synchronize : true,
-        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search,Comment]
+        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search,Comment,ReplyComment]
     })
     
     app.use(cors({

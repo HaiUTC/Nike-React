@@ -27,7 +27,7 @@ export class ItemPicture {
 export class Product extends BaseEntity{
     @Field(_type => ID)
     @PrimaryGeneratedColumn('uuid')
-    id!: number
+    id!: string
 
     @Field()
     @Column()
