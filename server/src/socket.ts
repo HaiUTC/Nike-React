@@ -102,8 +102,7 @@ export const RunSocket = ( io : Server )  => {
         //Delete Comment
         socket.on('UserDeleteComment', async (msg) => {
           try {
-            const { id, productId, userId,send} = msg;
-            console.log(msg)
+            const { id, productId, userId,send,commentId} = msg;
             const user = await User.findOne({id : userId});
             if(user){
               //delete if is reply
@@ -116,7 +115,7 @@ export const RunSocket = ( io : Server )  => {
                           .from(ReplyComment)
                           .where("id = :id", {id})
                           .execute();
-                  io.to(dataReply.id).emit('ServerUserDeleteReplyComment', dataReply)
+                  io.to(productId).emit('ServerUserDeleteReplyComment', {dataReply,commentId})
                 }
               }
               //delete if is comment

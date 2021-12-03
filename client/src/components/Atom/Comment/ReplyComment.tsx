@@ -30,7 +30,15 @@ const ReplyComment = (props) => {
                     <div className='flex justify-end px-6 py-2'><button className='bg-black border-white text-white text-sm rounded-full px-8 py-2 outline-none disabled:cursor-not-allowed' onClick={sendReplyComment}>Send</button></div>
                 </div>
             </div>
-            { props.item?.replys?.length > 0 ? props.item.replys.map(item => <ReplyCommentDetail key={item.createdAt} data={item} socket={props.socket} user={props.user}/> ) : null}
+            { props.item?.replys?.length > 0 ? props.item.replys.map(item => 
+                <ReplyCommentDetail 
+                    key={item.createdAt} 
+                    data={item} 
+                    socket={props.socket} 
+                    user={props.user} 
+                    productId={props.productId}
+                    commentId={props.item.id}
+                /> ) : null}
         </div>
     );
 }

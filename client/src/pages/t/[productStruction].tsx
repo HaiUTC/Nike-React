@@ -107,14 +107,13 @@ const DetailProduct = () => {
             let newDataComment = cloneDeep(dataComment)
             try{
               newDataComment[index].replys.push(msg.newReply)
-            }catch{
+            }
+            catch{
               newDataComment[index]['replys'] =[]
               newDataComment[index].replys.push(msg.newReply)
             }
-            
             setDataComment(newDataComment)
-          }
-          
+          } 
         }
       })
       return () => socket.off("ServerUserCreateCommentReply")
@@ -142,7 +141,18 @@ const DetailProduct = () => {
     if(socket){
       socket.on('ServerUserDeleteReplyComment', msg => {
         if(msg){
-         console.log(msg)
+          const index = dataComment.findIndex(cmt => cmt.id  === msg.commentId)
+          if(index !== -1) {
+            let newDataComment = cloneDeep(dataComment)
+            try{
+              const indexReply = newDataComment[index].replys.findIndex(rep => rep.id === msg.dataReply.id)
+              if(index!==-1) {
+                newDataComment[index].replys.splice(indexReply,1)
+                setDataComment(newDataComment)
+              }
+            }
+            catch{}
+          } 
         }
       })
       return () => socket.off("ServerUserDeleteReplyComment")

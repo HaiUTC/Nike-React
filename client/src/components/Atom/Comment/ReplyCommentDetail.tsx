@@ -12,7 +12,9 @@ const ReplyCommentDetail = (props)=> {
     props.socket.emit('UserDeleteComment',{
       id : props.data.id,
       send: 'replyComment',
-      userId : props.user[0].MyProfile.id
+      userId : props.user[0].MyProfile.id,
+      productId : props.productId,
+      commentId : props.commentId
   })
   }
   return (
