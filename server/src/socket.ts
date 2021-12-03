@@ -103,6 +103,7 @@ export const RunSocket = ( io : Server )  => {
         socket.on('UserDeleteComment', async (msg) => {
           try {
             const { id, productId, userId,send} = msg;
+            console.log(msg)
             const user = await User.findOne({id : userId});
             if(user){
               //delete if is reply

@@ -105,7 +105,13 @@ const DetailProduct = () => {
           const index = dataComment.findIndex(cmt => cmt.id  === msg.newReply.commentId)
           if(index !== -1) {
             let newDataComment = cloneDeep(dataComment)
-            newDataComment[index].replys.push(msg.newReply)
+            try{
+              newDataComment[index].replys.push(msg.newReply)
+            }catch{
+              newDataComment[index]['replys'] =[]
+              newDataComment[index].replys.push(msg.newReply)
+            }
+            
             setDataComment(newDataComment)
           }
           
@@ -128,6 +134,18 @@ const DetailProduct = () => {
         setReviewRating(data.reviewRating)
       })
       return () => socket.off('ServerUserDeleteComment')
+    }
+  },[socket,dataComment])
+
+  //delete reply comment
+  useEffect(() => {
+    if(socket){
+      socket.on('ServerUserDeleteReplyComment', msg => {
+        if(msg){
+         console.log(msg)
+        }
+      })
+      return () => socket.off("ServerUserDeleteReplyComment")
     }
   },[socket,dataComment])
 

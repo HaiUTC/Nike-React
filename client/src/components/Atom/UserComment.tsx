@@ -27,7 +27,7 @@ const UserComment = (props) => {
                         starHoverColor="black"
                         starSpacing="2px"
                         numberOfStars={5}
-                        rating={props.item.star}
+                        rating={props.item.star || 0}
                     />
                 </div>
 

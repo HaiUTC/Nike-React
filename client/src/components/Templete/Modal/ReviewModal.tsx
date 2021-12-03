@@ -53,7 +53,7 @@ const ReviewModal = (props) => {
                                 starSpacing="3px"
                                 numberOfStars={5}
                                 changeRating={changeRating}
-                                rating={rating}
+                                rating={rating || 0}
                             />
                         </div>
                         <div className="grid grid-cols-12 gap-2">

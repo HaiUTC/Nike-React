@@ -12,7 +12,7 @@ function TitleListComment({lengthComment,reviewRating}) {
                 starRatedColor="black"
                 starHoverColor="black"
                 starSpacing="3px"
-                rating={reviewRating}
+                rating={reviewRating || 0}
                 numberOfStars={5}
               />
               <h2 className="py-4 tracking-tighter text-2xl font-semibold">

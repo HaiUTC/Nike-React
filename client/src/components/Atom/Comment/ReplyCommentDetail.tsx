@@ -9,8 +9,12 @@ const ReplyCommentDetail = (props)=> {
   const showOption = () =>{ if(props.user && props.data.userId == props.user[0].MyProfile.id) setShowActive(true)} 
   const showActionDetail = () => setShowActionDetail(!showActionDeatail)
   const deleteReplyComment = () => {
-   
-}
+    props.socket.emit('UserDeleteComment',{
+      id : props.data.id,
+      send: 'replyComment',
+      userId : props.user[0].MyProfile.id
+  })
+  }
   return (
     <div className="grid grid-cols-12 gap-4 relative" onMouseEnter={showOption}  onMouseLeave={closeOption}>
       <div className='flex items-center col-span-1'>
