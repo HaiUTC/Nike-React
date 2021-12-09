@@ -17,16 +17,17 @@ interface ISessionPartContent {
 }
 interface ICategoryContent {
     data : Array<ISessionPartContent>,
-    title : string
+    title : string,
+    isAbsolute ?: boolean
 }
 
-const CategoryContent = ({data,title}: ICategoryContent) =>{
+const CategoryContent = ({data,title,isAbsolute}: ICategoryContent) =>{
     return (
         <div>
             <div className="py-6 text-2xl"><span>{title}</span></div>
             {data.length<=3 ? (
                 <div className="flex flex-col justify-around w-full md:flex-row">
-                    {data.map((item) => <SessionPartContent key={item.url} {...item}/>)}
+                    {data.map((item) => <SessionPartContent key={item.url} {...item} isAbsolute={isAbsolute}/>)}
                 </div>
             ) : (
                 <div className='relative'>
@@ -48,7 +49,7 @@ const CategoryContent = ({data,title}: ICategoryContent) =>{
                         >  
                         {data.map((product,index) => (
                             <SwiperSlide key={index}>
-                                <SessionPartContent key={index} {...product}/>
+                                <SessionPartContent key={index} {...product} isAbsolute={isAbsolute}/>
                             </SwiperSlide>))}
                     </Swiper>
                     <div id='directional_slide' className='flex absolute right-0' style={{zIndex: 999, top : "-60px"}}>

@@ -9,7 +9,7 @@ interface IProduct {
 const Product = ({url,name,productType,price,priceSale,link}: IProduct) => {
     return (
         <div className="relative px-2 pb-5">
-          <div ><img style={{minHeight : "300px", minWidth : "300px"}} src={url} /></div>
+          <div ><img className='w-full' src={url} /></div>
           <div className="flex justify-between">
             <div className="flex flex-col py-4">
               <span className="text-base">{name}</span>

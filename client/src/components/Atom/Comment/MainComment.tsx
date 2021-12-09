@@ -10,10 +10,10 @@ const MainComment = (props) => {
     return (
         <div className='grid grid-cols-12 gap-4 py-10'>
                 {/* Main Comment */}
-            <div className='col-span-1 pt-6'>
+            <div className='col-span-2 lg:col-span-1 pt-6'>
                 <Avatar src={props.item.avatar} alt='text' />
             </div>
-            <div className='col-span-11 '>
+            <div className='col-span-10 lg:col-span-11 '>
                 <UserComment 
                     item={props.item}
                     socket={props.socket}

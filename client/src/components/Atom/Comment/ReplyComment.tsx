@@ -23,13 +23,17 @@ const ReplyComment = (props) => {
     }
     return (
         <div>
+            {props.user[0].MyProfile && 
             <div className='grid grid-cols-12 gap-4 py-4'>
-                <Avatar alt={props.user[0].MyProfile.name} src={props.user[0].MyProfile.avatar} />
-                <div className='col-span-11'>
+                <div className='col-span-2 lg:col-span-1'>
+                    <Avatar alt={props.user[0].MyProfile.name} src={props.user[0].MyProfile.avatar} />
+                </div>
+                <div className='col-span-10 lg:col-span-11'>
                     <textarea rows={4} className={'w-full border-2 rounded-md text-sm px-4'+ (isEmpty ? ' border-2 border-red-500' : null) } placeholder='Write somthing in here...' ref={textAreaRef} onFocus={enterTA}/>
                     <div className='flex justify-end px-6 py-2'><button className='bg-black border-white text-white text-sm rounded-full px-8 py-2 outline-none disabled:cursor-not-allowed' onClick={sendReplyComment}>Send</button></div>
                 </div>
             </div>
+            }
             { props.item?.replys?.length > 0 ? props.item.replys.map(item => 
                 <ReplyCommentDetail 
                     key={item.createdAt} 

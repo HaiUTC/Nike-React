@@ -203,7 +203,7 @@ const HeaderList = () => {
                 </div>
               </li>
               <li>
-                <Link href="/kid"><a id='collection' className='relative text-lg px-6 py-4'>Kids</a></Link>
+                <Link href="/kids"><a id='collection' className='relative text-lg px-6 py-4'>Kids</a></Link>
                 <div id="listCategory" className="absolute justify-between px-56 left-0 top-24 w-full hidden pt-4 pb-16 bg-white z-10">
                   <div>
                     <div className="text-lg"><h4>Featured</h4></div>

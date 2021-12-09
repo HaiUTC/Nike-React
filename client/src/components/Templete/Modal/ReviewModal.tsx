@@ -44,21 +44,23 @@ const ReviewModal = (props) => {
             </DialogTitle>
             <DialogContent>
                     <form onSubmit={formik.handleSubmit}>
-                        <div className="py-10">
-                            <span id='title_required' className="text-lg pr-20">Rating : </span>
-                            <StarRatings
-                                starDimension="25px"
-                                starRatedColor="black"
-                                starHoverColor="black"
-                                starSpacing="3px"
-                                numberOfStars={5}
-                                changeRating={changeRating}
-                                rating={rating || 0}
-                            />
+                        <div className="grid grid-cols-12 py-10">
+                            <span id='title_required' className="text-base lg:text-lg lg:pr-4 col-span-4 lg:col-span-2">Rating : </span>
+                            <div className='col-span-8 lg:col-span-10'>
+                                <StarRatings
+                                    starDimension="25px"
+                                    starRatedColor="black"
+                                    starHoverColor="black"
+                                    starSpacing="3px"
+                                    numberOfStars={5}
+                                    changeRating={changeRating}
+                                    rating={rating || 0}
+                                />
+                            </div>
                         </div>
                         <div className="grid grid-cols-12 gap-2">
-                            <span id='title_required' className="text-lg pr-4 col-span-2 flex items-center">Review Title: </span>
-                            <div className='col-span-10'>
+                            <span id='title_required' className="text-base lg:text-lg lg:pr-4 col-span-4 lg:col-span-2 flex items-center">Review Title: </span>
+                            <div className='col-span-8 lg:col-span-10'>
                                 <FormInputAtom
                                     focus="true" 
                                     formik={formik} 
@@ -72,8 +74,8 @@ const ReviewModal = (props) => {
                             </div>
                         </div>
                         <div className="grid grid-cols-12 gap-2 pt-8">
-                            <span id='title_required' className="text-lg pr-4 col-span-2">Review: </span>
-                            <div className='col-span-10'>
+                            <span id='title_required' className="text-base lg:text-lg lg:pr-4 col-span-4 lg:col-span-2">Review: </span>
+                            <div className='col-span-8 lg:col-span-10'>
                                 <FormInputAtom
                                     focus="true" 
                                     formik={formik} 

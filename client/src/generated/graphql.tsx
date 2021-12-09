@@ -558,7 +558,7 @@ export type UserMutationResponse = IMutationResponse & {
 
 export type CartMutationResponseFragment = { __typename?: 'CartMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, cart?: { __typename?: 'Cart', total?: number | null | undefined, quantity?: number | null | undefined, cartItems?: Array<{ __typename?: 'CartItem', size: number, quantity: number, color: string, discount: number, monney: number, product?: { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined }> | null | undefined } | null | undefined };
 
-export type ProductIdsInfoFragment = { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size?: Array<number> | null | undefined, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string>, color?: string | null | undefined }> };
+export type ProductIdsInfoFragment = { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size?: Array<number> | null | undefined, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, picture: { __typename?: 'ItemPicture', url: string }, poster: Array<{ __typename?: 'Picture', url: Array<string>, color?: string | null | undefined }> };
 
 export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
 
@@ -657,7 +657,7 @@ export type GetProductIdQueryVariables = Exact<{
 }>;
 
 
-export type GetProductIdQuery = { __typename?: 'Query', GetProductId?: { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size?: Array<number> | null | undefined, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, poster: Array<{ __typename?: 'Picture', url: Array<string>, color?: string | null | undefined }> } | null | undefined };
+export type GetProductIdQuery = { __typename?: 'Query', GetProductId?: { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size?: Array<number> | null | undefined, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, picture: { __typename?: 'ItemPicture', url: string }, poster: Array<{ __typename?: 'Picture', url: Array<string>, color?: string | null | undefined }> } | null | undefined };
 
 export type GetProductByCategoryAndCollectionQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -740,6 +740,9 @@ export const ProductIdsInfoFragmentDoc = gql`
   size
   numberColor
   description
+  picture {
+    url
+  }
   poster {
     url
     color

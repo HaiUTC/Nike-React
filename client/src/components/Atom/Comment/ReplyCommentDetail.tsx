@@ -6,7 +6,11 @@ const ReplyCommentDetail = (props)=> {
   const [showActive,setShowActive] = useState(false)
   const [showActionDeatail,setShowActionDetail] = useState(false)
   const closeOption = () => setShowActive(false)
-  const showOption = () =>{ if(props.user && props.data.userId == props.user[0].MyProfile.id) setShowActive(true)} 
+  const showOption = () => { 
+    if(props.user.MyProfile){
+      if(props.data.userId == props.user[0].MyProfile.id) setShowActive(true)
+    }
+  } 
   const showActionDetail = () => setShowActionDetail(!showActionDeatail)
   const deleteReplyComment = () => {
     props.socket.emit('UserDeleteComment',{
@@ -19,10 +23,10 @@ const ReplyCommentDetail = (props)=> {
   }
   return (
     <div className="grid grid-cols-12 gap-4 relative" onMouseEnter={showOption}  onMouseLeave={closeOption}>
-      <div className='flex items-center col-span-1'>
+      <div className='flex items-center col-span-2 lg:col-span-1'>
         <Avatar alt={props.data.name} src={props.data.avatar}/>
       </div>
-      <div className="col-span-11 ">
+      <div className="col-span-10 lg:col-span-11 ">
         <div className="flex ">
           <p className="text-gray-500 text-sm m-0 py-2">{changeDateTime(props.data.name,props.data.createdAt)}</p>
         </div>

@@ -7,6 +7,9 @@ fragment ProductIdsInfo on Product {
     size
     numberColor
     description
+    picture{
+        url
+    }
     poster{
         url
         color

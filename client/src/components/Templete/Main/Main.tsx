@@ -16,7 +16,20 @@ const Main = ({data}) => {
                     <div className='w-full flex flex-col justify-center'>
                         <h4 className='text-5xl font-sans font-black tracking-tighter pt-8 pb-2 sm:text-center sm:text-6xl'>{data.title}</h4>
                         <p className='sm:text-center'>{data.content}</p>
-                        <div className='sm:text-center py-8'><LinkBlack darkMode={data.darkMode} text={data.textBtn} link={data.link}/></div>
+                        <div className='sm:text-center py-8'>
+                            {data.textBtn && 
+                                <>
+                                    {Array.isArray(data.textBtn) ? (
+                                        <div className='flex justify-center'>
+                                        {data.textBtn.map((item,index) => 
+                                            <div className='px-2' key={index}><LinkBlack darkMode={data.darkMode} text={item} link={data.link}/></div>
+                                        )}
+                                        </div>
+                                    ) : <LinkBlack darkMode={data.darkMode} text={data.textBtn} link={data.link}/>}
+                                </>
+                            }
+                            
+                        </div>
                     </div>
                 </figcaption>
                 {/* a-tag*/}

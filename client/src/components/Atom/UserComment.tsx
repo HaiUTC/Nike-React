@@ -5,7 +5,9 @@ const UserComment = (props) => {
     const [showActive,setShowActive] = useState(false)
     const [showActionDeatail,setShowActionDetail] = useState(false)
     const showOption = () => {  
-        if(props.user && props.item.userId == props.user[0].MyProfile.id) setShowActive(true)
+        if(props.user[0].MyProfile) {
+            if(props.item.userId == props.user[0].MyProfile.id) setShowActive(true)
+        } 
      }
     const closeOption = () => setShowActive(false)
     const showActionDetail = () => setShowActionDetail(!showActionDeatail)

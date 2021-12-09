@@ -218,6 +218,10 @@ const DetailProduct = () => {
               lengthComment={lengthComment}
               reviewRating={reviewRating}
               dataComment={dataComment}
+              //product
+              image={data?.GetProductId.picture.url}
+              price={data?.GetProductId.price}
+              name={data?.GetProductId.name}
               //socket
               user={user}
               socket={socket}
