@@ -1,4 +1,3 @@
-import NewsElement from "../../Atom/Button/NewsElement";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, {Scrollbar,Navigation  } from 'swiper';
 import 'swiper/css';
@@ -6,19 +5,20 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import NextIcons from '../../Atom/Button/NextPrevIcons';
+import MemberBenefitsItem from './MemberBenefitsItem';
 SwiperCore.use([Scrollbar,Navigation])
 
 
-const News = ({data}) => {
+const MemberBenefits = ({data,title}) =>{
 
-    const news = data.map((newItem,index) => (
+    const benefits = data.map((newItem,index) => (
         <SwiperSlide key={index}>
-            <NewsElement data={newItem}/>
+            <MemberBenefitsItem data={newItem}/>
         </SwiperSlide>
     ))
-
     return (
         <div className="pt-20 ">
+            <div className="py-6 text-2xl"><span>{title}</span></div>
             <div className='relative'>
             <Swiper
                 navigation={{
@@ -27,8 +27,8 @@ const News = ({data}) => {
                 }}
                 breakpoints = {{
                     640 : {
-                        slidesPerView: 3,
-                        slidesPerGroup : 3
+                        slidesPerView: 4,
+                        slidesPerGroup : 4
                     },  
                     
                     
@@ -38,7 +38,7 @@ const News = ({data}) => {
                 slidesPerGroup={1}
                 scrollbar={{ draggable: true,hide: true }}
                 >  
-                {news}
+                {benefits}
             </Swiper>
             <div id='directional_slide' className='flex absolute right-0' style={{zIndex: 999, top : "-60px"}}>
                 <div className='prev pr-4 cursor-pointer'><NextIcons link="/static/icons/prev.svg"/></div>
@@ -49,4 +49,4 @@ const News = ({data}) => {
     );
 }
 
-export default News;
+export default MemberBenefits;

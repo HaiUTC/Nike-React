@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useState } from "react";
 import * as yup from 'yup';
 import { ForgotPasswordInput, useForgotPasswordMutation } from "../../../generated/graphql";
-import ButtonSubmit from "../../Atom/Button";
+import ButtonSubmit from "../../Atom/Button/Button";
 import { FormInputAtom } from "../../Atom/Form/FormInput";
 const validationSchema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),

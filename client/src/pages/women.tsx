@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-const CategoryHeaderSelect = dynamic(() => import('../components/Atom/CategoryHeaderSelect'),{ ssr: false })
+const CategoryHeaderSelect = dynamic(() => import('../components/Atom/Product/CategoryHeaderSelect'),{ ssr: false })
 const CategoryContent = dynamic(() => import('../components/Templete/ContentLikeTrending/CategoryContent'),{ ssr: false })
 const Layout = dynamic(() => import('../components/Templete/Layout/Layout'),{ ssr: false })
 const ListProductShowUp = dynamic(() => import('../components/Templete/ListProductShowUp/ListProductShowUp'),{ ssr: false })

@@ -1,4 +1,4 @@
-import ToggleFilterProduct from "../../Atom/ToogleFilterProduct"
+import ToggleFilterProduct from "../../Atom/Button/ToogleFilterProduct"
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import SwiperCore from 'swiper';

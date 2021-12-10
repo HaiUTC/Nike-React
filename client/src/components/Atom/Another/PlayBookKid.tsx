@@ -1,4 +1,4 @@
-import LinkBlack from "./LinkBlack";
+import LinkBlack from "../Button/LinkBlack";
 
 const content= (data) => (
     <div className='col-span-6'>

@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import Image from 'next/image'
 import { useState } from "react";
 import StarRatings from "react-star-ratings";
-import ButtonSubmit from '../../Atom/Button'
+import ButtonSubmit from '../../Atom/Button/Button'
 import * as yup from 'yup';
 import { FormInputAtom } from "../../Atom/Form/FormInput";
 import { useAppDispatch } from "../../../redux/hook";

@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-const ProductFavorite  = dynamic(() => import("../../Atom/ProductFavorite"),{ ssr: false })
+const ProductFavorite  = dynamic(() => import("../../Atom/Cart/ProductFavorite"),{ ssr: false })
 
 const ListFavorite = ({data}) => {
     return (

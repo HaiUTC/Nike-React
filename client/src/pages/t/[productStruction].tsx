@@ -16,15 +16,15 @@ import { limit } from "../w/index";
 import ListComment from "../../components/Molec/Comment/ListComment";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { hideListComment } from "../../redux/Comment/showListComment";
-const LoadingPage = dynamic(() => import("../../components/Atom/LoadingPage"), {
+const LoadingPage = dynamic(() => import("../../components/Atom/Loading/LoadingPage"), {
   ssr: false,
 });
 const ListImageProduct = dynamic(
-  () => import("../../components/Atom/ListImageProduct"),
+  () => import("../../components/Atom/Product/ListImageProduct"),
   { ssr: false }
 );
 const TitleProduct = dynamic(
-  () => import("../../components/Atom/TitleProduct"),
+  () => import("../../components/Atom/Product/TitleProduct"),
   { ssr: false }
 );
 const ProductInfomation = dynamic(

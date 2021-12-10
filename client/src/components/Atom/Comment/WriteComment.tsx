@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import StarRatings from "react-star-ratings";
-import { UserContext } from "../../libs/UserContext";
-import LoginModal from "../Templete/Modal/LoginModal";
-import ReviewModal from "../Templete/Modal/ReviewModal";
+import { UserContext } from "../../../libs/UserContext";
+import LoginModal from "../../Templete/Modal/LoginModal";
+import ReviewModal from "../../Templete/Modal/ReviewModal";
 const WriteComment = (props) => {
   const [showWriteComment, setShowWriteComment] = useState(false);
   const [showLogin, setShowLogin] = useState(false);

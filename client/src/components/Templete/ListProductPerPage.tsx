@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { toggleShowFilter } from "../../redux/Product/showFilter";
 const HeaderCategory  = dynamic(() => import("../Molec/ListProduct/HeaderCategory"))
-const NoHaveProduct  = dynamic(() => import("../Atom/NoHaveProduct"))
+const NoHaveProduct  = dynamic(() => import("../Atom/Product/NoHaveProduct"))
 const ListProduct = dynamic(() => import("../Molec/ListProduct/ListProduct"))
 const FilterProduct = dynamic(() => import("../Organ/Product/FilterProduct"))
 const HeaderCategoryMb = dynamic(() => import("../Molec/ListProduct/HeaderCategoryMb"))

@@ -4,7 +4,7 @@ import { useAddProductToCartMutation } from "../../../generated/graphql";
 import { UserContext } from '../../../libs/UserContext';
 import { changeNumCart } from "../../../redux/Cart/countNumber";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
-const NotificationAddProductToCart = dynamic(() => import("../../Atom/NotificationAddProductToCart"),{ ssr: false })
+const NotificationAddProductToCart = dynamic(() => import("../../Atom/Product/NotificationAddProductToCart"),{ ssr: false })
 const LoginModal = dynamic(() => import("../../Templete/Modal/LoginModal"),{ ssr: false })
 
 

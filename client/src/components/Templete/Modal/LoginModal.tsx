@@ -3,7 +3,7 @@ import Image from 'next/image'
 import * as yup from 'yup';
 import { FormikHelpers, useFormik } from 'formik';
 import { FormInputAtom } from "../../Atom/Form/FormInput";
-import ButtonSubmit from "../../Atom/Button";
+import ButtonSubmit from "../../Atom/Button/Button";
 import { LoginInput, MyProfileDocument, MyProfileQuery, useGetCartOfUserQuery, useLoginMutation } from "../../../generated/graphql";
 import { useState } from "react";
 import RegisterModal from './RegisterModal'

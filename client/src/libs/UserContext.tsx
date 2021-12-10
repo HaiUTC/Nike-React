@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import { createContext, useEffect, useState } from "react"
 import io from 'socket.io-client'
 import { useMyProfileQuery } from "../generated/graphql"
@@ -6,6 +7,7 @@ import { useMyProfileQuery } from "../generated/graphql"
 const UserContext = createContext(null)
 
 const UserContextProvider = (props) => {
+    const router = useRouter()
     const [socket,setSocket] = useState(null)
     const [countUserOnline, setCountUserOnline] = useState(null)
 
@@ -20,9 +22,24 @@ const UserContextProvider = (props) => {
 
     //get data user
     useEffect(() => {
-        console.log('get data user')
-        setUser(data)
-    },[loading])
+        
+        if(!loading){
+            console.log('get data user')
+            if(data?.MyProfile) setUser(data)
+            if(!data?.MyProfile && 
+                (router.route === '/member/profile' ||
+                router.route === '/member/inbox' ||
+                router.route === '/member/orders' ||
+                router.route === '/member/favorites' ||
+                router.route === '/member/settings')
+            ){
+                router.replace('/')
+            }
+            else if(data?.MyProfile && router.route === '/member'){
+                router.replace('/member/profile')
+            }
+        }
+    },[data, loading, router])
 
     //Sum accout online
 

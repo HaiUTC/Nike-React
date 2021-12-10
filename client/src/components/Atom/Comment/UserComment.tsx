@@ -1,6 +1,6 @@
 import { useState } from "react";
 import StarRatings from "react-star-ratings";
-import changeDateTime from '../../utils/changeDateTime'
+import changeDateTime from '../../../utils/changeDateTime'
 const UserComment = (props) => {
     const [showActive,setShowActive] = useState(false)
     const [showActionDeatail,setShowActionDetail] = useState(false)

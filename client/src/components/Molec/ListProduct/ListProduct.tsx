@@ -1,6 +1,6 @@
 import InfiniteScroll from "react-infinite-scroll-component";
-import DetailProduct from "../../Atom/DetailProduct"
-import LoadingElement from "../../Atom/LoadingElement";
+import DetailProduct from "../../Atom/Product/DetailProduct"
+import LoadingElement from "../../Atom/Loading/LoadingElement";
 
 const ListProduct = ({products,hasMore,fetchMore}) => {
     const fetchAPIProduct = () => {fetchMore()};

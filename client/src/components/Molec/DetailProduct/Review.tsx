@@ -1,8 +1,8 @@
 import { Accordion, AccordionDetails, AccordionSummary,Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StarRatings from "react-star-ratings";
-import WriteComment from '../../Atom/WriteComment';
-import UserComment from '../../Atom/UserComment';
+import WriteComment from '../../Atom/Comment/WriteComment';
+import UserComment from '../../Atom/Comment/UserComment';
 import {showListComment} from '../../../redux/Comment/showListComment';
 import { useAppDispatch } from '../../../redux/hook';
 import { isEmpty } from 'lodash';

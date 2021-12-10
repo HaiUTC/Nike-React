@@ -1,4 +1,4 @@
-import LinkBlack from '../../Atom/LinkBlack'
+import LinkBlack from '../../Atom/Button/LinkBlack'
 const Main = ({data}) => {
     return (
         <div>

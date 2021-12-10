@@ -4,8 +4,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import Product from '../../Atom/Product';
-import NextIcons from '../../Atom/NextPrevIcons';
+import Product from '../../Atom/Product/Product';
+import NextIcons from '../../Atom/Button/NextPrevIcons';
 SwiperCore.use([Scrollbar,Navigation])
 interface IProduct {
     url : string,

@@ -1,4 +1,4 @@
-import ButtonCheckout from "./ButtonCheckout"
+import ButtonCheckout from "../Button/ButtonCheckout"
 
 const SummaryCart = ({listProduct, price}) => {
     return (

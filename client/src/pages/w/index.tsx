@@ -6,7 +6,7 @@ const DynamicListProductPerPage = dynamic(() => import('../../components/Templet
 import { GetAllProductsDocument, useGetAllProductsQuery } from '../../generated/graphql'
 import { addApolloState, initializeApollo } from '../../libs/apolloClient'
 const Layout = dynamic(() => import('../../components/Templete/Layout/Layout'),{ ssr: false })
-const LoadingPage = dynamic(() => import('../../components/Atom/LoadingPage'),{ ssr: false })
+const LoadingPage = dynamic(() => import('../../components/Atom/Loading/LoadingPage'),{ ssr: false })
 export const limit = 9
 const Index = () => {
     const {data,loading,fetchMore, networkStatus} = useGetAllProductsQuery({

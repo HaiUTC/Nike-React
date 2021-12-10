@@ -1,6 +1,6 @@
 import { Avatar } from "@mui/material";
 import { useState } from "react";
-import UserComment from "../UserComment";
+import UserComment from "./UserComment";
 import ActionComment from "./ActionComment";
 import ReplyComment from "./ReplyComment";
 

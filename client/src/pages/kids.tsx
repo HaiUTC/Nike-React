@@ -3,7 +3,7 @@ import Head from 'next/head'
 import News from '../components/Templete/News/News'
 
 const PlayBook  = dynamic(() => import('../components/Templete/PlayBook/PlayBook'),{ ssr: false })
-const CategoryHeaderSelect = dynamic(() => import('../components/Atom/CategoryHeaderSelect'),{ ssr: false })
+const CategoryHeaderSelect = dynamic(() => import('../components/Atom/Product/CategoryHeaderSelect'),{ ssr: false })
 const CategoryContent = dynamic(() => import('../components/Templete/ContentLikeTrending/CategoryContent'),{ ssr: false })
 const ListProductShowUp = dynamic(() => import('../components/Templete/ListProductShowUp/ListProductShowUp'),{ ssr: false })
 const Main = dynamic(() => import('../components/Templete/Main/Main'),{ ssr: false })

@@ -5,7 +5,7 @@ import Head from 'next/head'
 import { useRouter } from "next/router"
 import { SearchQueryDocument, useSearchQueryQuery } from '../../generated/graphql'
 import { addApolloState, initializeApollo } from '../../libs/apolloClient'
-const LoadingPage = dynamic(() => import('../../components/Atom/LoadingPage'),{ ssr: false }) 
+const LoadingPage = dynamic(() => import('../../components/Atom/Loading/LoadingPage'),{ ssr: false }) 
 const Layout = dynamic(() => import("../../components/Templete/Layout/Layout"),{ ssr: false })
 const ListProductPerPage = dynamic(() => import('../../components/Templete/ListProductPerPage'),{ ssr: false })
 

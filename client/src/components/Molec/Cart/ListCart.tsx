@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
-const LoadingElement = dynamic(() => import("../../Atom/LoadingElement"),{ ssr: false })
-const ProductCart = dynamic(() => import("../../Atom/ProductCart"),{ ssr: false })
+const LoadingElement = dynamic(() => import("../../Atom/Loading/LoadingElement"),{ ssr: false })
+const ProductCart = dynamic(() => import("../../Atom/Cart/ProductCart"),{ ssr: false })
 
 const ListCart = ({ removeItem, listProduct, loading }) => {
     return (

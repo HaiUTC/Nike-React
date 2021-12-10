@@ -1,4 +1,4 @@
-import LinkBlack from "./LinkBlack"
+import LinkBlack from "../Button/LinkBlack"
 
 interface ISessionPartContent {
     url : string,

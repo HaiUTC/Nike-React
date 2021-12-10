@@ -1,8 +1,8 @@
 import * as React from "react";
 import Slide from "@mui/material/Slide";
 import Dialog from "@mui/material/Dialog";
-import HeaderListCommnent from "../../Atom/HeaderListCommnent";
-import TitleListComment from "../../Atom/TitleListComment";
+import HeaderListCommnent from "../../Atom/Comment/HeaderListCommnent";
+import TitleListComment from "../../Atom/Comment/TitleListComment";
 import { TransitionProps } from "@mui/material/transitions";
 import Comment from "../../Atom/Comment/Comment";
 

@@ -7,7 +7,7 @@ import { GetProductByCategoryAndCollectionDocument, useGetProductByCategoryAndCo
 import { addApolloState, initializeApollo } from '../../libs/apolloClient'
 const Layout = dynamic(() => import('../../components/Templete/Layout/Layout'),{ ssr: false })
 const ListProductPerPage = dynamic(() => import('../../components/Templete/ListProductPerPage'))
-const LoadingPage = dynamic(() => import('../../components/Atom/LoadingPage'),{ ssr: false })
+const LoadingPage = dynamic(() => import('../../components/Atom/Loading/LoadingPage'),{ ssr: false })
 import { limit } from './index'
 export let categoryId = 0
 export let sort

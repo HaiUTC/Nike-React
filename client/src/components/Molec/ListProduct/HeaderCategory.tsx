@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
-import SortProduct from '../../Atom/SortProduct'
-import ToggleFilterProduct from '../../Atom/ToogleFilterProduct'
+import SortProduct from '../../Atom/Product/SortProduct'
+import ToggleFilterProduct from '../../Atom/Button/ToogleFilterProduct'
 
 interface IHeaderCategory {
     showSort : boolean,
@@ -14,7 +14,10 @@ enum HeaderTitle {
     "All Products"= undefined,
     "Men's Shoes" = 1,
     "Men's Clothings" = 2,
-    "Men's Gears" = 3
+    "Men's Gears" = 3,
+    "Kid's Shoes" = 5,
+    "Kid's Clothing" = 6,
+    "Kid's Gear & Accossories" = 7
 }
 const HeaderCategory = ({showSort,ShowSort,totalCount,categoryId,isShowFilter,showFilter}:IHeaderCategory) => {
     const router = useRouter()

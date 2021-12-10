@@ -4,8 +4,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import SessionPartContent from "../../Atom/SessionPartContent"
-import NextPrevIcons from '../../Atom/NextPrevIcons';
+import SessionPartContent from "../../Atom/Another/SessionPartContent"
+import NextPrevIcons from '../../Atom/Button/NextPrevIcons';
 SwiperCore.use([Scrollbar,Navigation])
 interface ISessionPartContent {
     url : string,

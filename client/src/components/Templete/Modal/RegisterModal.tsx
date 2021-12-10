@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
 import Image from 'next/image'
-import ButtonSubmit from "../../Atom/Button";
+import ButtonSubmit from "../../Atom/Button/Button";
 import { RegisterInput, useRegisterMutation } from "../../../generated/graphql";
 import { FormInputAtom } from "../../Atom/Form/FormInput";
 import { FormSelectAtom } from "../../Atom/Form/FormSelect";

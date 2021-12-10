@@ -1,4 +1,4 @@
-import PlayBookKid from "../../Atom/PlayBookKid";
+import PlayBookKid from "../../Atom/Another/PlayBookKid";
 
 
 const PlayBook = ({data}) =>{
