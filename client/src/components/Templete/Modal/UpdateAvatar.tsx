@@ -1,6 +1,6 @@
 import { Avatar, Button, Dialog, DialogContent,styled } from "@mui/material";
 
-const UpdateAvatar = ({handleClose}) =>{
+const UpdateAvatar = ({handleClose,avatar}) =>{
     const Input = styled('input')({display: 'none',});
 
     return (
@@ -9,7 +9,7 @@ const UpdateAvatar = ({handleClose}) =>{
                 <div className="py-8 px-14 relative">
                     <p className="text-2xl pb-6">Edit Profile Picture</p>
                     <p>Image must be in jpg file format. File size must be less than 2MB.</p> 
-                    <div className="flex justify-center items-center"><Avatar src='https://www.nike.com/vc/profile/images/d584e051-0589-4dd3-bf0b-32aabf62f56b_100.jpg' sx={{ width: 350, height: 350 }}/></div>
+                    <div className="flex justify-center items-center"><Avatar src={avatar} sx={{ width: 350, height: 350 }}/></div>
                     <div className="flex items-center justify-end pt-8">
                         <div className="px-2"><button className="px-8 py-2 border-2 rounded-full">Delete</button> </div>
                         <div>

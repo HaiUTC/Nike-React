@@ -2,9 +2,9 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import { useContext } from 'react'
 import { UserContext } from '../../libs/UserContext'
+const LoadingElement = dynamic(() => import('../../components/Atom/Loading/LoadingElement'))
 const MemberBenefits = dynamic(() => import('../../components/Atom/Member/MemberBenefits'))
 const DownLoad = dynamic(() => import('../../components/Atom/Member/DownLoad'))
-const LoadingPage = dynamic(() => import('../../components/Atom/Loading/LoadingPage'))
 const HeaderMemberPage = dynamic(() => import("../../components/Atom/Member/HeaderMemberPage"))
 const AvatarMember = dynamic(() => import("../../components/Atom/Member/AvatarMember"))
 const Layout = dynamic(() => import("../../components/Templete/Layout/Layout"))
@@ -27,7 +27,7 @@ const profile = ({download,memberBenefits }) => {
                         <MemberBenefits data={memberBenefits} title="Member Benefits"/>
                         <DownLoad data={download} title="Nike Apps"/> 
                     </>
-                ) : <LoadingPage />}
+                ) : <LoadingElement />}
                 
             </Layout>
         </>

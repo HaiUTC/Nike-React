@@ -3,12 +3,12 @@ import { TextField } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
-const AccountDetails = (props) =>{
+const AccountDetails = ({data}) =>{
     return (
         <div>
             <p className='text-2xl pb-6'>Account Details</p>
             <div className="pb-4">
-                <TextField disabled fullWidth id="demo-helper-text-misaligned" label="Email*" value="sahaetran@gmail.com" />
+                <TextField disabled fullWidth id="demo-helper-text-misaligned" label="Email*" value={data.email} />
             </div>
             <div>
                 <p className="text-lg py-3">Password</p>

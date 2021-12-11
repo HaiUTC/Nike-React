@@ -2,12 +2,13 @@ import Head from 'next/head'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useContext, useState } from 'react'
-import { UserContext } from '../../libs/UserContext'
-import ShopPreferences from '../../components/Atom/Member/Settings/ShopPreferences'
-import LinkedAccount from '../../components/Atom/Member/Settings/LinkedAccount'
-import ProfileVisiblity from '../../components/Atom/Member/Settings/ProfileVisiblity'
-import AccountDetails from '../../components/Atom/Member/Settings/AccountDetails'
 import { Box, Drawer } from '@mui/material'
+import { UserContext } from '../../libs/UserContext'
+import useWindowSize from '../../utils/useWindowSize'
+const ShopPreferences = dynamic(() => import('../../components/Atom/Member/Settings/ShopPreferences'))
+const LinkedAccount = dynamic(() => import('../../components/Atom/Member/Settings/LinkedAccount'))
+const ProfileVisiblity = dynamic(() => import('../../components/Atom/Member/Settings/ProfileVisiblity'))
+const AccountDetails = dynamic(() => import('../../components/Atom/Member/Settings/AccountDetails'))
 const LoadingElement = dynamic(() => import('../../components/Atom/Loading/LoadingElement'))
 const Delivery = dynamic(() => import('../../components/Atom/Member/Settings/Delivery'))
 const CommunicationPreferences = dynamic(() => import('../../components/Atom/Member/Settings/CommunicationPreferences'))
@@ -18,6 +19,7 @@ const Layout = dynamic(() => import("../../components/Templete/Layout/Layout"))
 
 
 const settings = () => {
+    const size = useWindowSize()
     const {user} =useContext(UserContext)
     const [eleActive, setEleActive] = useState('account-detail')
     const [anchor, setAnchor] = useState(false)
@@ -47,10 +49,10 @@ const settings = () => {
             element = <LinkedAccount />
             break
         case 'profile-visibility' :
-            element = <ProfileVisiblity/>
+            element = <ProfileVisiblity data={user[0]?.MyProfile}/>
             break
         default : 
-            element = <AccountDetails />
+            element = <AccountDetails data={user[0]?.MyProfile}/>
             break
     }
     return (
@@ -75,7 +77,8 @@ const settings = () => {
                                     
                                 </div>
                         </div>
-                        <div className='lg:hidden'>
+                        {size.width <= 1025 && 
+                        <div className='block lg:hidden'>
                             <Drawer anchor="right" open={anchor} onClose={null}>
                                 <Box sx={{ width: "100vw" }} role="presentation">
                                     <div className='px-6 py-4'>
@@ -88,6 +91,7 @@ const settings = () => {
                                 </Box>
                             </Drawer>
                         </div>
+                        }
                     </div>
                 ) : <LoadingElement />}
                 
