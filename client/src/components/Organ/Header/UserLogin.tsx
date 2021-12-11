@@ -31,9 +31,9 @@ const UserLogin = ({data}) => {
                       <li><Link href="/member/profile"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Profile</a></Link></li>
                       <li><Link href="/cart"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Orders</a></Link></li>
                       <li><Link href="/favorite"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Favorites</a></Link></li>
-                      <li><Link href="/"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Inbox</a></Link></li>
+                      <li><Link href="/member/inbox"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Inbox</a></Link></li>
                       <li><Link href="/"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Event</a></Link></li>
-                      <li><Link href="/"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Account Settings</a></Link></li>
+                      <li><Link href="/member/settings"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Account Settings</a></Link></li>
                       <li><Link href="/"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1' onClick={logoutUser}>Log Out</a></Link></li>
                     </ul>
                   </div>
