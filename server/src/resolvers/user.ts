@@ -1,20 +1,22 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import argon2 from "argon2";
-import { v4 as uuidv4} from 'uuid'
-import { User } from "../entities/User";
+import { createWriteStream } from "fs";
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
+import path from 'path';
+import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { v4 as uuidv4 } from 'uuid';
 import { COOKIE_NAME } from "../constants";
-import { ValidateRegisterInput } from "../untils/Validate/ValidateRegisterInput";
-import { ValidateChangePasswordInput } from "../untils/Validate/ValidateChangePasswordInput";
+import { Cart } from "../entities/Cart";
+import { User } from "../entities/User";
 import { TokenModel } from "../models/Token";
 import { UserPendingModel } from "../models/userPending";
-import { UserMutationResponse } from "../types/User/UserMutationResponse";
-import { RegisterInput } from "../types/User/RegisterInput";
-import { LoginInput } from "../types/User/LoginInput";
 import { Context } from "../types/Context/Context";
 import { ChangePasswordInput } from "../types/User/ChangePasswordInput";
 import { ForgotPasswordInput } from "../types/User/ForgotPasswordInput";
-import { Cart } from "../entities/Cart";
-
+import { LoginInput } from "../types/User/LoginInput";
+import { RegisterInput } from "../types/User/RegisterInput";
+import { UserMutationResponse } from "../types/User/UserMutationResponse";
+import { ValidateChangePasswordInput } from "../untils/Validate/ValidateChangePasswordInput";
+import { ValidateRegisterInput } from "../untils/Validate/ValidateRegisterInput";
 
 @Resolver(_of => User)
 export class UserResolver {
@@ -213,8 +215,6 @@ export class UserResolver {
 
     @Mutation(_return => UserMutationResponse)
     async ChangePassword (
-        @Arg('token') token : string,
-        @Arg('userId') userId : string,
         @Arg('changePasswordInput') changePasswordInput : ChangePasswordInput,
         @Ctx() {req} : Context
     ):Promise<UserMutationResponse>{
@@ -226,57 +226,32 @@ export class UserResolver {
                 ...validateChangePasswordInput
             }
         try {
-            const changePasswordToken = await TokenModel.findOne({userId})
-            if(!changePasswordToken)
-                return {
+            const existingUser = await User.findOne({id : req.session.userId})
+            if(existingUser){
+            const passwordValid = await argon2.verify(existingUser.password, changePasswordInput.currentPassword)
+            if(!passwordValid){
+                return{
                     code : 400,
                     success : false,
-                    message : 'Invalid Token',
+                    message : 'Current password not correct!',
                     errors : [
                         {
-                            field : 'Token',
-                            message : 'Invalid Token'
+                            field : "currentPassword",
+                            message : 'Current password not correct!'
                         }
                     ]
                 }
-
-            const changePasswordValid = argon2.verify(changePasswordToken.token, token)
-            if(!changePasswordValid) 
-                return {
-                    code : 400,
-                    success : false,
-                    message : 'Invalid Token',
-                    errors : [
-                        {
-                            field : 'Token',
-                            message : 'Invalid Token'
-                        }
-                    ]
-                }
-            
-            const user = await User.findOne(+userId)
-            if(!user)
-                return {
-                    code : 400,
-                    success : false,
-                    message : 'User not found',
-                    errors : [
-                        {
-                            field : 'User',
-                            message : 'User not found'
-                        }
-                    ]
-                }
+            }
+        }
 
             const updatePassword = await argon2.hash(changePasswordInput.newPassword)
-            await User.update({id : +userId}, {password : updatePassword})
-            await changePasswordToken.deleteOne()
-            req.session.userId = user.id
+            await User.update({id : req.session.userId}, {password : updatePassword})
             return{
                 code : 200,
                 success : true,
                 message : 'Change Password Successfully'
             }
+            
         } catch (error) {
             return {
                 code : 400,
@@ -288,10 +263,11 @@ export class UserResolver {
 
     @Mutation(_return => UserMutationResponse)
     async ChangeAvatar(
-        @Arg('avatar') newAvatar : string,
+        @Arg('avatar', () => GraphQLUpload) {createReadStream,filename} : FileUpload,
         @Ctx() {req} : Context
     ): Promise<UserMutationResponse>{
         try {
+            console.log(filename)
             const existingUser = await User.findOne({id : req.session.userId})
             if(!existingUser)
                 return {
@@ -305,7 +281,12 @@ export class UserResolver {
                         }
                     ]
                 }
-            await User.update({id : existingUser.id}, {avatar : newAvatar})
+            const pathName = path.join(__dirname, `public/image/${filename}`)
+            await createReadStream().pipe(createWriteStream(pathName))
+
+            const avatar = `http://localhost:5000/image/${filename}`
+            console.log(avatar)
+            await User.update({id : existingUser.id}, {avatar})
             return {
                 code : 200,
                 success : true,

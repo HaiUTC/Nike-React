@@ -1,5 +1,8 @@
 mutation AddProductToCart($cartInput : CartInput!){
     AddProductToCart(cartInput : $cartInput){
        ...cartMutationResponse
+        errors {
+        ...errorsInfo
+    }
     }
 }

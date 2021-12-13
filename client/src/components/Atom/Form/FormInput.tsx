@@ -16,6 +16,6 @@ interface IInputFieldProps {
   }
 export const FormInputAtom = ({formik,...props}: IInputFieldProps) => {
     return (
-        <TextField fullWidth {...props} autoFocus={props.focus==='true'} onChange={formik.handleChange}/>
+        <TextField fullWidth {...props} autoFocus={props.focus==='true'} onChange={formik.handleChange} variant="outlined"/>
     )
 } 

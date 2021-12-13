@@ -79,7 +79,7 @@ const settings = () => {
                         </div>
                         {size.width <= 1025 && 
                         <div className='block lg:hidden'>
-                            <Drawer anchor="right" open={anchor} onClose={null}>
+                            <Drawer anchor="right" open={anchor} onClose={onCloseAnchor}>
                                 <Box sx={{ width: "100vw" }} role="presentation">
                                     <div className='px-6 py-4'>
                                         <div className='flex py-4 cursor-pointer' onClick={onCloseAnchor}>

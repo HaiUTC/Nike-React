@@ -14,6 +14,8 @@ export type Scalars = {
   Float: number;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type Address = {
@@ -105,6 +107,8 @@ export type CategoryMutationResponse = IMutationResponse & {
 };
 
 export type ChangePasswordInput = {
+  confirmNewPassword: Scalars['String'];
+  currentPassword: Scalars['String'];
   newPassword: Scalars['String'];
 };
 
@@ -242,14 +246,12 @@ export type MutationAddProductToCartArgs = {
 
 
 export type MutationChangeAvatarArgs = {
-  avatar: Scalars['String'];
+  avatar: Scalars['Upload'];
 };
 
 
 export type MutationChangePasswordArgs = {
   changePasswordInput: ChangePasswordInput;
-  token: Scalars['String'];
-  userId: Scalars['String'];
 };
 
 
@@ -537,11 +539,15 @@ export type UpdateAddressInput = {
 
 export type User = {
   __typename?: 'User';
+  about_me?: Maybe<Scalars['String']>;
   avatar: Scalars['String'];
   createdAt: Scalars['DateTime'];
   email: Scalars['String'];
+  first_name: Scalars['String'];
   gender: Scalars['String'];
+  home_town?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  last_name: Scalars['String'];
   name: Scalars['String'];
   role: Scalars['String'];
   updatedAt: Scalars['DateTime'];
@@ -560,7 +566,7 @@ export type CartMutationResponseFragment = { __typename?: 'CartMutationResponse'
 
 export type ProductIdsInfoFragment = { __typename?: 'Product', id: string, name: string, title: string, labelSpecial?: string | null | undefined, price: number, size?: Array<number> | null | undefined, numberColor: number, description: string, percentSale?: number | null | undefined, timerSale?: any | null | undefined, numberReview: number, rating: number, picture: { __typename?: 'ItemPicture', url: string }, poster: Array<{ __typename?: 'Picture', url: Array<string>, color?: string | null | undefined }> };
 
-export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
+export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, first_name: string, last_name: string, email: string, avatar: string, home_town?: string | null | undefined, about_me?: string | null | undefined } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined };
 
 export type CartInfoFragment = { __typename?: 'Cart', total?: number | null | undefined, quantity?: number | null | undefined, cartItems?: Array<{ __typename?: 'CartItem', size: number, quantity: number, color: string, discount: number, monney: number, product?: { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined }> | null | undefined };
 
@@ -574,7 +580,14 @@ export type ProductInCartFragment = { __typename?: 'Product', id: string, name: 
 
 export type ProductResponseFragment = { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> };
 
-export type UserInfoFragment = { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string };
+export type UserInfoFragment = { __typename?: 'User', id: string, name: string, first_name: string, last_name: string, email: string, avatar: string, home_town?: string | null | undefined, about_me?: string | null | undefined };
+
+export type ChangePasswordMutationVariables = Exact<{
+  changePasswordInput: ChangePasswordInput;
+}>;
+
+
+export type ChangePasswordMutation = { __typename?: 'Mutation', ChangePassword: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } };
 
 export type AddProductToCartMutationVariables = Exact<{
   cartInput: CartInput;
@@ -595,7 +608,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', Login: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } };
+export type LoginMutation = { __typename?: 'Mutation', Login: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, first_name: string, last_name: string, email: string, avatar: string, home_town?: string | null | undefined, about_me?: string | null | undefined } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -607,7 +620,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', Register?: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } | null | undefined };
+export type RegisterMutation = { __typename?: 'Mutation', Register?: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, first_name: string, last_name: string, email: string, avatar: string, home_town?: string | null | undefined, about_me?: string | null | undefined } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } | null | undefined };
 
 export type DeleteProductInCartMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -615,6 +628,13 @@ export type DeleteProductInCartMutationVariables = Exact<{
 
 
 export type DeleteProductInCartMutation = { __typename?: 'Mutation', DeleteProductInCart: { __typename?: 'CartMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, cart?: { __typename?: 'Cart', total?: number | null | undefined, quantity?: number | null | undefined, cartItems?: Array<{ __typename?: 'CartItem', size: number, quantity: number, color: string, discount: number, monney: number, product?: { __typename?: 'Product', id: string, name: string, title: string, size?: Array<number> | null | undefined, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined }> | null | undefined } | null | undefined } };
+
+export type UpdateAvatarMutationVariables = Exact<{
+  file: Scalars['Upload'];
+}>;
+
+
+export type UpdateAvatarMutation = { __typename?: 'Mutation', ChangeAvatar: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, user?: { __typename?: 'User', id: string, name: string, first_name: string, last_name: string, email: string, avatar: string, home_town?: string | null | undefined, about_me?: string | null | undefined } | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } };
 
 export type AllProductIdsQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -650,7 +670,7 @@ export type GetCommentQuery = { __typename?: 'Query', GetComment?: { __typename?
 export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyProfileQuery = { __typename?: 'Query', MyProfile?: { __typename?: 'User', id: string, name: string, email: string, gender: string, avatar: string } | null | undefined };
+export type MyProfileQuery = { __typename?: 'Query', MyProfile?: { __typename?: 'User', id: string, name: string, first_name: string, last_name: string, email: string, avatar: string, home_town?: string | null | undefined, about_me?: string | null | undefined } | null | undefined };
 
 export type GetProductIdQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -764,9 +784,12 @@ export const UserInfoFragmentDoc = gql`
     fragment userInfo on User {
   id
   name
+  first_name
+  last_name
   email
-  gender
   avatar
+  home_town
+  about_me
 }
     `;
 export const UserMutationResponseFragmentDoc = gql`
@@ -801,13 +824,54 @@ export const ProductResponseFragmentDoc = gql`
   }
 }
     `;
+export const ChangePasswordDocument = gql`
+    mutation ChangePassword($changePasswordInput: ChangePasswordInput!) {
+  ChangePassword(changePasswordInput: $changePasswordInput) {
+    ...mutationStatus
+    errors {
+      ...errorsInfo
+    }
+  }
+}
+    ${MutationStatusFragmentDoc}
+${ErrorsInfoFragmentDoc}`;
+export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMutation, ChangePasswordMutationVariables>;
+
+/**
+ * __useChangePasswordMutation__
+ *
+ * To run a mutation, you first call `useChangePasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangePasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changePasswordMutation, { data, loading, error }] = useChangePasswordMutation({
+ *   variables: {
+ *      changePasswordInput: // value for 'changePasswordInput'
+ *   },
+ * });
+ */
+export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptions<ChangePasswordMutation, ChangePasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, options);
+      }
+export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
+export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
+export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
 export const AddProductToCartDocument = gql`
     mutation AddProductToCart($cartInput: CartInput!) {
   AddProductToCart(cartInput: $cartInput) {
     ...cartMutationResponse
+    errors {
+      ...errorsInfo
+    }
   }
 }
-    ${CartMutationResponseFragmentDoc}`;
+    ${CartMutationResponseFragmentDoc}
+${ErrorsInfoFragmentDoc}`;
 export type AddProductToCartMutationFn = Apollo.MutationFunction<AddProductToCartMutation, AddProductToCartMutationVariables>;
 
 /**
@@ -994,6 +1058,39 @@ export function useDeleteProductInCartMutation(baseOptions?: Apollo.MutationHook
 export type DeleteProductInCartMutationHookResult = ReturnType<typeof useDeleteProductInCartMutation>;
 export type DeleteProductInCartMutationResult = Apollo.MutationResult<DeleteProductInCartMutation>;
 export type DeleteProductInCartMutationOptions = Apollo.BaseMutationOptions<DeleteProductInCartMutation, DeleteProductInCartMutationVariables>;
+export const UpdateAvatarDocument = gql`
+    mutation UpdateAvatar($file: Upload!) {
+  ChangeAvatar(avatar: $file) {
+    ...userMutationResponse
+  }
+}
+    ${UserMutationResponseFragmentDoc}`;
+export type UpdateAvatarMutationFn = Apollo.MutationFunction<UpdateAvatarMutation, UpdateAvatarMutationVariables>;
+
+/**
+ * __useUpdateAvatarMutation__
+ *
+ * To run a mutation, you first call `useUpdateAvatarMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAvatarMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAvatarMutation, { data, loading, error }] = useUpdateAvatarMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useUpdateAvatarMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAvatarMutation, UpdateAvatarMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAvatarMutation, UpdateAvatarMutationVariables>(UpdateAvatarDocument, options);
+      }
+export type UpdateAvatarMutationHookResult = ReturnType<typeof useUpdateAvatarMutation>;
+export type UpdateAvatarMutationResult = Apollo.MutationResult<UpdateAvatarMutation>;
+export type UpdateAvatarMutationOptions = Apollo.BaseMutationOptions<UpdateAvatarMutation, UpdateAvatarMutationVariables>;
 export const AllProductIdsDocument = gql`
     query AllProductIds($limit: Int!, $cursor: String) {
   GetAllProducts(limit: $limit, cursor: $cursor) {

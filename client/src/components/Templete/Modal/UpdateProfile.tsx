@@ -1,6 +1,6 @@
 import { Dialog, DialogContent,TextField } from "@mui/material";
 
-const UpdateProfile = ({handleClose}) =>{
+const UpdateProfile = ({handleClose,data}) =>{
     return (
         <Dialog open={true} scroll={'paper'} maxWidth="sm"  onClose={handleClose}>
             <DialogContent>
@@ -8,19 +8,19 @@ const UpdateProfile = ({handleClose}) =>{
                     <p className="text-2xl pb-6">Edit Profile Details</p>
                    
                     <div className="pb-4" style={{width : "450px"}}>
-                        <TextField fullWidth id="demo-helper-text-misaligned" label="First Name*" value="Thanh Hải" />
+                        <TextField fullWidth id="demo-helper-text-misaligned" label="First Name*" value={data.first_name} />
                     </div>
                      <div className="pb-4">
-                        <TextField id="demo-helper-text-misaligned" label="Last Name*" value="Nguyễn"/>
+                        <TextField id="demo-helper-text-misaligned" label="Last Name*" value={data.last_name}/>
                      </div>
                     <div className="pb-4">
-                        <TextField id="demo-helper-text-misaligned" label="Screen Name*" value="Nguyễn Thanh Hải"/>
+                        <TextField id="demo-helper-text-misaligned" label="Screen Name*" value={data.name}/>
                     </div>
                     <div className="pb-4">
-                        <TextField id="demo-helper-text-misaligned" label="Hometown" />
+                        <TextField id="demo-helper-text-misaligned" label="Hometown" value={data.home_town}/>
                     </div>
                     <div className="pb-4">
-                        <TextField id="demo-helper-text-misaligned" label="About Me" multiline rows={4}/>
+                        <TextField id="demo-helper-text-misaligned" label="About Me" multiline rows={4} value={data.about_me}/>
                         <div className="flex justify-end"><span className="text-gray-500 text-xs">0/150</span></div>
                     </div>
                     

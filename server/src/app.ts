@@ -33,11 +33,13 @@ import { CartItemResolver } from './resolvers/cartItem'
 import { SearchResolver } from './resolvers/search'
 const PORT = process.env.PORT || 5000
 const app = express()
+app.use(express.static('public'))
 const server = createServer(app)
 import {RunSocket} from './socket'
 import { Comment } from './entities/Comment'
 import { CommentResolver } from './resolvers/comment'
 import { ReplyComment } from './entities/ReplyComment'
+import { graphqlUploadExpress } from 'graphql-upload'
 const main = async () => {
     //conect posgresql
     const connection = await createConnection({
@@ -73,13 +75,17 @@ const main = async () => {
         saveUninitialized : false,
         resave : false
     }))
+
+    //app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
+    app.use('/graphql',graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }))
+
     //create apollo server
     const apolloServer = new ApolloServer ({
         schema : await buildSchema({
             resolvers : [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver,CartResolver,CartItemResolver,SearchResolver, CommentResolver],
             validate : false}),
         context : ({req,res}) : Context => ({req,res,connection,dataLoaders: buildDataloader()}),
-        plugins : [ApolloServerPluginLandingPageGraphQLPlayground]
+        plugins : [ApolloServerPluginLandingPageGraphQLPlayground],
     })
     await apolloServer.start()
     apolloServer.applyMiddleware({app , cors : false})

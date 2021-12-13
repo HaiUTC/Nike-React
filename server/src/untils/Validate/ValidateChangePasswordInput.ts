@@ -11,5 +11,16 @@ export const ValidateChangePasswordInput = (changePasswordInput : ChangePassword
                 }
             ]
         }
+
+    if(changePasswordInput.newPassword === changePasswordInput.currentPassword)
+        return {
+            message : 'Invalid New Password',
+            errors : [
+                {
+                    field : 'newPassword',
+                    message : 'New Password must not match Current Password'
+                }
+            ]
+        } 
     return null
 }

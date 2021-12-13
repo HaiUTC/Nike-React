@@ -54,7 +54,7 @@ const ProfileVisiblity = ({data}) =>{
                 <button className="px-8 py-3 lgpy-2 rounded-full bg-black text-white w-full lg:w-auto" >Save</button> 
             </div>
             {showUpdateAvatar && <UpdateAvatar handleClose={handleCloseUpdateAvatar} avatar={data.avatar}/>}
-            {showUpdateProfile && <UpdateProfile handleClose={handleCloseUpdateProfile}/>}
+            {showUpdateProfile && <UpdateProfile handleClose={handleCloseUpdateProfile} data={data}/>}
         </div>
     );
 }

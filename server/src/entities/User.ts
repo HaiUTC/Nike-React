@@ -13,6 +13,14 @@ export class User extends BaseEntity {
     id!: number
 
     @Field()
+    @Column({nullable : true})
+    first_name: string
+
+    @Field()
+    @Column({nullable : true})
+    last_name: string
+
+    @Field()
     @Column()
     name!: string
 
@@ -30,6 +38,14 @@ export class User extends BaseEntity {
     @Field()
     @Column()
     gender!: string
+
+    @Field({nullable : true})
+    @Column({nullable : true})
+    home_town!: string
+
+    @Field({nullable : true})
+    @Column({nullable : true})
+    about_me!: string
 
     @Field()
     @Column({default : 'https://drive.google.com/file/d/1AWoyHuA2aB7ayOsBy0B-gN_iotX0khuZ/view?usp=sharing'})
