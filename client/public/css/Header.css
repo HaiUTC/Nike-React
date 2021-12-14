@@ -12,7 +12,7 @@
 #listCategory:hover{display: flex;}
 #user:hover ~ #user_select{display: block;}
 #user_select:hover{display: block;}
-#regsiterModal{left : 15px !important;}
+/*#regsiterModal{left : 15px !important;} */
 #formSearch,#formSearchMb{animation: FallUp linear 0.2s;}
 @media screen and (max-width : 1005px){#header{display: none;}#headerMb{display: flex !important;}}
 @media screen and (max-width : 640px){#directional_slide{display: none;}}

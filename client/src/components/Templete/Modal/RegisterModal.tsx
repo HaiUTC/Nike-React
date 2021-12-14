@@ -8,6 +8,7 @@ import { useFormik,FormikHelpers  } from 'formik';
 import * as yup from 'yup';
 import { useState } from "react";
 import mapFieldErrors from '../../../utils/mapErrors'
+import useWindowSize from "../../../utils/useWindowSize";
 const validationSchema = yup.object({
   firstName : yup.string().required('First Name is required'),
   lastName : yup.string().required('Last Name is required'),
@@ -18,6 +19,7 @@ const validationSchema = yup.object({
 });
 const RegisterModal = ({handleClose}) =>{
     const [doneRegister, setDoneRegister] = useState(false)
+    const size = useWindowSize()
     const initialValues: RegisterInput = {firstName : "", lastName : "", password : "",confirmPassword:"", email :"", gender : ""}
     const [registerUser, {loading : _registerUserLoading}] = useRegisterMutation()
     const handleCloseModal = () => {handleClose()};
@@ -41,9 +43,9 @@ const RegisterModal = ({handleClose}) =>{
     
     
     return (
-      <Dialog id='regsiterModal' open={true} maxWidth="xs" scroll='body' onClose={handleCloseModal}>
+      <Dialog id='regsiterModal' fullScreen={size.width<=620} fullWidth open={true} maxWidth="xs" scroll='body' onClose={handleCloseModal}>
         <DialogTitle id="alert-dialog-title">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center relative">
             <div><Image src='/static/icons/logo.svg' width="60px" height="60px"/></div>
             <div className="text-2xl pb-1 font-bold tracking-tighter text-center">BECOME A NIKE MEMBER</div>
             <span className="text-sm text-gray-500 pb-1 text-center">Create your Nike Member profile and get first access to the very best of Nike products, inspiration and community.</span>
@@ -113,6 +115,9 @@ const RegisterModal = ({handleClose}) =>{
                 </form>
                 }
               </Stack>
+              <div className="absolute top-4 right-8 cursor-pointer" onClick={handleClose}>
+                  <img className="p-2 rounded-full bg-gray-100" src='/static/icons/exit2.svg'/>
+              </div>
               
         </DialogContent>
       </Dialog>

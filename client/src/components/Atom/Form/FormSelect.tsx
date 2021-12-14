@@ -17,6 +17,7 @@ export const FormSelectAtom = ({formik,...props}: IInputFieldProps) =>{
           onChange={formik.handleChange}
           error={formik.touched.gender && Boolean(formik.errors.gender)}
           helperText={formik.touched.gender && formik.errors.gender}
+          variant="outlined"
         >
           <MenuItem value='Male'>Male</MenuItem>
           <MenuItem value='Female'>Female</MenuItem>

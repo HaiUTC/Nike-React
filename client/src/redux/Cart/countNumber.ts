@@ -17,7 +17,9 @@ interface countNumber {
     reducers: {
         changeNumCart : (state, action) => {
             state.numCart = action.payload
-            localStorage.setItem('numcart', (state.numCart).toString())
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('numcart', (state.numCart).toString())
+          }
         }
      
     },

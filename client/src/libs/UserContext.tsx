@@ -31,7 +31,8 @@ const UserContextProvider = (props) => {
                 router.route === '/member/inbox' ||
                 router.route === '/member/orders' ||
                 router.route === '/member/favorites' ||
-                router.route === '/member/settings')
+                router.route === '/member/settings' ||
+                router.route === '/cart')
             ){
                 router.replace('/')
             }
