@@ -1,7 +1,7 @@
-const ButtonCheckout = () => {
+const ButtonCheckout = ({handleCheckOut}) => {
     return (
         <div>
-            <button type='submit' className='w-full py-4 rounded-full bg-black text-base text-white'>Member Checkout</button>
+            <button type='submit' className='w-full py-4 rounded-full bg-black text-base text-white' onClick={handleCheckOut}>Member Checkout</button>
         </div>
     )
 }

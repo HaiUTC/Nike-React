@@ -33,7 +33,7 @@ const ProductCart = ({product,haveSize,quantity,removeItem,monney,color}) => {
               <div className='px-4'>
                 <span className='pr-2'>Quantity</span>
                 <Select defaultValue={quantity} onChange={handleChangeQuantity}>
-                  <MenuItem value={quantity}><pre>{quantity}  </pre></MenuItem>
+                  <MenuItem value={quantity}><pre className='text-base'>{quantity}  </pre></MenuItem>
                 </Select>
               </div>
             </div>

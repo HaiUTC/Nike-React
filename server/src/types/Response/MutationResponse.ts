@@ -3,10 +3,10 @@ import { Field, InterfaceType } from "type-graphql";
 @InterfaceType()
 export abstract class IMutationResponse {
     @Field()
-    code : number
+    code ?: number
 
     @Field()
-    success : boolean
+    success ?: boolean
 
     @Field({nullable : true})
     message?: string

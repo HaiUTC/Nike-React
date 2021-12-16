@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { CartItem } from "./CartItem";
+import { CheckOutItem } from "./CheckOutItem";
 import { User } from "./User";
 
 @ObjectType()
@@ -17,12 +17,13 @@ export class CheckOut extends BaseEntity{
     @OneToOne(()=> User, user => user.cart)
     user : User
 
-    @OneToMany(()=> CartItem, cartItem => cartItem.checkout)
-    cartItem : CartItem
+    @Field()
+    @Column('decimal',{default : 0})
+    total : number
 
     @Field()
-    @Column('decimal')
-    total : number
+    @Column({default : 1})
+    stateId : number
 
     @Field()
     @CreateDateColumn({type: "timestamptz"})
@@ -31,4 +32,7 @@ export class CheckOut extends BaseEntity{
     @Field()
     @UpdateDateColumn({type: "timestamptz"})
     updatedAt : Date
+
+    @OneToMany(()=> CheckOutItem, checkOutItem => checkOutItem.checkout)
+    checkOutItem : CheckOutItem[]
 }

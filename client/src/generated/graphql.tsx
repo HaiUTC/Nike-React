@@ -112,6 +112,12 @@ export type ChangePasswordInput = {
   newPassword: Scalars['String'];
 };
 
+export type CheckOutInput = {
+  discount?: Maybe<Scalars['Float']>;
+  product: Array<ProductCheckOut>;
+  total: Scalars['Float'];
+};
+
 export type Collection = {
   __typename?: 'Collection';
   category: Category;
@@ -175,6 +181,14 @@ export type IMutationResponse = {
   success: Scalars['Boolean'];
 };
 
+export type IMutationResponsePrimary = IMutationResponse & {
+  __typename?: 'IMutationResponsePrimary';
+  code: Scalars['Float'];
+  errors?: Maybe<Array<FieldError>>;
+  message?: Maybe<Scalars['String']>;
+  success: Scalars['Boolean'];
+};
+
 export type ItemPicture = {
   __typename?: 'ItemPicture';
   color: Scalars['String'];
@@ -206,6 +220,7 @@ export type Mutation = {
   ChangePassword: UserMutationResponse;
   ChangeQuantityProductInCart: CartMutationResponse;
   ChangeSizeProductInCart: CartMutationResponse;
+  CheckOut: IMutationResponsePrimary;
   CreateAddress: AddressMutationResponse;
   CreateProduct?: Maybe<ProductMutationResponse>;
   DeleteAddress?: Maybe<AddressMutationResponse>;
@@ -264,6 +279,11 @@ export type MutationChangeQuantityProductInCartArgs = {
 export type MutationChangeSizeProductInCartArgs = {
   id: Scalars['ID'];
   size: Scalars['Float'];
+};
+
+
+export type MutationCheckOutArgs = {
+  checkOutInput: CheckOutInput;
 };
 
 
@@ -391,6 +411,13 @@ export type Product = {
   timerSale?: Maybe<Scalars['DateTime']>;
   title: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+};
+
+export type ProductCheckOut = {
+  color: Scalars['String'];
+  productId: Scalars['String'];
+  quantity: Scalars['Float'];
+  size: Scalars['Float'];
 };
 
 export type ProductInput = {
@@ -588,6 +615,13 @@ export type ChangePasswordMutationVariables = Exact<{
 
 
 export type ChangePasswordMutation = { __typename?: 'Mutation', ChangePassword: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null | undefined, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined } };
+
+export type CheckOutMutationVariables = Exact<{
+  checkOutInput: CheckOutInput;
+}>;
+
+
+export type CheckOutMutation = { __typename?: 'Mutation', CheckOut: { __typename?: 'IMutationResponsePrimary', success: boolean } };
 
 export type AddProductToCartMutationVariables = Exact<{
   cartInput: CartInput;
@@ -861,6 +895,39 @@ export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptio
 export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
 export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
 export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export const CheckOutDocument = gql`
+    mutation CheckOut($checkOutInput: CheckOutInput!) {
+  CheckOut(checkOutInput: $checkOutInput) {
+    success
+  }
+}
+    `;
+export type CheckOutMutationFn = Apollo.MutationFunction<CheckOutMutation, CheckOutMutationVariables>;
+
+/**
+ * __useCheckOutMutation__
+ *
+ * To run a mutation, you first call `useCheckOutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCheckOutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [checkOutMutation, { data, loading, error }] = useCheckOutMutation({
+ *   variables: {
+ *      checkOutInput: // value for 'checkOutInput'
+ *   },
+ * });
+ */
+export function useCheckOutMutation(baseOptions?: Apollo.MutationHookOptions<CheckOutMutation, CheckOutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CheckOutMutation, CheckOutMutationVariables>(CheckOutDocument, options);
+      }
+export type CheckOutMutationHookResult = ReturnType<typeof useCheckOutMutation>;
+export type CheckOutMutationResult = Apollo.MutationResult<CheckOutMutation>;
+export type CheckOutMutationOptions = Apollo.BaseMutationOptions<CheckOutMutation, CheckOutMutationVariables>;
 export const AddProductToCartDocument = gql`
     mutation AddProductToCart($cartInput: CartInput!) {
   AddProductToCart(cartInput: $cartInput) {

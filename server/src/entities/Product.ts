@@ -2,6 +2,7 @@ import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { CartItem } from "./CartItem";
 import { Category } from "./Category";
+import { CheckOutItem } from "./CheckOutItem";
 
 
 @ObjectType()
@@ -104,6 +105,10 @@ export class Product extends BaseEntity{
     @Field(_type => CartItem)
     @OneToOne(()=> CartItem, cartItem => cartItem.product)
     cartItem : CartItem
+
+    @Field(_type => CheckOutItem)
+    @OneToOne(()=> CheckOutItem, checkOutItem => checkOutItem.product)
+    checkOutItem : CheckOutItem
 
 }
 

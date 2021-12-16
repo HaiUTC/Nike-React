@@ -1,51 +1,42 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Cart } from "./Cart";
+import { CheckOut } from "./CheckOut";
 import { Product } from "./Product";
 
 @ObjectType()
 @Entity()
-export class CartItem extends BaseEntity{
+export class CheckOutItem extends BaseEntity{
     @Field(_type => ID)
     @PrimaryGeneratedColumn('uuid')
     id!: string
 
     @Field()
     @Column()
-    cartId : string
+    checkoutId!: string
 
-    @Field(_type => Cart)
-    @ManyToOne(()=> Cart, cart => cart.cartItem)
-    cart: Cart
-
+    @Field(_type => CheckOut)
+    @ManyToOne(()=> CheckOut, checkout => checkout.checkOutItem)
+    checkout: CheckOut
 
     @Field()
     @Column()
-    productId : string
+    productId!: string
 
     @Field(_type => Product, {nullable : true})
-    @OneToOne(()=> Product, product => product.cartItem)
+    @OneToOne(()=> Product, product => product.checkOutItem)
     product : Product
 
     @Field()
-    @Column('decimal',{default : 42})
-    size!: number
-
-    @Field()
-    @Column({default : 0})
-    quantity: number
+    @Column()
+    quantity!: number
 
     @Field()
     @Column()
-    color: string
+    size!: number
 
     @Field()
-    @Column('decimal',{default : 0})
-    discount:number
-
-    @Field()
-    @Column('decimal', {default : 0})
-    monney : number
+    @Column()
+    color!: string
 
     @Field()
     @CreateDateColumn({type: "timestamptz"})

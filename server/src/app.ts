@@ -10,7 +10,7 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-co
 import { createConnection } from 'typeorm'
 import session from 'express-session'
 import { COOKIE_NAME, __prod__ } from './constants'
-import mongoose from 'mongoose'
+//import mongoose from 'mongoose'
 import MongoStore from 'connect-mongo'
 import { Context } from './types/Context/Context'
 import { User } from './entities/User'
@@ -40,6 +40,9 @@ import { Comment } from './entities/Comment'
 import { CommentResolver } from './resolvers/comment'
 import { ReplyComment } from './entities/ReplyComment'
 import { graphqlUploadExpress } from 'graphql-upload'
+import { CheckOutItem } from './entities/CheckOutItem'
+import { CheckOutResolver } from './resolvers/checkOut'
+import { CheckOutItemResolver } from './resolvers/checkOutItem'
 const main = async () => {
     //conect posgresql
     const connection = await createConnection({
@@ -49,7 +52,7 @@ const main = async () => {
         password : process.env.DB_PASSWORD,
         logging : true,
         synchronize : true,
-        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search,Comment,ReplyComment]
+        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search,Comment,ReplyComment,CheckOutItem]
     })
     
     app.use(cors({
@@ -58,8 +61,8 @@ const main = async () => {
     }))
     //connect mongodb
     const mongoUrl = `mongodb+srv://${process.env.DB_M_USER}:${process.env.DB_M_PASSWORD}@socialnet.80lds.mongodb.net/${process.env.DB_M_NAME}?retryWrites=true&w=majority`
-    await mongoose.connect(mongoUrl,{
-    })
+    // await mongoose.connect(mongoUrl,{
+    // })
     console.log('MongoDB connected')
     //session
     app.use(session({
@@ -82,7 +85,8 @@ const main = async () => {
     //create apollo server
     const apolloServer = new ApolloServer ({
         schema : await buildSchema({
-            resolvers : [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver,CartResolver,CartItemResolver,SearchResolver, CommentResolver],
+            resolvers: [UserResolver,AddressResolver,CollectionResolver,CategoryResolver,ProductResolver,CartResolver,
+                        CartItemResolver,SearchResolver, CommentResolver,CheckOutResolver,CheckOutItemResolver] ,
             validate : false}),
         context : ({req,res}) : Context => ({req,res,connection,dataLoaders: buildDataloader()}),
         plugins : [ApolloServerPluginLandingPageGraphQLPlayground],

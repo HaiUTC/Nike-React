@@ -1,0 +1,5 @@
+mutation CheckOut($checkOutInput : CheckOutInput!){
+    CheckOut(checkOutInput: $checkOutInput){
+        success
+    }
+}
