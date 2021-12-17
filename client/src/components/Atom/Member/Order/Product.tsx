@@ -1,18 +1,18 @@
-
+import Image from 'next/image'
 
 const Product = ({product,haveSize,quantity,monney,color}) => {
     return (
-        <div className="grid grid-cols-12 md:gap-6 py-4">
+        <div className="flex px-16 pt-4">
           {/*image */}
-          <div className="col-span-3">
-            <img src="" alt="" />
+          <div className="px-8">
+            <Image src={product.picture.url} height="150px" width="150px"/>
           </div>
           {/*info */}
-          <div className="col-span-6 mx-2 md:mx-0">
+          <div className=" mx-2 md:mx-0">
             <div>
-              <p className='text-lg'>sdf</p>
-              <p className="text-gray-500 text-base py-1">sdf</p>
-              <p className="text-gray-500 text-base py-1">{color}</p>
+              <p className='text-lg'>{product.name}</p>
+              <p className="text-gray-500 text-base py-1">Color : {color}</p>
+              <p className="text-gray-500 text-base py-1">Price : ${product.price}</p>
             </div>
             <div className="flex text-gray-500 text-base py-2">
               <div>
@@ -23,8 +23,7 @@ const Product = ({product,haveSize,quantity,monney,color}) => {
               </div>
             </div>
           </div>
-          {/*price */}
-          <div className="col-span-3 text-base flex justify-end mx-4 lg:mx-0 lg:justify-start">{monney} $</div>
+          
         </div>
     );
 }

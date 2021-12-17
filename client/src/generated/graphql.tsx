@@ -112,10 +112,52 @@ export type ChangePasswordInput = {
   newPassword: Scalars['String'];
 };
 
+export type CheckOut = {
+  __typename?: 'CheckOut';
+  checkOutItems?: Maybe<Array<CheckOutItem>>;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ID'];
+  stateId: Scalars['Float'];
+  total: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
+  userId: Scalars['ID'];
+};
+
 export type CheckOutInput = {
   discount?: Maybe<Scalars['Float']>;
   product: Array<ProductCheckOut>;
   total: Scalars['Float'];
+};
+
+export type CheckOutItem = {
+  __typename?: 'CheckOutItem';
+  checkout: CheckOut;
+  checkoutId: Scalars['String'];
+  color: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ID'];
+  product?: Maybe<Product>;
+  productId: Scalars['String'];
+  quantity: Scalars['Float'];
+  size: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type CheckOutItemAndState = {
+  __typename?: 'CheckOutItemAndState';
+  createdAt: Scalars['DateTime'];
+  items: Array<CheckOutItem>;
+  stateId: Scalars['Float'];
+  total: Scalars['Float'];
+};
+
+export type CheckOutMutationResponse = IMutationResponse & {
+  __typename?: 'CheckOutMutationResponse';
+  all?: Maybe<Array<CheckOutItemAndState>>;
+  code: Scalars['Float'];
+  errors?: Maybe<Array<FieldError>>;
+  message?: Maybe<Scalars['String']>;
+  success: Scalars['Boolean'];
 };
 
 export type Collection = {
@@ -394,6 +436,7 @@ export type Product = {
   cartItem: CartItem;
   category: Category;
   categoryId: Scalars['Float'];
+  checkOutItem: CheckOutItem;
   createdAt: Scalars['DateTime'];
   description: Scalars['String'];
   id: Scalars['ID'];
@@ -477,6 +520,7 @@ export type Query = {
   GetProductId?: Maybe<Product>;
   MyProfile?: Maybe<User>;
   SearchResult: PaginatedProductResponse;
+  getOrder: CheckOutMutationResponse;
 };
 
 
@@ -527,6 +571,11 @@ export type QuerySearchResultArgs = {
   cursor?: Maybe<Scalars['String']>;
   keyword: Scalars['String'];
   limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryGetOrderArgs = {
+  stateId?: Maybe<Scalars['Float']>;
 };
 
 export type RegisterInput = {
@@ -731,6 +780,13 @@ export type SearchQueryQueryVariables = Exact<{
 
 
 export type SearchQueryQuery = { __typename?: 'Query', SearchResult: { __typename?: 'PaginatedProductResponse', totalCount: number, cursor: any, hasMore: boolean, paginatedProducts: Array<{ __typename?: 'Product', id: string, categoryId: number, name: string, title: string, numberColor: number, price: number, labelSpecial?: string | null | undefined, picture: { __typename?: 'ItemPicture', url: string } }> } };
+
+export type GetOrdersQueryVariables = Exact<{
+  stateId?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type GetOrdersQuery = { __typename?: 'Query', getOrder: { __typename?: 'CheckOutMutationResponse', code: number, success: boolean, message?: string | null | undefined, all?: Array<{ __typename?: 'CheckOutItemAndState', stateId: number, createdAt: any, total: number, items: Array<{ __typename?: 'CheckOutItem', productId: string, quantity: number, size: number, product?: { __typename?: 'Product', name: string, price: number, picture: { __typename?: 'ItemPicture', url: string } } | null | undefined }> }> | null | undefined } };
 
 export const ErrorsInfoFragmentDoc = gql`
     fragment errorsInfo on FieldError {
@@ -1510,3 +1566,57 @@ export function useSearchQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type SearchQueryQueryHookResult = ReturnType<typeof useSearchQueryQuery>;
 export type SearchQueryLazyQueryHookResult = ReturnType<typeof useSearchQueryLazyQuery>;
 export type SearchQueryQueryResult = Apollo.QueryResult<SearchQueryQuery, SearchQueryQueryVariables>;
+export const GetOrdersDocument = gql`
+    query GetOrders($stateId: Float) {
+  getOrder(stateId: $stateId) {
+    code
+    success
+    message
+    all {
+      stateId
+      createdAt
+      total
+      items {
+        productId
+        quantity
+        size
+        product {
+          name
+          price
+          picture {
+            url
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetOrdersQuery__
+ *
+ * To run a query within a React component, call `useGetOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrdersQuery({
+ *   variables: {
+ *      stateId: // value for 'stateId'
+ *   },
+ * });
+ */
+export function useGetOrdersQuery(baseOptions?: Apollo.QueryHookOptions<GetOrdersQuery, GetOrdersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrdersQuery, GetOrdersQueryVariables>(GetOrdersDocument, options);
+      }
+export function useGetOrdersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrdersQuery, GetOrdersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrdersQuery, GetOrdersQueryVariables>(GetOrdersDocument, options);
+        }
+export type GetOrdersQueryHookResult = ReturnType<typeof useGetOrdersQuery>;
+export type GetOrdersLazyQueryHookResult = ReturnType<typeof useGetOrdersLazyQuery>;
+export type GetOrdersQueryResult = Apollo.QueryResult<GetOrdersQuery, GetOrdersQueryVariables>;

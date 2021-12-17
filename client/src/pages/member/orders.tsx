@@ -2,7 +2,7 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import { useContext } from 'react'
 import { UserContext } from '../../libs/UserContext'
-import StepperMain from '../../components/Atom/Member/Order/StepperMain'
+import TabMain from '../../components/Atom/Member/Order/TabMain'
 const Layout = dynamic(() => import("../../components/Templete/Layout/Layout"))
 const LoadingElement = dynamic(() => import('../../components/Atom/Loading/LoadingElement'))
 const HeaderMemberPage = dynamic(() => import("../../components/Atom/Member/HeaderMemberPage"))
@@ -23,7 +23,7 @@ const orders = (props) =>{
                 {user[0] ? (
                     <>
                         <HeaderMemberPage />
-                        <StepperMain />
+                        <TabMain />
                     </>
                 ) : <LoadingElement />}
                 

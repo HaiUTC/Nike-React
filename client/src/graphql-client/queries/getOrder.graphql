@@ -1,0 +1,24 @@
+query GetOrders($stateId: Float){
+    getOrder(stateId: $stateId){
+        code
+        success
+        message
+        all{
+        stateId
+        createdAt
+        total
+        items{
+            productId
+            quantity
+            size
+            product{
+                name
+                price
+                picture{
+                    url
+                }
+            }
+        }
+        }
+    }
+}

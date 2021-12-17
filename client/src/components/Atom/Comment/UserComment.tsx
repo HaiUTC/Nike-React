@@ -1,6 +1,6 @@
 import { useState } from "react";
 import StarRatings from "react-star-ratings";
-import changeDateTime from '../../../utils/changeDateTime'
+import time from '../../../utils/changeDateTime'
 const UserComment = (props) => {
     const [showActive,setShowActive] = useState(false)
     const [showActionDeatail,setShowActionDetail] = useState(false)
@@ -33,7 +33,7 @@ const UserComment = (props) => {
                     />
                 </div>
 
-                <div className='pl-6 text-base text-gray-500'><span>{changeDateTime(props.item.name,props.item.createdAt)}</span></div>
+                <div className='pl-6 text-base text-gray-500'><span>{time.timeConverterComment(props.item.name,props.item.createdAt)}</span></div>
             </div>
 
             <div>

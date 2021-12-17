@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 import { useMemo } from "react"
 import { onError } from '@apollo/client/link/error'
 import Router from 'next/router'
-import { Comment, Product } from "../generated/graphql"
+import { CheckOutItemAndState, Comment, Product } from "../generated/graphql"
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
 let apolloClient: ApolloClient<NormalizedCacheObject>

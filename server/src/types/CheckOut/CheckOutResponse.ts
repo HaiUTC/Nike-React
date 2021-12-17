@@ -10,6 +10,12 @@ export class CheckOutItemAndState {
 
     @Field(_type => Number)
     stateId!: number
+
+    @Field(_type => Date)
+    createdAt : Date
+
+    @Field(_type => Number)
+    total!: number
 }
 
 @ObjectType({implements : IMutationResponse})

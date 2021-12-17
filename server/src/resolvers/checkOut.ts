@@ -60,9 +60,10 @@ export class CheckOutResolver {
         @Ctx() {req} : Context
     ): Promise<CheckOutMutationResponse | undefined>{
         try {
+            console.log("Stateid : ",stateId)
             let where 
             if(stateId === 0) where = {userId : req.session.userId}
-            else where = [{userId : req.session.userId},stateId]
+            else where = {userId : req.session.userId, stateId}
             const checkOutUser = await CheckOut.find({where})
             if(!checkOutUser) {
                 return {
@@ -74,6 +75,8 @@ export class CheckOutResolver {
             else{
                 const allCheckOut:CheckOutItemAndState[] = await Promise.all(checkOutUser.map(( async (item) => { 
                     return {
+                        total : item.total,
+                        createdAt : item.createdAt,
                         stateId : item.stateId,
                         items : await CheckOutItem.find({checkoutId : item.id}) 
                     }

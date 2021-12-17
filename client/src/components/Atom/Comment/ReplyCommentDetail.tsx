@@ -1,6 +1,6 @@
 import { Avatar } from "@mui/material";
 import React, { useState } from "react";
-import changeDateTime from '../../../utils/changeDateTime'
+import time from '../../../utils/changeDateTime'
 import ActionReplyComment from "./ActionReplyComment";
 const ReplyCommentDetail = (props)=> {
   const [showActive,setShowActive] = useState(false)
@@ -28,7 +28,7 @@ const ReplyCommentDetail = (props)=> {
       </div>
       <div className="col-span-10 lg:col-span-11 ">
         <div className="flex ">
-          <p className="text-gray-500 text-sm m-0 py-2">{changeDateTime(props.data.name,props.data.createdAt)}</p>
+          <p className="text-gray-500 text-sm m-0 py-2">{time.timeConverterComment(props.data.name,props.data.createdAt)}</p>
         </div>
         <div>
           <span className="text-sm">{props.data.content}</span>
