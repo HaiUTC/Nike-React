@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
 import Image from 'next/image'
 import ButtonSubmit from "../../Atom/Button/Button";
-import { RegisterInput, useRegisterMutation } from "../../../generated/graphql";
+import { MyProfileDocument, MyProfileQuery, RegisterInput, useRegisterMutation } from "../../../generated/graphql";
 import { FormInputAtom } from "../../Atom/Form/FormInput";
 import { FormSelectAtom } from "../../Atom/Form/FormSelect";
 import { useFormik,FormikHelpers  } from 'formik';
@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import { useState } from "react";
 import mapFieldErrors from '../../../utils/mapErrors'
 import useWindowSize from "../../../utils/useWindowSize";
+import { initializeApollo } from "../../../libs/apolloClient";
 const validationSchema = yup.object({
   firstName : yup.string().required('First Name is required'),
   lastName : yup.string().required('Last Name is required'),
@@ -30,13 +31,23 @@ const RegisterModal = ({handleClose}) =>{
         const response = await registerUser({
           variables : {
             registerInput : values
-          }
+          },
+          update(cache,{data}){
+            if(data?.Register.success){
+                cache.writeQuery<MyProfileQuery>({
+                    query : MyProfileDocument,
+                    data : {MyProfile : data.Register.user}
+                })
+            }
+        },
         })
         if(response.data.Register.errors){
           setErrors(mapFieldErrors(response.data.Register.errors))
         }
-        else{
-          setDoneRegister(true)
+        else if(response.data?.Register.user){
+          handleCloseModal()
+          const apolloClient = initializeApollo()
+          apolloClient.resetStore()
         }
       },
     });

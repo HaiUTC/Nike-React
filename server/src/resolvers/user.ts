@@ -33,6 +33,7 @@ export class UserResolver {
     @Mutation(_return => UserMutationResponse,{ nullable : true})
     async Register (
         @Arg('registerInput') registerInput : RegisterInput,
+        @Ctx() {req} : Context
     ) : Promise<UserMutationResponse>{
         const validateRegisterInputErros = ValidateRegisterInput(registerInput) 
         if(validateRegisterInputErros !== null)
@@ -59,19 +60,34 @@ export class UserResolver {
                     ]
                 }
             const hashPassword = await argon2.hash(password)
-            await UserPendingModel.findOneAndDelete({email})
-            await new UserPendingModel({
-                firstName, 
-                lastName,
-                email,
-                password : hashPassword,
-                gender,
+            const name = firstName + " " + lastName
+            const newUser = await User.create({
+                first_name : firstName,
+                last_name : lastName,
+                name, email,password:hashPassword ,gender
             }).save()
+
+            // await UserPendingModel.findOneAndDelete({email})
+            // await new UserPendingModel({
+            //     firstName, 
+            //     lastName,
+            //     email,
+            //     password : hashPassword,
+            //     gender,
+            // }).save()
             
+            // session
+            req.session.userId = newUser.id
+            req.session.role = newUser.role
+
+            //create cart
+            const existingCart = await Cart.create({userId : req.session.userId,})
+            await existingCart.save()
             return {
                 code : 200,
                 success : true,
-                message : 'Please check your email',
+                message : 'Register successfully',
+                user : newUser
             }
             //sendMail -TODO
         } catch (error) {
@@ -83,6 +99,8 @@ export class UserResolver {
         }
     }
 
+
+    //not send mail
     @Mutation(_return => UserMutationResponse, {nullable : true})
     async ActiveUser(
         @Arg('id') id : string,
