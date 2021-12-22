@@ -43,6 +43,7 @@ import { graphqlUploadExpress } from 'graphql-upload'
 import { CheckOutItem } from './entities/CheckOutItem'
 import { CheckOutResolver } from './resolvers/checkOut'
 import { CheckOutItemResolver } from './resolvers/checkOutItem'
+import { ReactComment } from './entities/ReactComment'
 const main = async () => {
     //conect posgresql
     const connection = await createConnection({
@@ -52,7 +53,7 @@ const main = async () => {
         password : process.env.DB_PASSWORD,
         logging : true,
         synchronize : true,
-        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search,Comment,ReplyComment,CheckOutItem]
+        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search,Comment,ReplyComment,CheckOutItem,ReactComment]
     })
     
     app.use(cors({

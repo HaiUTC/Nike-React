@@ -4,6 +4,7 @@ import { Product } from "./entities/Product"
 import { User } from "./entities/User"
 import {getConnection} from "typeorm";
 import { ReplyComment } from "./entities/ReplyComment";
+import { ReactComment } from "./entities/ReactComment";
 
 
 interface user {
@@ -213,6 +214,80 @@ export const RunSocket = ( io : Server )  => {
           io.sockets.emit('ServerUploadAvatar',user)
           })
 
+
+        //React comment
+        socket.on('UserReactComment', async (msg) => {
+          try {
+            //react : like =1, dislike =-1, normal = 0
+            const { productId, userId,commentId, react} = msg;
+            console.log(react)
+            const user = await User.findOne({id : userId});
+            const existingComment = await Comment.findOne({id : commentId})
+            if(user && existingComment){
+              const existingReact = await ReactComment.findOne({userId,commentId})
+              if(react === 1){
+                if(existingReact?.value === 1){
+                  existingReact.value = 0;
+                  existingComment.like > 0 && (existingComment.like = existingComment?.like - 1)
+                  await existingReact.save()
+                  await existingComment.save()
+                }
+                else if(existingReact?.value === -1){
+                  existingReact.value = 1
+                  existingComment.like = existingComment?.like + 1
+                  existingComment.dislike > 0 && (existingComment.dislike = existingComment?.dislike - 1)
+                  await existingReact.save()
+                  await existingComment.save()
+                }
+                else if(existingReact?.value === 0){
+                  existingReact.value = 1
+                  existingComment.like = existingComment?.like + 1
+                  await existingReact.save()
+                  await existingComment.save()
+                }
+                else{
+                  await ReactComment.create({
+                    userId, commentId, value:1
+                  }).save()
+                  existingComment.like = existingComment?.like + 1
+                  await existingComment.save()
+                }
+              }
+              else if(react === -1){
+                if(existingReact?.value === -1){
+                  existingReact.value = 0
+                  existingComment.dislike > 0 && (existingComment.dislike = existingComment?.dislike - 1)
+                  await existingReact.save()
+                  await existingComment.save()
+                }
+                else if(existingReact?.value === 1){
+                  existingReact.value = -1
+                  existingComment.dislike = existingComment?.dislike + 1
+                  existingComment.like > 0 && (existingComment.like = existingComment?.like - 1)
+                  await existingReact.save()
+                  await existingComment.save()
+                }
+                else if(existingReact?.value === 0){
+                  existingReact.value = -1
+                  existingComment.dislike = existingComment?.dislike + 1
+                  await existingReact.save()
+                  await existingComment.save()
+                }
+                else{
+                  await ReactComment.create({
+                    userId, commentId, value:-1
+                  }).save()
+                  existingComment.dislike = existingComment?.dislike + 1
+                  await existingComment.save()
+                }
+              }
+              io.to(productId).emit('ServerUserReactComment', {existingComment})
+            }
+          } catch (error) {
+            console.log(error)
+          }
+        })
+
         //Disconect
         socket.on("disconnect", async () => {
           console.log(socket.id + " disconnected.")
@@ -220,12 +295,6 @@ export const RunSocket = ( io : Server )  => {
           countUserOnline = countUserOnline.filter((user) => user.user.id !== socket.id)
           io.sockets.emit("severCountUserOnline", { accountOnline: countUserOnline.length})
         })
-
-
-
-
-
-
     })
 
     

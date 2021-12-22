@@ -46,3 +46,5 @@
 .MuiFormControl-root { width: 100%;}
 .css-ypiqx9-MuiDialogContent-root::-webkit-scrollbar {display: none;}
 .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-disabled{ height: 55px !important;}
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected{color : black !important;}
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root{ text-transform: none !important;}

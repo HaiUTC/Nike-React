@@ -87,7 +87,6 @@ const DetailProduct = () => {
   useEffect(() => {
     if (socket) {
       socket.on("ServerUserCreateComment", (msg) => {
-        console.log(msg)
         const { comment, length, reviewRating } = msg;
         setDataComment([comment, ...dataComment]);
         setLengthComment(length);
@@ -157,6 +156,23 @@ const DetailProduct = () => {
       })
       return () => socket.off("ServerUserDeleteReplyComment")
     }
+  },[socket,dataComment])
+
+
+  //react comment
+  useEffect(() => {
+    if(socket){
+      socket.on('ServerUserReactComment', msg => {
+        if(msg){
+          const dataCmt = [...dataComment]
+          const index = dataCmt.findIndex(item => item.id === msg.existingComment.id)
+          dataCmt[index] = msg.existingComment
+          setDataComment(dataCmt)
+        }
+      })
+      return () => socket.off('ServerUserReactComment')
+    }
+    
   },[socket,dataComment])
 
   return (

@@ -23,10 +23,12 @@ const MainComment = (props) => {
                 <ActionComment 
                     typeAction={'main'} 
                     showReplyOptions={showReplyOptions} 
+                    socket={props.socket}
+                    user={props.user}
+                    item={props.item}
+                    productId={props.productId}
                     showReply={showReply} 
                     replyLength={props.item?.replys?.length || 0} 
-                    like={props.item.like}
-                    dislike={props.item.dislike}
                 />
                 {/* Reply Comment if user click btn reply ---TODO */}
                {showReply &&  
