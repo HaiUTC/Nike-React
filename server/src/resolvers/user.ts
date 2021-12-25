@@ -1,6 +1,6 @@
 import argon2 from "argon2";
 import { createWriteStream } from "fs";
-import { FileUpload, GraphQLUpload } from 'graphql-upload';
+import { FileUpload, GraphQLUpload } from "graphql-upload";
 import path from 'path';
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { v4 as uuidv4 } from 'uuid';
@@ -281,7 +281,7 @@ export class UserResolver {
 
     @Mutation(_return => UserMutationResponse)
     async ChangeAvatar(
-        @Arg('avatar', () => GraphQLUpload) {createReadStream,filename} : FileUpload,
+        @Arg('image', () => GraphQLUpload) {createReadStream,filename} : FileUpload,
         @Ctx() {req} : Context
     ): Promise<UserMutationResponse>{
         try {

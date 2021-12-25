@@ -220,7 +220,6 @@ export const RunSocket = ( io : Server )  => {
           try {
             //react : like =1, dislike =-1, normal = 0
             const { productId, userId,commentId, react} = msg;
-            console.log(react)
             const user = await User.findOne({id : userId});
             const existingComment = await Comment.findOne({id : commentId})
             if(user && existingComment){

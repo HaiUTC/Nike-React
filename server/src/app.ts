@@ -1,7 +1,7 @@
 require('dotenv').config()
+import path from 'path'
 import 'reflect-metadata'
 import express from 'express'
-import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql'
 import cors from 'cors'
 import { createServer } from "http";
@@ -10,7 +10,7 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-co
 import { createConnection } from 'typeorm'
 import session from 'express-session'
 import { COOKIE_NAME, __prod__ } from './constants'
-//import mongoose from 'mongoose'
+import mongoose from 'mongoose'
 import MongoStore from 'connect-mongo'
 import { Context } from './types/Context/Context'
 import { User } from './entities/User'
@@ -44,27 +44,51 @@ import { CheckOutItem } from './entities/CheckOutItem'
 import { CheckOutResolver } from './resolvers/checkOut'
 import { CheckOutItemResolver } from './resolvers/checkOutItem'
 import { ReactComment } from './entities/ReactComment'
+import { ApolloServer } from 'apollo-server-express'
 const main = async () => {
     //conect posgresql
     const connection = await createConnection({
         type : 'postgres',
-        database : 'Nike',
-        username : process.env.DB_USERNAME,
-        password : process.env.DB_PASSWORD,
+        ...(__prod__
+			? { url: process.env.DATABASE_URL }
+			: {
+                database : 'Nike',
+                username : process.env.DB_USERNAME,
+                password : process.env.DB_PASSWORD
+			  }),
         logging : true,
-        synchronize : true,
-        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search,Comment,ReplyComment,CheckOutItem,ReactComment]
+        ...(__prod__
+			? {
+					extra: {
+						ssl: {
+							rejectUnauthorized: false
+						}
+					},
+					ssl: true
+			  }
+			: {}),
+		...(__prod__ ? {} : { synchronize: true }),
+        entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search,Comment,ReplyComment,CheckOutItem,ReactComment],
+        migrations: [path.join(__dirname, '/migrations/*')]
     })
     
-    app.use(cors({
-        origin : 'http://localhost:3000',
-        credentials : true
-    }))
+    
+    app.use(
+		cors({
+			origin: __prod__
+				? process.env.CORS_ORIGIN_PROD
+				: process.env.CORS_ORIGIN_DEV,
+			credentials: true
+		})
+	)
     //connect mongodb
     const mongoUrl = `mongodb+srv://${process.env.DB_M_USER}:${process.env.DB_M_PASSWORD}@socialnet.80lds.mongodb.net/${process.env.DB_M_NAME}?retryWrites=true&w=majority`
-    // await mongoose.connect(mongoUrl,{
-    // })
+     await mongoose.connect(mongoUrl,{
+     })
     console.log('MongoDB connected')
+
+    app.set('trust proxy', 1)
+
     //session
     app.use(session({
         name : COOKIE_NAME,
@@ -80,8 +104,6 @@ const main = async () => {
         resave : false
     }))
 
-    //app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
-    app.use('/graphql',graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }))
 
     //create apollo server
     const apolloServer = new ApolloServer ({
@@ -90,8 +112,9 @@ const main = async () => {
                         CartItemResolver,SearchResolver, CommentResolver,CheckOutResolver,CheckOutItemResolver] ,
             validate : false}),
         context : ({req,res}) : Context => ({req,res,connection,dataLoaders: buildDataloader()}),
-        plugins : [ApolloServerPluginLandingPageGraphQLPlayground],
+        plugins : [ApolloServerPluginLandingPageGraphQLPlayground]
     })
+    app.use(graphqlUploadExpress({ maxFileSize: 10000, maxFiles: 10 }));
     await apolloServer.start()
     apolloServer.applyMiddleware({app , cors : false})
 

@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && tsc",
     "start": "node dist/app.js",
     "server": "nodemon dist/app.js",
     "start-ts": "ts-node src/app.ts",
@@ -21,7 +21,7 @@
     "@types/node": "^16.10.1",
     "@types/uuid": "^8.3.1",
     "apollo-server-core": "^3.3.0",
-    "apollo-server-express": "^3.3.0",
+    "apollo-server-express": "^3.5.0",
     "argon2": "^0.28.2",
     "class-validator": "^0.13.1",
     "connect-mongo": "^4.6.0",

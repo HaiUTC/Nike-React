@@ -1,6 +1,7 @@
 server/dist
 server/node_modules
 server/.env
+server/ormconfig.json
 .vscode
 NikeGraph
 Nike-React

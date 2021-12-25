@@ -8,7 +8,9 @@ const UpdateAvatar = ({handleClose,avatar}) =>{
         const file = e.target.files[0]
         try{
             await updateAvatar({
-                variables : { file },
+                variables : { 
+                    file : file   
+                },
                 update(cache,{data}){
                     if(data?.ChangeAvatar.success){
                         cache.writeQuery<MyProfileQuery>({
@@ -19,7 +21,7 @@ const UpdateAvatar = ({handleClose,avatar}) =>{
                 },
               })
         }catch(e){
-            console.log(e)
+            console.log(JSON.stringify(e))
         }
         
           

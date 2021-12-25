@@ -303,7 +303,7 @@ export type MutationAddProductToCartArgs = {
 
 
 export type MutationChangeAvatarArgs = {
-  avatar: Scalars['Upload'];
+  image: Scalars['Upload'];
 };
 
 
@@ -1183,7 +1183,7 @@ export type DeleteProductInCartMutationResult = Apollo.MutationResult<DeleteProd
 export type DeleteProductInCartMutationOptions = Apollo.BaseMutationOptions<DeleteProductInCartMutation, DeleteProductInCartMutationVariables>;
 export const UpdateAvatarDocument = gql`
     mutation UpdateAvatar($file: Upload!) {
-  ChangeAvatar(avatar: $file) {
+  ChangeAvatar(image: $file) {
     ...userMutationResponse
   }
 }
