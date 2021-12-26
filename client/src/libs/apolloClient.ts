@@ -37,7 +37,7 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
 	}
 
   const httpLink = new HttpLink({
-    uri : 'http://localhost:5000/graphql',
+    uri : 'https://https://secret-sierra-54946.herokuapp.com/graphql',
 		// uri: 
 		// 	process.env.NODE_ENV === 'production'
 		// 		? 'https://sleepy-castle-3011.herokuapp.com/graphql'

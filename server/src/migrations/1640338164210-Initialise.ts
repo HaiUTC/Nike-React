@@ -26,13 +26,6 @@ export class Initialise1640338164210 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "reply_comment" ADD CONSTRAINT "FK_eb860fbc64f33446df9f92bf1e2" FOREIGN KEY ("commentId") REFERENCES "comment"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "comment" ADD CONSTRAINT "FK_c0354a9a009d3bb45a08655ce3b" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "address" ADD CONSTRAINT "FK_d25f1ea79e282cc8a42bd616aa3" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`CREATE VIEW "comment_view" AS 
-        SELECT "cmt"."id" as "id","cmt"."userID" as "userID", "cmt"."title" as "title", "cmt"."content" as "content", "cmt"."star" as "star", 
-        "cmt"."like" as "like", "cmt"."dislike" as "dislike",  "cmt"."editComment" as "editComment", "cmt"."reply" as "reply", "cmt"."createdAt" as "createdAt", 
-        FROM "comment" "cmt" INNER JOIN "user" "u" 
-        ON "cmt"."userID" = "u"."userID"
-    `);
-        await queryRunner.query(`INSERT INTO "typeorm_metadata"("type", "schema", "name", "value") VALUES ($1, $2, $3, $4)`, ["VIEW","public","comment_view","SELECT \"cmt\".\"id\" as \"id\",\"cmt\".\"userID\" as \"userID\", \"cmt\".\"title\" as \"title\", \"cmt\".\"content\" as \"content\", \"cmt\".\"star\" as \"star\", \n        \"cmt\".\"like\" as \"like\", \"cmt\".\"dislike\" as \"dislike\",  \"cmt\".\"editComment\" as \"editComment\", \"cmt\".\"reply\" as \"reply\", \"cmt\".\"createdAt\" as \"createdAt\", \n        FROM \"comment\" \"cmt\" INNER JOIN \"user\" \"u\" \n        ON \"cmt\".\"userID\" = \"u\".\"userID\""]);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

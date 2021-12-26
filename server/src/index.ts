@@ -71,6 +71,8 @@ const main = async () => {
         entities : [User,Address,Product,Category,Collection,Cart,CartItem,CheckOut,Search,Comment,ReplyComment,CheckOutItem,ReactComment],
         migrations: [path.join(__dirname, '/migrations/*')]
     })
+
+    if (__prod__) await connection.runMigrations()
     
     
     app.use(
@@ -83,8 +85,12 @@ const main = async () => {
 	)
     //connect mongodb
     const mongoUrl = `mongodb+srv://${process.env.DB_M_USER}:${process.env.DB_M_PASSWORD}@socialnet.80lds.mongodb.net/${process.env.DB_M_NAME}?retryWrites=true&w=majority`
-     await mongoose.connect(mongoUrl,{
-     })
+    try{
+      await mongoose.connect(mongoUrl,{
+      })
+    }catch(error){
+      console.log(error)
+    }
     console.log('MongoDB connected')
 
     app.set('trust proxy', 1)
