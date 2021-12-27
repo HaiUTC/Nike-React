@@ -27,7 +27,7 @@ const Women = ({contentTrending,contentMoreNike,contentMain,listProduct,headerDa
     )
 }
 export const getStaticProps = async () => {
-    const url = `https://nikenext-56f19-default-rtdb.firebaseio.com/women.json`
+    const url = `${process.env.URL_FETCH_DATA}/women.json`
     const response = await fetch(url)
     const data = await response.json()
     return {

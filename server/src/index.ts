@@ -127,7 +127,7 @@ const main = async () => {
     //socket io
     const io = new Server(server, {
         cors : {
-          origin: 'http://localhost:3000',
+          origin: 'https://nike-react-3j1e5ueqg-nguyenthanhhai30112000tb-gmailcom.vercel.app',
           methods: ["GET", "POST", "DELETE", "PUT"],
           allowedHeaders: [
             "Access-Control-Allow-Origin",

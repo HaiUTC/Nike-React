@@ -35,7 +35,7 @@ const Kids = ({headerData,contentMain,listProduct,contentMoreNike,playbook,news,
     )
 }
 export const getStaticProps = async () => {
-    const url = `https://nikenext-56f19-default-rtdb.firebaseio.com/kids.json`
+    const url = `${process.env.URL_FETCH_DATA}/kids.json`
     const response = await fetch(url)
     const data = await response.json()
     return {
