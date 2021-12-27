@@ -10,7 +10,7 @@ const validationSchema = yup.object({
     newPassword: yup.string().min(6, 'New password should be of minimum 6 characters length').required('New password is required'),
     confirmNewPassword : yup.string().required('Confirm password is required.').oneOf([yup.ref('newPassword'), null], 'Passwords must match')
   });
-const ChangPassword = ({handleClose,handleShow}) =>{
+const ChangPassword = ({handleClose,handleShow}: IChangePassword) =>{
     const initialValues: ChangePasswordInput = {currentPassword : "", newPassword : "", confirmNewPassword : ""}
     const [changePassword] = useChangePasswordMutation()
     const formik = useFormik({
@@ -100,3 +100,8 @@ const ChangPassword = ({handleClose,handleShow}) =>{
 }
 
 export default ChangPassword;
+
+interface IChangePassword {
+    handleClose : () => void,
+    handleShow : () => void
+}

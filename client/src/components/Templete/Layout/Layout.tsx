@@ -7,7 +7,6 @@ import Wrapper from "../../Organ/Wrapper/Wrapper"
 import Footer from "./Footer"
 import Header from './Header'
 import HeaderMb from "./HeaderMb"
-import Head from 'next/head'
 interface ILayoutProps {
     children : ReactNode
 }

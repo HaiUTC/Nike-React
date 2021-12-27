@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual'
 import { useMemo } from "react"
 import { onError } from '@apollo/client/link/error'
 import Router from 'next/router'
-import { CheckOutItemAndState, Comment, Product } from "../generated/graphql"
+import { Comment, Product } from "../generated/graphql"
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
@@ -37,11 +37,10 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
 	}
 
   const httpLink = new HttpLink({
-    uri : 'https://https://secret-sierra-54946.herokuapp.com/graphql',
-		// uri: 
-		// 	process.env.NODE_ENV === 'production'
-		// 		? 'https://sleepy-castle-3011.herokuapp.com/graphql'
-		// 		: 'http://localhost:5000/graphql',
+		uri: 
+			process.env.NODE_ENV === 'production'
+				? process.env.URL_SERVER_DEV
+				: process.env.URL_SERVER_PROC,
 		credentials: 'include', // Additional fetch() options like `credentials` or `headers`
 		fetch: enhancedFetch
 	})

@@ -1,7 +1,7 @@
-import { Drawer, makeStyles } from '@mui/material';
+import { Drawer } from '@mui/material';
 import HeaderBarList from '../../Molec/HeaderMb/HeaderBarList';
 
-const BarListDrawer = ({open,onClose,onOpenLogin}) => {
+const BarListDrawer = ({open,onClose,onOpenLogin}: IBarList) => {
     
     return (
         <Drawer anchor="right" open={open} onClose={onClose}>
@@ -10,3 +10,9 @@ const BarListDrawer = ({open,onClose,onOpenLogin}) => {
     )
 }
 export default BarListDrawer
+
+interface IBarList {
+    open : boolean,
+    onClose : () => void,
+    onOpenLogin : () => void
+}

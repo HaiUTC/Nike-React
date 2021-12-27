@@ -1,9 +1,5 @@
 import Image from 'next/image'
-interface IToggleFilterProduct {
-    showFilter ?: any,
-    isShowFilter : boolean,
-    title : string
-}
+
 const ToggleFilterProduct = ({showFilter,isShowFilter,title} : IToggleFilterProduct) => {
     const triggerFuncShowFilter = () => showFilter()
     return (
@@ -15,3 +11,9 @@ const ToggleFilterProduct = ({showFilter,isShowFilter,title} : IToggleFilterProd
     )
 }
 export default ToggleFilterProduct
+
+interface IToggleFilterProduct {
+    showFilter ?: any,
+    isShowFilter : boolean,
+    title : string
+}

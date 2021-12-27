@@ -1,5 +1,5 @@
 import LinkBlack from '../../Atom/Button/LinkBlack'
-const Main = ({data}) => {
+const Main = ({data}: IMainType) => {
     return (
         <div>
             <div className={"pb-4 text-2xl " + (data?.collectionTitle?"mt-10" : "")}><span>{data?.collectionTitle}</span></div>
@@ -40,3 +40,17 @@ const Main = ({data}) => {
     )
 }
 export default Main
+
+interface DataMain{
+    collectionTitle :string,
+    pic1 : string,
+    pic2 : string,
+    title : string,
+    content : string,
+    textBtn ?: string,
+    darkMode : boolean,
+    link : string
+}
+interface IMainType{
+    data : DataMain
+}

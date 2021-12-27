@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 const Footer = () => {
     return (
         <div className="footer bg-black mt-4 text-xs md:text-md">

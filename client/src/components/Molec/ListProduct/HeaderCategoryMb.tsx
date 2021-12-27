@@ -3,24 +3,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import SwiperCore from 'swiper';
 SwiperCore.use([]);
-interface IHeaderCategory {
-    showSort ?: boolean,
-    ShowSort : any,
-    totalCount : number,
-    categoryId?: number,
-    isShowFilter : boolean,
-    showFilter : any
-}
-enum HeaderTitle {
-    "All Products"= undefined,
-    "Men's Shoes" = 1,
-    "Men's Clothings" = 2,
-    "Men's Gears" = 3
-}
+
 const filterData = {
     name : ["Lifestyle","Jordan","Running","Basketball","Football","Baseball","Golf","Tennis","Athletics","Walking"],
 }
-const HeaderCategoryMb = ({showSort,ShowSort,totalCount,categoryId,isShowFilter,showFilter}:IHeaderCategory) => {
+const HeaderCategoryMb = ({totalCount,categoryId,isShowFilter,showFilter}:IHeaderCategory) => {
     return (
         <header className='py-6'>
             <div className='flex flex-col px-4'>
@@ -51,3 +38,18 @@ const HeaderCategoryMb = ({showSort,ShowSort,totalCount,categoryId,isShowFilter,
     )
 }
 export default HeaderCategoryMb
+
+interface IHeaderCategory {
+    showSort ?: boolean,
+    ShowSort : any,
+    totalCount : number,
+    categoryId?: number,
+    isShowFilter : boolean,
+    showFilter : any
+}
+enum HeaderTitle {
+    "All Products"= undefined,
+    "Men's Shoes" = 1,
+    "Men's Clothings" = 2,
+    "Men's Gears" = 3
+}

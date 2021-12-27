@@ -1,6 +1,6 @@
 import { Dialog, DialogContent,TextField } from "@mui/material";
 
-const UpdateProfile = ({handleClose,data}) =>{
+const UpdateProfile = ({handleClose,data}: IUpdateProfile) =>{
     return (
         <Dialog open={true} scroll={'paper'} maxWidth="sm"  onClose={handleClose}>
             <DialogContent>
@@ -37,3 +37,16 @@ const UpdateProfile = ({handleClose,data}) =>{
 }
 
 export default UpdateProfile;
+
+interface InfoUser{
+    first_name : string,
+    last_name : string,
+    name : string,
+    home_town : string,
+    about_me ; string
+}
+
+interface IUpdateProfile{
+    handleClose : () => void,
+    data : InfoUser
+}

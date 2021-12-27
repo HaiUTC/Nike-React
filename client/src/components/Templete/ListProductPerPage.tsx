@@ -9,13 +9,6 @@ const ListProduct = dynamic(() => import("../Molec/ListProduct/ListProduct"))
 const FilterProduct = dynamic(() => import("../Organ/Product/FilterProduct"))
 const HeaderCategoryMb = dynamic(() => import("../Molec/ListProduct/HeaderCategoryMb"))
 
-interface IListProductPerPage {
-  products: any;
-  hasMore: boolean;
-  totalCount: number;
-  fetchMore: any;
-  categoryId?: number;
-}
 const ListProductPerPage = ({
   products,
   hasMore,
@@ -74,3 +67,11 @@ const ListProductPerPage = ({
   );
 };
 export default ListProductPerPage;
+
+interface IListProductPerPage {
+  products: any;
+  hasMore: boolean;
+  totalCount: number;
+  fetchMore: () => void;
+  categoryId?: number;
+}

@@ -1,6 +1,6 @@
-import { Alert, Dialog, DialogContent, DialogTitle, Snackbar } from "@mui/material";
-import { useFormik } from "formik"
-import Image from 'next/image'
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { useFormik } from "formik";
+import Image from 'next/image';
 import { useState } from "react";
 import * as yup from 'yup';
 import { ForgotPasswordInput, useForgotPasswordMutation } from "../../../generated/graphql";
@@ -9,9 +9,9 @@ import { FormInputAtom } from "../../Atom/Form/FormInput";
 const validationSchema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
 })
-const ForgetModal = ({handleClose}) => {
+const ForgetModal = ({handleClose}: IForget) => {
     const [doneForgot, setDoneForgot] = useState(false)
-    const [forgotPassword,{loading}] = useForgotPasswordMutation()
+    const [forgotPassword, _] = useForgotPasswordMutation()
     const initialValues:ForgotPasswordInput = {email : ""}
     const formik = useFormik({
         initialValues,
@@ -55,3 +55,7 @@ const ForgetModal = ({handleClose}) => {
     )
 }
 export default ForgetModal
+
+interface IForget{
+    handleClose : () => void
+}

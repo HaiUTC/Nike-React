@@ -9,7 +9,7 @@ import NextIcons from '../../Atom/Button/NextPrevIcons';
 SwiperCore.use([Scrollbar,Navigation])
 
 
-const News = ({data}) => {
+const News = ({data}: IDataType) => {
 
     const news = data.map((newItem,index) => (
         <SwiperSlide key={index}>
@@ -50,3 +50,13 @@ const News = ({data}) => {
 }
 
 export default News;
+
+interface DataNews {
+    url : string,
+    type : string,
+    title : string,
+    content : string
+}
+interface IDataType {
+    data : [DataNews]
+}

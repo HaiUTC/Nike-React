@@ -1,9 +1,10 @@
+
 const timeConverterComment = (name : string,createdAt: string) => {
     let a = new Date(createdAt);
     let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var hour = Math.abs(new Date().getHours() - a.getHours())
-    var min = Math.abs(new Date().getMinutes() - a.getMinutes()) 
-    var sec = Math.abs(new Date().getSeconds() - a.getSeconds())
+    var hour = Math.abs(new Date().getTime() - a.getTime()) /36e5
+    var min = Math.abs(new Date().getTime() - a.getTime()) / (36e5*60)
+    var sec = Math.abs(new Date().getTime() - a.getTime())/(36e5*60*60)
     let time = '' ;
     switch(true){
         case (hour <= 0 && min <=0 ) : 
@@ -17,15 +18,11 @@ const timeConverterComment = (name : string,createdAt: string) => {
         default :
             return name + " , " + months[a.getMonth()] + " " + a.getDate() +", " + a.getFullYear()
     }
-    return time;
 }
 
 const timeConverterOrder = (createdAt: string) => {
     let a = new Date(createdAt);
     let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var hour = Math.abs(new Date().getHours() - a.getHours())
-    var min = Math.abs(new Date().getMinutes() - a.getMinutes()) 
-    var sec = Math.abs(new Date().getSeconds() - a.getSeconds())
     return months[a.getMonth()] + " " + a.getDate() +", " + a.getFullYear()
 }
 const time = {timeConverterComment,timeConverterOrder}

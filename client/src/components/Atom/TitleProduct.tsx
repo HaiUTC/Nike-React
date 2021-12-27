@@ -1,4 +1,4 @@
-const TitleProduct = ({name,price,title}) => {
+const TitleProduct = ({name,price,title} : ITitlePro) => {
     return (
             <div className="col-span-8">
                 <p className='text-3xl'>{name}</p>
@@ -8,3 +8,9 @@ const TitleProduct = ({name,price,title}) => {
     )
 }
 export default TitleProduct
+
+interface ITitlePro{
+    name : string,
+    price : number,
+    title : string
+}

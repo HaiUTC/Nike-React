@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic'
 const LoadingElement = dynamic(() => import("../../Atom/Loading/LoadingElement"),{ ssr: false })
 const ProductCart = dynamic(() => import("../../Atom/Cart/ProductCart"),{ ssr: false })
 
-const ListCart = ({ removeItem, listProduct, loading }) => {
+const ListCart = ({ removeItem, listProduct, loading }: IListCart) => {
     return (
         <div>
             <div className="py-4">
@@ -10,7 +10,7 @@ const ListCart = ({ removeItem, listProduct, loading }) => {
             </div>
             {loading && <LoadingElement />}
                 <>
-                    {(listProduct?.length !== 0 ) ? (
+                    { listProduct.length !== undefined  ? (
                         <div>
                             {listProduct?.map((item) => (
                                 <ProductCart
@@ -31,3 +31,11 @@ const ListCart = ({ removeItem, listProduct, loading }) => {
     )
 }
 export default ListCart
+
+
+
+interface IListCart{
+    removeItem : any,
+     listProduct : any, 
+     loading : boolean
+}

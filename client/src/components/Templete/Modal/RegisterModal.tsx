@@ -6,7 +6,6 @@ import { FormInputAtom } from "../../Atom/Form/FormInput";
 import { FormSelectAtom } from "../../Atom/Form/FormSelect";
 import { useFormik,FormikHelpers  } from 'formik';
 import * as yup from 'yup';
-import { useState } from "react";
 import mapFieldErrors from '../../../utils/mapErrors'
 import useWindowSize from "../../../utils/useWindowSize";
 import { initializeApollo } from "../../../libs/apolloClient";
@@ -18,8 +17,7 @@ const validationSchema = yup.object({
   gender: yup.string().required('Gender is required'),
   confirmPassword : yup.string().required('Confirm password is required.').oneOf([yup.ref('password'), null], 'Passwords must match')
 });
-const RegisterModal = ({handleClose}) =>{
-    const [doneRegister, setDoneRegister] = useState(false)
+const RegisterModal = ({handleClose}: IRegister) =>{
     const size = useWindowSize()
     const initialValues: RegisterInput = {firstName : "", lastName : "", password : "",confirmPassword:"", email :"", gender : ""}
     const [registerUser, {loading : _registerUserLoading}] = useRegisterMutation()
@@ -64,12 +62,6 @@ const RegisterModal = ({handleClose}) =>{
         </DialogTitle>
         <DialogContent>
               <Stack>
-                {doneRegister ? 
-                  <div className='text-center'>
-                    <h4 className='py-2'>Please verify your email</h4>
-                    <span className='font-semibold'>{formik.values.email}</span>
-                  </div>
-                : 
                 <form onSubmit={formik.handleSubmit}>
                     <FormInputAtom
                       focus="true"
@@ -124,7 +116,6 @@ const RegisterModal = ({handleClose}) =>{
                     </div>
                     <ButtonSubmit loading={false} type="submit" />
                 </form>
-                }
               </Stack>
               <div className="absolute top-4 right-8 cursor-pointer" onClick={handleClose}>
                   <img className="p-2 rounded-full bg-gray-100" src='/static/icons/exit2.svg'/>
@@ -136,3 +127,8 @@ const RegisterModal = ({handleClose}) =>{
 }
 
 export default RegisterModal;
+
+
+interface IRegister{
+  handleClose : () => void
+}

@@ -8,7 +8,7 @@ const NotificationAddProductToCart = dynamic(() => import("../../Atom/Product/No
 const LoginModal = dynamic(() => import("../../Templete/Modal/LoginModal"),{ ssr: false })
 
 
-const ButtonAddProduct = ({urlImage,name,title,size,price,haveSize,color,productId}) => {
+const ButtonAddProduct = ({urlImage,name,title,size,price,haveSize,color,productId}: InBtnAddProduct) => {
     const {isUser} = useContext(UserContext)
     const [addProductTocart, {loading : _addProductTocartLoading}] = useAddProductToCartMutation()
 
@@ -63,3 +63,14 @@ const ButtonAddProduct = ({urlImage,name,title,size,price,haveSize,color,product
     )
 }
 export default ButtonAddProduct
+
+interface InBtnAddProduct{
+    urlImage : string,
+    name : string,
+    title : string,
+    size : number,
+    price : number,
+    haveSize : (boolean) => void,
+    color : string,
+    productId : string
+}

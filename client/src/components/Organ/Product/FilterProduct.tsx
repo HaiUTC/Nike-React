@@ -1,5 +1,4 @@
 import ListCategory from "../../Molec/FilterProduct/ListCategory"
-import SelectColor from "../../Molec/FilterProduct/SelectColor"
 import SelectFilter from "../../Molec/FilterProduct/SelectFilter"
 import SelectSize from "../../Molec/FilterProduct/SelectSize"
 

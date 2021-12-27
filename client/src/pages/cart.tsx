@@ -24,7 +24,6 @@ const Cart = () => {
     const [remoteProductFormCart, {loading : _loadingRemove}] = useDeleteProductInCartMutation()
 
     const removeItem = async (productId: string,quantity:number) => {
-        console.log(productId)
         const response = await remoteProductFormCart({
             variables : {
                 id : productId

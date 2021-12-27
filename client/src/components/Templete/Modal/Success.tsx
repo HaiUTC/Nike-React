@@ -1,13 +1,5 @@
 import { Dialog, DialogContent } from "@mui/material";
 
-interface Success {
-    handleClose : () => void,
-    image : string,
-    text : string,
-    isBtn : boolean,
-    link ?: string,
-    textBtn ?: string
-}
 
 const Success = ({handleClose,image,text,isBtn, link,textBtn} : Success) =>{
     return (
@@ -27,3 +19,12 @@ const Success = ({handleClose,image,text,isBtn, link,textBtn} : Success) =>{
 }
 
 export default Success;
+
+interface Success {
+    handleClose : () => void,
+    image : string,
+    text : string,
+    isBtn : boolean,
+    link ?: string,
+    textBtn ?: string
+}

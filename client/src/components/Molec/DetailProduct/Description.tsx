@@ -1,4 +1,4 @@
-const Description = ({description,color}) => {
+const Description = ({description,color}: IDescription) => {
     return (
         <div className="py-6 text-base">
             <p className='pb-6'>{description}</p>
@@ -12,3 +12,8 @@ const Description = ({description,color}) => {
     )
 }
 export default Description
+
+interface IDescription {
+    description : string,
+    color : string
+}

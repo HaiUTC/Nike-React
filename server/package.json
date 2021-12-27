@@ -2,13 +2,13 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "start": "node dist/app.js",
-    "server": "nodemon dist/app.js",
-    "start-ts": "ts-node src/app.ts",
-    "server-ts": "nodemon --exec ts-node src/app.ts",
+    "start": "node dist/index.js",
+    "server": "nodemon dist/index.js",
+    "start-ts": "ts-node src/index.ts",
+    "server-ts": "nodemon --exec ts-node src/index.ts",
     "watch": "tsc -w"
   },
   "author": "Thanh Hai",

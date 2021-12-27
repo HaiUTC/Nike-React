@@ -16,7 +16,7 @@ const validationSchema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
     password: yup.string().required('Password is required'),
 })
-const LoginModal = ({handleClose}) => {
+const LoginModal = ({handleClose}: ILogin) => {
     const [openRegister, setOpenRegister] = useState(false)
     const [openForgot, setOpenForgot] = useState(false)
     const size = useWindowSize()
@@ -113,3 +113,7 @@ const LoginModal = ({handleClose}) => {
 }
 
 export default LoginModal
+
+interface ILogin{
+    handleClose : () => void
+}

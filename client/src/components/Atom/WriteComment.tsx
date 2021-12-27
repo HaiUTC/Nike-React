@@ -1,8 +1,6 @@
 import { useContext, useState } from "react";
 import StarRatings from "react-star-ratings";
-import { useMyProfileQuery } from "../../generated/graphql";
 import { UserContext } from "../../libs/UserContext";
-import Review from "../Molec/DetailProduct/Review";
 import LoginModal from "../Templete/Modal/LoginModal";
 import ReviewModal from "../Templete/Modal/ReviewModal";
 const WriteComment = () => {

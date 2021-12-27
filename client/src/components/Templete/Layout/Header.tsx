@@ -6,10 +6,7 @@ import HeaderSearch from '../../Organ/Header/HeaderSearch'
 import UserLogin from '../../Organ/Header/UserLogin'
 import { MyProfileQuery } from '../../../generated/graphql'
 
-interface MyProfile {
-  data : MyProfileQuery,
-  loading : boolean
-}
+
 const Header = ({data,loading}:MyProfile) => {
   
 
@@ -18,7 +15,7 @@ const Header = ({data,loading}:MyProfile) => {
   else if(data?.MyProfile){
     body = <div className="flex">
             <UserHelp />            
-            <UserLogin data={data}/>
+            <UserLogin avatar={data.MyProfile.avatar} name={data.MyProfile.name}/>
           </div>
   }
   else {
@@ -44,3 +41,8 @@ const Header = ({data,loading}:MyProfile) => {
    )
 }
 export default Header
+
+interface MyProfile {
+  data : MyProfileQuery,
+  loading : boolean
+}

@@ -7,18 +7,7 @@ import 'swiper/css/scrollbar';
 import Product from '../../Atom/Product/Product';
 import NextIcons from '../../Atom/Button/NextPrevIcons';
 SwiperCore.use([Scrollbar,Navigation])
-interface IProduct {
-    url : string,
-    name : string,
-    productType : string,
-    price : number,
-    priceSale ?: number,
-    link : string
-  }
-interface IProductShowUp {
-    data : Array<IProduct>,
-    title : string
-}
+
 const ListProductShowUp = ({data,title}: IProductShowUp) => {
     const product = data.map((product,index) => (
         <SwiperSlide key={index}>
@@ -65,3 +54,16 @@ const ListProductShowUp = ({data,title}: IProductShowUp) => {
     )
 }
 export default ListProductShowUp
+
+interface IProduct {
+    url : string,
+    name : string,
+    productType : string,
+    price : number,
+    priceSale ?: number,
+    link : string
+  }
+interface IProductShowUp {
+    data : Array<IProduct>,
+    title : string
+}

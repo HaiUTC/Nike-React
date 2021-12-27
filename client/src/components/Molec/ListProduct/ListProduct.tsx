@@ -2,7 +2,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import DetailProduct from "../../Atom/Product/DetailProduct"
 import LoadingElement from "../../Atom/Loading/LoadingElement";
 
-const ListProduct = ({products,hasMore,fetchMore}) => {
+const ListProduct = ({products,hasMore,fetchMore}: IListProduct) => {
     const fetchAPIProduct = () => {fetchMore()};
     return (
         <div className='w-full'>
@@ -22,3 +22,9 @@ const ListProduct = ({products,hasMore,fetchMore}) => {
     )
 }
 export default ListProduct
+
+interface IListProduct{
+  hasMore : boolean,
+  fetchMore : () => void,
+  products : any
+}

@@ -1,4 +1,4 @@
-import { useState } from "react"
+
 
 const SelectColorDetailProduct = ({data,changeIndexPoster,setSelected,selected,setIndex}) => {
     

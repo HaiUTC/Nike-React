@@ -1,9 +1,5 @@
 import Link from 'next/link'
-interface ISortProduct {
-    isShowSort : boolean,
-    ShowSort : any,
-    pathName : string | string[]
-}
+
 const SortProduct = ({isShowSort,ShowSort,pathName} : ISortProduct) => {
     return (
         <div className="px-6 flex items-center cursor-pointer relative" onClick={ShowSort}>
@@ -20,3 +16,8 @@ const SortProduct = ({isShowSort,ShowSort,pathName} : ISortProduct) => {
     )
 }
 export default SortProduct
+interface ISortProduct {
+    isShowSort : boolean,
+    ShowSort : any,
+    pathName : string | string[]
+}

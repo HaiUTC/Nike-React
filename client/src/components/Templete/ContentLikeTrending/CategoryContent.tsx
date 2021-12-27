@@ -7,19 +7,7 @@ import 'swiper/css/scrollbar';
 import SessionPartContent from "../../Atom/Another/SessionPartContent"
 import NextPrevIcons from '../../Atom/Button/NextPrevIcons';
 SwiperCore.use([Scrollbar,Navigation])
-interface ISessionPartContent {
-    url : string,
-    name ?: string,
-    type :string,
-    link : string,
-    height : string,
-    darkMode : boolean
-}
-interface ICategoryContent {
-    data : Array<ISessionPartContent>,
-    title : string,
-    isAbsolute ?: boolean
-}
+
 
 const CategoryContent = ({data,title,isAbsolute}: ICategoryContent) =>{
     return (
@@ -62,3 +50,17 @@ const CategoryContent = ({data,title,isAbsolute}: ICategoryContent) =>{
     )
 }
 export default CategoryContent
+
+interface ISessionPartContent {
+    url : string,
+    name ?: string,
+    type :string,
+    link : string,
+    height : string,
+    darkMode : boolean
+}
+interface ICategoryContent {
+    data : Array<ISessionPartContent>,
+    title : string,
+    isAbsolute ?: boolean
+}

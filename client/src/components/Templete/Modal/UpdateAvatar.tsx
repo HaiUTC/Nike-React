@@ -1,7 +1,7 @@
 import { Avatar, Button, Dialog, DialogContent,styled } from "@mui/material";
 import { MyProfileDocument, MyProfileQuery, useUpdateAvatarMutation } from "../../../generated/graphql";
 
-const UpdateAvatar = ({handleClose,avatar}) =>{
+const UpdateAvatar = ({handleClose,avatar}: IUpdateAvatar) =>{
     const [updateAvatar] = useUpdateAvatarMutation()
     const Input = styled('input')({display: 'none',});
     const updateAvatarChange = async (e) => {
@@ -53,3 +53,8 @@ const UpdateAvatar = ({handleClose,avatar}) =>{
 }
 
 export default UpdateAvatar;
+
+interface IUpdateAvatar{
+    handleClose : () => void,
+    avatar : string
+}
