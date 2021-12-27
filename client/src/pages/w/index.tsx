@@ -28,7 +28,7 @@ const Index = () => {
             <Head>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
                 <link rel="stylesheet" href="/css/Header.css"/>
-                <link rel="stylesheet" href="/css/Main.css"/>
+                <link rel="stylesheet" href="/css/main.css"/>
                 <link rel = "icon" href ="http://localhost:3000/static/icons/logo.svg" type = "image/x-icon"></link>
                 <title>Products. Nike VN</title>
             </Head>

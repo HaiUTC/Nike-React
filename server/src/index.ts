@@ -103,8 +103,7 @@ const main = async () => {
             maxAge : 1000*60*60*30*12,
             httpOnly : true,
             secure : __prod__,
-            sameSite : 'lax',
-            domain : __prod__? '.vercel.app' : undefined
+            sameSite : 'none'
         },
         secret : process.env.SESSION_SECRET as string,
         saveUninitialized : false,
