@@ -16,7 +16,7 @@ const Kids = ({headerData,contentMain,listProduct,contentMoreNike,playbook,news,
             <Head>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
                 <link rel="stylesheet" href="/css/Header.css"/>
-                <link rel = "icon" href ="/static/image/logo.png" type = "image/x-icon"></link>
+                <link rel = "icon" href ="http://localhost:3000/static/image/logo.png" type = "image/x-icon"></link>
                 <title>Nike Kid's Shoes, Clothing &amp; Accessories. Nike VN</title>
             </Head>
             <Layout>
