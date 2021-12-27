@@ -16,7 +16,7 @@ const FourOhFour = (props) => {
         <link rel="stylesheet" href="/css/main.css" />
         <link
           rel="icon"
-          href="http://localhost:3000/static/image/logo.png"
+          href="https://nike-react.vercel.app/static/image/logo.png"
           type="image/x-icon"
         ></link>
         <title>Page Not Found. Nike VN</title>

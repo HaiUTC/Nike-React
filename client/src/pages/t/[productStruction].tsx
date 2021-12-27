@@ -186,7 +186,7 @@ const DetailProduct = () => {
         <link rel="stylesheet" href="/css/main.css" />
         <link
           rel="icon"
-          href="http://localhost:3000/static/icons/logo.svg"
+          href="https://nike-react.vercel.app/static/icons/logo.svg"
           type="image/x-icon"
         ></link>
         <title>Men's Shoes, Clothing &amp; Accessories. Nike VN</title>

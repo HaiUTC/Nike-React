@@ -61,7 +61,7 @@ const settings = () => {
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
                 <link rel="stylesheet" href="/css/Header.css"/>
                 <link rel="stylesheet" href="/css/main.css"/>
-                <link rel = "icon" href ="http://localhost:3000/static/icons/logo.svg" type = "image/x-icon"></link>
+                <link rel = "icon" href ="https://nike-react.vercel.app/static/icons/logo.svg" type = "image/x-icon"></link>
                 <title>Nike.com Account Settings</title>
             </Head>
             <Layout>

@@ -10,7 +10,7 @@ const Index = ({contentTrending,contentMoreNike,contentMain,listProduct}) => (
     <Head>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
       <link rel="stylesheet" href="/css/Header.css"/>
-      <link rel = "icon" href ="http://localhost:3000/static/image/logo.png" type = "image/x-icon"></link>
+      <link rel = "icon" href ="https://nike-react.vercel.app/static/image/logo.png" type = "image/x-icon"></link>
       <title>Nike. Just do it. Nike VN</title>
     </Head>
     <Layout>
