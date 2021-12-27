@@ -40,7 +40,7 @@ const RegisterModal = ({handleClose}: IRegister) =>{
         },
         })
         if(response.data.Register.errors){
-          setErrors(mapFieldErrors(response.data.Register.errors))
+          setErrors({email : response.data.Register.message})
         }
         else if(response.data?.Register.user){
           handleCloseModal()
