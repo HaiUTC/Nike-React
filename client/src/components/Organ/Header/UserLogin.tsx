@@ -29,13 +29,13 @@ const UserLogin = ({avatar, name}: IUserLogin) => {
             <div className="px-4 py-1 text-lg"><h5>Account</h5></div>
             <div className='py-2'>
               <ul style={{listStyle : 'none'}}>
-                <li><Link href="/member/profile"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Profile</a></Link></li>
-                <li><Link href="/cart"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Orders</a></Link></li>
-                <li><Link href="/favorite"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Favorites</a></Link></li>
-                <li><Link href="/member/inbox"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Inbox</a></Link></li>
-                <li><Link href="/"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Event</a></Link></li>
-                <li><Link href="/member/settings"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Account Settings</a></Link></li>
-                <li><Link href="/"><a className='flex text-sm text-gray-500 hover:text-black px-3 py-1' onClick={logoutUser}>Log Out</a></Link></li>
+                <li><a href="/member/profile" className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Profile</a></li>
+                <li><a href="/orders" className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Orders</a></li>
+                <li><a href="/favorite" className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Favorites</a></li>
+                <li><a href="/member/inbox" className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Inbox</a></li>
+                <li><a href="/" className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Event</a></li>
+                <li><a href="/member/settings" className='flex text-sm text-gray-500 hover:text-black px-3 py-1'>Account Settings</a></li>
+                <li><a href="/" className='flex text-sm text-gray-500 hover:text-black px-3 py-1' onClick={logoutUser}>Log Out</a></li>
               </ul>
             </div>
           </div>

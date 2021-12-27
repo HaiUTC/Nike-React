@@ -29,7 +29,6 @@ const SummaryCart = ({listProduct, price}) => {
     if(response.data.CheckOut.success){
       setShowSuccess(true)
       setIsSuccess(false)
-      console.log('done')
     }
     else {
       setShowSuccess(true)

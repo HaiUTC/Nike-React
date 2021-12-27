@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import Link from 'next/link'
 const DetailProduct = ({data}) => {
   const {id, labelSpecial, name, numberColor, price, title,picture} = data
   const path = `/t/${name.split(" ").map(x => x.toLowerCase()).join("-")}&id=${id}`
@@ -18,9 +17,7 @@ const DetailProduct = ({data}) => {
             <span className="text-gray-500">{numberColor} Colours</span>
             <span className="text-black py-2">${price}</span>
           </div>
-          <Link href={path}>
-            <a className='absolute top-0 bottom-0 left-0 right-0 w-full h-auto'/>
-          </Link>
+            <a href={path} className='absolute top-0 bottom-0 left-0 right-0 w-full h-auto'/>
       </div>
     )
 }

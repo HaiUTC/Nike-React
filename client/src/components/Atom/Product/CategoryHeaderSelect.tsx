@@ -1,4 +1,4 @@
-import Link from 'next/link'
+
 interface IItem {
     name : string,
     link : string
@@ -10,9 +10,7 @@ interface IHeader {
 const CategoryHeaderSelect = ({data,title}: IHeader) => {
     const body = data.map((item,index)=> 
         <li key={index}>
-            <Link href={item.link}>
-                <a className='flex pr-8 text-base md:text-lg text-gray-500 hover:text-black' >{item.name}</a>     
-            </Link>
+            <a href={item.link} className='flex pr-8 text-base md:text-lg text-gray-500 hover:text-black' >{item.name}</a>     
         </li>
     )
     return (

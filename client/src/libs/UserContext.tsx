@@ -24,7 +24,6 @@ const UserContextProvider = (props) => {
     useEffect(() => {
         
         if(!loading){
-            console.log('get data user')
             if(data?.MyProfile) setUser(data)
             if(!data?.MyProfile && 
                 (router.route === '/member/profile' ||
