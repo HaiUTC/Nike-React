@@ -58,7 +58,7 @@ const UserContextProvider = (props) => {
     //Conect and get User have token
     useEffect(()=>{
         const connectSocket = async () => {
-            const socketIo = io('http://localhost:5000', {
+            const socketIo = io('https://thawing-fjord-04106.herokuapp.com', {
             withCredentials: true,
             extraHeaders: {
                 "Access-Control-Allow-Origin" : "*" ,
