@@ -19,7 +19,7 @@ const Cart = () => {
 
     const [cart,setCart] = useState({
         product : _cartData?.GetCartOfUser?.cartItems,
-        total : _cartData.GetCartOfUser.total
+        total : _cartData?.GetCartOfUser?.total
     })
     const [remoteProductFormCart, {loading : _loadingRemove}] = useDeleteProductInCartMutation()
 
