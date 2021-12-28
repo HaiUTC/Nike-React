@@ -18,7 +18,7 @@ const Cart = () => {
     if(!loading && _cartData) dispatch(changeNumCart(_cartData.GetCartOfUser.quantity))
 
     const [cart,setCart] = useState({
-        product : _cartData.GetCartOfUser.cartItems,
+        product : _cartData?.GetCartOfUser?.cartItems,
         total : _cartData.GetCartOfUser.total
     })
     const [remoteProductFormCart, {loading : _loadingRemove}] = useDeleteProductInCartMutation()

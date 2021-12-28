@@ -3,6 +3,7 @@ import { createContext, useEffect, useState } from "react"
 import io from 'socket.io-client'
 import { useMyProfileQuery } from "../generated/graphql"
 
+const urlSocket = process.env.NODE_ENV === 'production' ? 'https://thawing-fjord-04106.herokuapp.com' : 'http://localhost:5000'
 
 const UserContext = createContext(null)
 
@@ -57,7 +58,7 @@ const UserContextProvider = (props) => {
     //Conect and get User have token
     useEffect(()=>{
         const connectSocket = async () => {
-            const socketIo = io('https://thawing-fjord-04106.herokuapp.com', {
+            const socketIo = io(urlSocket, {
             withCredentials: true,
             extraHeaders: {
                 "Access-Control-Allow-Origin" : "*" ,
