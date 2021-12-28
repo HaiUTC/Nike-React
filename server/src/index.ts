@@ -93,7 +93,7 @@ const main = async () => {
     }
     console.log('MongoDB connected')
 
-    app.set('trust proxy', 1)
+    //pp.set('trust proxy', 1)
 
     //session
     app.use(session({
@@ -103,7 +103,7 @@ const main = async () => {
             maxAge : 1000*60*60*30*12,
             httpOnly : true,
             secure : __prod__,
-            sameSite : 'none'
+            sameSite : 'lax'
         },
         secret : process.env.SESSION_SECRET as string,
         saveUninitialized : false,

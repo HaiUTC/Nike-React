@@ -47,8 +47,8 @@ export class User extends BaseEntity {
     @Column({nullable : true})
     about_me!: string
 
-    @Field()
-    @Column()
+    @Field({defaultValue : 'https://www.linkpicture.com/q/sahaetran.jpg'})
+    @Column({default : 'https://www.linkpicture.com/q/sahaetran.jpg'})
     avatar: string
 
     @OneToMany(() => Address, address => address.user)

@@ -1,4 +1,4 @@
-import { useRouter } from "next/router"
+import Router from 'next/router'
 import { createContext, useEffect, useState } from "react"
 import io from 'socket.io-client'
 import { useMyProfileQuery } from "../generated/graphql"
@@ -8,7 +8,6 @@ const urlSocket = process.env.NODE_ENV === 'production' ? 'https://thawing-fjord
 const UserContext = createContext(null)
 
 const UserContextProvider = (props) => {
-    const router = useRouter()
     const [socket,setSocket] = useState(null)
     const [countUserOnline, setCountUserOnline] = useState(null)
 
@@ -27,20 +26,20 @@ const UserContextProvider = (props) => {
         if(!loading){
             if(data?.MyProfile) setUser(data)
             if(!data?.MyProfile && 
-                (router.route === '/member/profile' ||
-                router.route === '/member/inbox' ||
-                router.route === '/member/orders' ||
-                router.route === '/member/favorites' ||
-                router.route === '/member/settings' ||
-                router.route === '/cart')
+                (Router.route === '/member/profile' ||
+                Router.route === '/member/inbox' ||
+                Router.route === '/member/orders' ||
+                Router.route === '/member/favorites' ||
+                Router.route === '/member/settings' ||
+                Router.route === '/cart')
             ){
-                router.replace('/')
+                Router.replace('/')
             }
-            else if(data?.MyProfile && router.route === '/member'){
-                router.replace('/member/profile')
+            else if(data?.MyProfile && Router.route === '/member'){
+                Router.replace('/member/profile')
             }
         }
-    },[data, loading, router])
+    },[data, loading, Router])
 
     //Sum accout online
 
