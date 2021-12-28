@@ -2,9 +2,9 @@
 const timeConverterComment = (name : string,createdAt: string) => {
     let a = new Date(createdAt);
     let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var hour = Math.abs(new Date().getTime() - a.getTime()) /36e5
-    var min = Math.abs(new Date().getTime() - a.getTime()) / (36e5*60)
-    var sec = Math.abs(new Date().getTime() - a.getTime())/(36e5*60*60)
+    var hour = Math.round(Math.abs(new Date().getTime() - a.getTime()) /36e5)
+    var min = Math.round( Math.abs(new Date().getTime() - a.getTime()) / (36e5*60))
+    var sec = Math.round(Math.abs(new Date().getTime() - a.getTime())/(36e5*60*60))
     let time = '' ;
     switch(true){
         case (hour <= 0 && min <=0 ) : 
