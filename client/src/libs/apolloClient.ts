@@ -4,7 +4,7 @@ import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
 import { useMemo } from "react"
 import { onError } from '@apollo/client/link/error'
-import Router from 'next/router'
+import { useRouter } from "next/router"
 import { Comment, Product } from "../generated/graphql"
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__'
 
@@ -20,7 +20,8 @@ const errorLink = onError(errors => {
 		errors.response
 	) {
 		errors.response.errors = undefined
-		Router.replace('/')
+    const router = useRouter()
+		router.replace('/')
 	}
 })
 function createApolloClient(headers: IncomingHttpHeaders | null = null) {
