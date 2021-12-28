@@ -5,10 +5,10 @@ import { addApolloState, initializeApollo } from '../libs/apolloClient'
 import { GetCartOfUserDocument, useDeleteProductInCartMutation, useGetCartOfUserQuery } from '../generated/graphql'
 import Head from 'next/head'
 import { useAppDispatch, useAppSelector } from '../redux/hook'
-const SummaryCart = dynamic(() => import('../components/Atom/Cart/SummaryCart'),{ ssr: false })
-const ListCart = dynamic(() => import('../components/Molec/Cart/ListCart'),{ ssr: false })
-const ListFavorite = dynamic(() => import('../components/Molec/Cart/ListFavorite'),{ ssr: false })
-const Layout = dynamic(() => import('../components/Templete/Layout/Layout'),{ ssr: false })
+const SummaryCart = dynamic(() => import('../components/Atom/Cart/SummaryCart'))
+const ListCart = dynamic(() => import('../components/Molec/Cart/ListCart'))
+const ListFavorite = dynamic(() => import('../components/Molec/Cart/ListFavorite'))
+const Layout = dynamic(() => import('../components/Templete/Layout/Layout'))
 import { changeNumCart } from '../redux/Cart/countNumber'
 const Cart = () => {
     const numCart = useAppSelector((state) => state.countNumber.numCart);
