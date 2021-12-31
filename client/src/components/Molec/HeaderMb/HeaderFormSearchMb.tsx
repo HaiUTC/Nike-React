@@ -1,4 +1,3 @@
-
 import { toggleShowSearchBoxMb } from '../../../redux/Header/showSearchBox'
 import { useAppDispatch, useAppSelector } from '../../../redux/hook'
 const HeaderFormSearchMb = () => {
@@ -7,8 +6,8 @@ const HeaderFormSearchMb = () => {
 	const isShowSearchBoxMb = useAppSelector((state) => state.showSearch.isShowSearchBoxMb)
     return (
         <div id="formSearchMb" className={"fixed top-0 left-0 right-0 z-10 bg-white h-full "+(isShowSearchBoxMb?null:'hidden')}>
-				<div className="flex justify-between w-full px-10 py-4 grid grid-cols-12">
-					<div className='col-span-11 w-full flex flex-col'>
+				<div className="flex justify-between w-full md:px-10 px-4 py-4 grid grid-cols-12">
+					<div className='md:col-span-11 col-span-10 w-full flex flex-col'>
 					<div className="flex px-3 py-2 rounded-full bg-gray-light  m-auto items-center hover:bg-gray-300" style={{width : "100%"}}>
 						<button className='border-0 bg-transparent flex items-center py-0.5' style={{outline : 'none'}}>
 							<img src='/static/icons/search.svg' width="30px" height="30px"/>
@@ -25,10 +24,10 @@ const HeaderFormSearchMb = () => {
 							</ul>
 						</div>
 					</div>
-					<div className="col-span-1 flex justify-center items-start pt-2 ml-4">
-						<button className="border-0 bg-transparent px-2 pt-2 pb-1 rounded-full hover:bg-gray-300" style={{outline : "none"}} onClick={toggleSearch}>
-							<img src='/static/icons/exit.svg' height="15px" width="15px" />
-						</button>
+					<div className="md:col-span-1 col-span-2 flex justify-center items-start pt-2 ml-4">
+						<div className="bg-transparent p-2 rounded-full hover:bg-gray-300">
+							<img src='/static/icons/exit.svg' height="15px" width="15px" onClick={toggleSearch}/>
+						</div>	
 					</div>
 				</div>
 				

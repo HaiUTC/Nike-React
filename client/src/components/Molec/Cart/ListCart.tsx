@@ -10,7 +10,7 @@ const ListCart = ({ removeItem, listProduct, loading }: IListCart) => {
             </div>
             {loading && <LoadingElement />}
                 <>
-                    { listProduct !== undefined  ? (
+                    { listProduct?.length >0  ? (
                         <div>
                             {listProduct?.map((item) => (
                                 <ProductCart

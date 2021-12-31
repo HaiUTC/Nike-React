@@ -23,7 +23,7 @@ const HeaderFormSearch = () => {
 						<button className='border-0 bg-transparent flex items-center py-0.5' style={{outline : 'none'}} onClick={searchEvent}>
 							<img src='/static/icons/search.svg' width="30px" height="30px"/>
 						</button>
-						<input className='border-0 bg-transparent w-full pl-4' type="text" placeholder="Search" style={{outline : 'none'}} ref={inputRef}></input>
+						<input className='border-0 bg-transparent w-full pl-4' type="text" placeholder="Search" style={{outline : 'none'}} ref={inputRef} onKeyPress={(e) => e.key === 'Enter' && searchEvent()}></input>
 					</div>
 						<div className="left-0 py-10"> 
 							<h2 className="text-2xl">Popular Search Term</h2>
@@ -35,10 +35,10 @@ const HeaderFormSearch = () => {
 							</ul>
 						</div>
 					</div>
-					<div className="col-span-3 flex justify-center items-start ml-16 pt-2">
-						<button className="border-0 bg-transparent px-2.5 pt-2 pb-1 rounded-full hover:bg-gray-300" style={{outline : "none"}} onClick={toggleSearch}>
-							<img src='/static/icons/exit.svg' height="15px" width="15px"/>
-						</button>
+					<div className="col-span-3 flex justify-center items-start ml-16 pt-2  ">
+						<div className="bg-transparent p-2 rounded-full hover:bg-gray-300">
+							<img src='/static/icon	s/exit.svg' height="15px" width="15px" onClick={toggleSearch}/>
+						</div>							
 					</div>
 				</div>
 				
