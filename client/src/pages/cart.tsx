@@ -17,6 +17,8 @@ const Cart = () => {
     const {data: _cartData , loading } = useGetCartOfUserQuery()
     if(!loading && _cartData) dispatch(changeNumCart(_cartData.GetCartOfUser.quantity))
 
+    console.log(_cartData)
+
     const [cart,setCart] = useState({
         product : _cartData?.GetCartOfUser?.cartItems,
         total : _cartData?.GetCartOfUser?.total
