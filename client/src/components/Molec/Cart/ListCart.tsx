@@ -1,8 +1,10 @@
+import { isEmpty } from 'lodash'
 import dynamic from 'next/dynamic'
 const LoadingElement = dynamic(() => import("../../Atom/Loading/LoadingElement"))
 const ProductCart = dynamic(() => import("../../Atom/Cart/ProductCart"))
 
 const ListCart = ({ removeItem, listProduct, loading }: IListCart) => {
+    console.log(listProduct)
     return (
         <div>
             <div className="py-4">
@@ -10,7 +12,7 @@ const ListCart = ({ removeItem, listProduct, loading }: IListCart) => {
             </div>
             {loading && <LoadingElement />}
                 <>
-                    { listProduct?.length >0  ? (
+                    { !isEmpty(listProduct)  ? (
                         <div>
                             {listProduct?.map((item) => (
                                 <ProductCart

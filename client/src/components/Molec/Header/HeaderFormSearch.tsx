@@ -37,7 +37,7 @@ const HeaderFormSearch = () => {
 					</div>
 					<div className="col-span-3 flex justify-center items-start ml-16 pt-2  ">
 						<div className="bg-transparent p-2 rounded-full hover:bg-gray-300">
-							<img src='/static/icon	s/exit.svg' height="15px" width="15px" onClick={toggleSearch}/>
+							<img src='/static/icons/exit.svg' height="15px" width="15px" onClick={toggleSearch}/>
 						</div>							
 					</div>
 				</div>
