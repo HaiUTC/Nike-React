@@ -28,7 +28,6 @@ const Cart = () => {
             total : _cartData?.GetCartOfUser.total
         })
     },[loading])
-    console.log(cart.product)
     const [remoteProductFormCart, {loading : _loadingRemove}] = useDeleteProductInCartMutation()
 
     const removeItem = async (productId: string,quantity:number) => {
