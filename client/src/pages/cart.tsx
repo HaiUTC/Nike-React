@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { addApolloState, initializeApollo } from '../libs/apolloClient'
 import { GetCartOfUserDocument, useDeleteProductInCartMutation, useGetCartOfUserQuery } from '../generated/graphql'
 import Head from 'next/head'
@@ -18,9 +18,16 @@ const Cart = () => {
     if(!loading && _cartData) dispatch(changeNumCart(_cartData.GetCartOfUser.quantity))
     
     const [cart,setCart] = useState({
-        product : _cartData?.GetCartOfUser.cartItems,
-        total : _cartData?.GetCartOfUser.total
+        product : [],
+        total : 0
     })
+
+    useEffect(()=>{
+        setCart({
+            product : _cartData?.GetCartOfUser.cartItems,
+            total : _cartData?.GetCartOfUser.total
+        })
+    },[loading])
     console.log(cart.product)
     const [remoteProductFormCart, {loading : _loadingRemove}] = useDeleteProductInCartMutation()
 
