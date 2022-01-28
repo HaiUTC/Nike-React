@@ -1,4 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject,from } from "@apollo/client"
+import { createUploadLink } from 'apollo-upload-client';
 import { IncomingHttpHeaders } from 'http'
 import merge from 'deepmerge'
 import isEqual from 'lodash/isEqual'
@@ -34,19 +35,27 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
 		})
 	}
 
-  const httpLink = new HttpLink({
-		uri: 
+  // const httpLink = new HttpLink({
+	// 	uri: 
+	// 		process.env.NODE_ENV === 'production'
+	// 			? 'https://thawing-fjord-04106.herokuapp.com/graphql'
+	// 			: 'http://localhost:5000/graphql',
+	// 	credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+	// 	fetch: enhancedFetch
+	// })
+
+    return new ApolloClient({
+        credentials: "include",
+        ssrMode: typeof window === 'undefined',
+        link: createUploadLink({
+          uri: 
 			process.env.NODE_ENV === 'production'
 				? 'https://thawing-fjord-04106.herokuapp.com/graphql'
 				: 'http://localhost:5000/graphql',
 		credentials: 'include', // Additional fetch() options like `credentials` or `headers`
 		fetch: enhancedFetch
-	})
-
-    return new ApolloClient({
-        credentials: "include",
-        ssrMode: typeof window === 'undefined',
-        link: from([errorLink, httpLink]),
+        }, errorLink),
+        //link: from([errorLink, httpLink]),
         cache: new InMemoryCache({
             typePolicies : {
                 Query : {

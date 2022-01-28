@@ -33,7 +33,7 @@ import { CartItemResolver } from './resolvers/cartItem'
 import { SearchResolver } from './resolvers/search'
 const PORT = process.env.PORT || 5000
 const app = express()
-app.use(express.static('public'))
+app.use(express.static('public'));
 const server = createServer(app)
 import {RunSocket} from './socket'
 import { Comment } from './entities/Comment'
@@ -110,6 +110,10 @@ const main = async () => {
         resave : false
     }))
 
+    
+    app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
+    
+
 
     //create apollo server
     const apolloServer = new ApolloServer ({
@@ -120,7 +124,7 @@ const main = async () => {
         context : ({req,res}) : Context => ({req,res,connection,dataLoaders: buildDataloader()}),
         plugins : [ApolloServerPluginLandingPageGraphQLPlayground]
     })
-    app.use(graphqlUploadExpress({ maxFileSize: 10000, maxFiles: 10 }));
+    
     await apolloServer.start()
     apolloServer.applyMiddleware({app , cors : false})
 

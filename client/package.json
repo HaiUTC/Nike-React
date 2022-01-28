@@ -17,6 +17,7 @@
     "@mui/lab": "^5.0.0-alpha.49",
     "@mui/material": "^5.0.2",
     "@reduxjs/toolkit": "^1.6.2",
+    "apollo-upload-client": "^17.0.0",
     "autoprefixer": "^10.3.6",
     "date-fns": "^2.24.0",
     "deepmerge": "^4.2.2",

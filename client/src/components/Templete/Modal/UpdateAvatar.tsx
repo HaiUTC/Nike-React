@@ -5,12 +5,10 @@ const UpdateAvatar = ({handleClose,avatar}: IUpdateAvatar) =>{
     const [updateAvatar] = useUpdateAvatarMutation()
     const Input = styled('input')({display: 'none',});
     const updateAvatarChange = async (e) => {
-        const file = e.target.files[0]
-        console.log(file)
         try{
             await updateAvatar({
                 variables : { 
-                    file : file   
+                    file : e.target.files[0]
                 },
                 update(cache,{data}){
                     if(data?.ChangeAvatar.success){

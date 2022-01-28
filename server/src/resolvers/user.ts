@@ -1,10 +1,10 @@
 import argon2 from "argon2";
-import { createWriteStream } from "fs";
+import fs from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
 import path from 'path';
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { v4 as uuidv4 } from 'uuid';
-import { COOKIE_NAME } from "../constants";
+import { COOKIE_NAME, __prod__ } from "../constants";
 import { Cart } from "../entities/Cart";
 import { User } from "../entities/User";
 import { TokenModel } from "../models/Token";
@@ -298,11 +298,11 @@ export class UserResolver {
                         }
                     ]
                 }
-            const pathName = path.join(__dirname, `public/image/${filename}`)
-            await createReadStream().pipe(createWriteStream(pathName))
+            const stream = createReadStream()
+            const pathName = path.join(__dirname, `../../public/image/${filename}`)
+            await stream.pipe(fs.createWriteStream(pathName))
 
-            const avatar = `http://localhost:5000/image/${filename}`
-            console.log(avatar)
+            const avatar = __prod__ ? `https://thawing-fjord-04106.herokuapp.com/image/${filename}` : `http://localhost:5000/image/${filename}`
             await User.update({id : existingUser.id}, {avatar})
             return {
                 code : 200,
