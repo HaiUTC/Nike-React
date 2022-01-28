@@ -1,0 +1,10 @@
+mutation createUserAddress($createAddressInput : CreateAddressInput!){
+    CreateAddress(createAddressInput: $createAddressInput){
+        code
+        success
+        message
+        errors {
+        ...errorsInfo
+    }
+    }
+}

@@ -46,6 +46,7 @@ export class CategoryResolver{
         @Ctx() {req} : Context
     ):Promise<CategoryMutationResponse>{
         try {
+            console.log(req.session)
             const newCategory = Category.create({
                 name,
                 collectionId,

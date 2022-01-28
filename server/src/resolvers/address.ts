@@ -15,7 +15,8 @@ export class AddressResolver {
         @Root() root: Address,
         @Ctx() {dataLoaders : {userLoader}} : Context
     ){
-        return await userLoader.load(root.userId)
+
+        return root.userId && await userLoader.load(root.userId)
     }
 
     @Mutation(_return => AddressMutationResponse)

@@ -17,6 +17,28 @@ export class ProductCheckOut {
     size!: number
 }
 
+@InputType()
+export class AddressCheckOut{
+    @Field(_type => String)
+    province!: string
+
+    @Field(_type => String)
+    distric!: string
+
+    
+    @Field(_type => String)
+    commune!: string
+
+    @Field(_type => String)
+    detail!: string
+
+    @Field(_type => String)
+    phoneNumber!: string
+
+    @Field(_type => Boolean)
+    save!: boolean
+}
+
 
 @InputType()
 export class CheckOutInput {
@@ -28,4 +50,17 @@ export class CheckOutInput {
 
     @Field()
     total!: number
+
+    //have address
+    @Field({nullable : true})
+    addressId?: number
+
+    //not have address
+
+    @Field(() => AddressCheckOut, {nullable : true})
+    address?: AddressCheckOut
+
+
+   
+
 }

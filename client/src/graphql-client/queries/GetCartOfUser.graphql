@@ -8,7 +8,7 @@ query getCartOfUser{
                 id
                 name
                 title
-                size
+                price
                 picture {
                     url
                 }

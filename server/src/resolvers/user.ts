@@ -281,11 +281,10 @@ export class UserResolver {
 
     @Mutation(_return => UserMutationResponse)
     async ChangeAvatar(
-        @Arg('image', () => GraphQLUpload) {createReadStream,filename} : FileUpload,
+        @Arg('file', ()=> GraphQLUpload) {createReadStream, filename} : FileUpload,
         @Ctx() {req} : Context
     ): Promise<UserMutationResponse>{
         try {
-            console.log(filename)
             const existingUser = await User.findOne({id : req.session.userId})
             if(!existingUser)
                 return {
@@ -319,4 +318,5 @@ export class UserResolver {
             }
         }
     }
+
 }

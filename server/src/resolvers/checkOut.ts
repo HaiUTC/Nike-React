@@ -6,6 +6,7 @@ import { checkAuthUser } from "../middleware/checkAuth";
 import { Context } from "../types/Context/Context";
 import { CheckOutInput } from "../types/CheckOut/CheckOutInput";
 import { CheckOutItemAndState, CheckOutMutationResponse } from "../types/CheckOut/CheckOutResponse";
+import { Address } from "../entities/Address";
 
 @Resolver(_of => CheckOut)
 export class CheckOutResolver {
@@ -17,13 +18,46 @@ export class CheckOutResolver {
     @Mutation(_return => IMutationResponsePrimary)
     @UseMiddleware(checkAuthUser)
     async CheckOut(
-        @Arg('checkOutInput') {product,discount : _discount, total}:CheckOutInput,
+        @Arg('checkOutInput') {product,discount : _discount, total,address, addressId}:CheckOutInput,
         @Ctx() {req} : Context
     ):Promise<IMutationResponsePrimary>{
         try {
+            if(addressId === null){
+                const newAddress = await Address.create({
+                    userId : address?.save === true ? req.session.userId : undefined,
+                    province : address?.province,
+                    distric: address?.distric,
+                    commune: address?.commune,
+                    detail : address?.detail,
+                    phoneNumber : address?.phoneNumber
+                }).save()
+
+
+                if(newAddress.id !== null){
+                    const existingCheckOut = await CheckOut.create({
+                        userId : req.session.userId,
+                        total,
+                        addressId :  newAddress.id
+                    }).save()
+                    if(existingCheckOut.id !== null){
+                        product.map( async (pro) => {
+                            await CheckOutItem.create({
+                                checkoutId : existingCheckOut.id,
+                                productId : pro.productId,
+                                size : pro.size,
+                                quantity : pro.quantity,
+                                color : pro.color
+                            })
+                            .save();
+                        })
+                }
+            }
+        }
+        else if(addressId !== null){
             const existingCheckOut = await CheckOut.create({
                 userId : req.session.userId,
-                total 
+                total,
+                addressId :  addressId
             }).save()
             if(existingCheckOut.id !== null){
                 product.map( async (pro) => {
@@ -36,8 +70,8 @@ export class CheckOutResolver {
                     })
                     .save();
                 })
-
-            }
+        }
+        }
             return {
                 code : 200,
                 success : true,

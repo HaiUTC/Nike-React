@@ -1,5 +1,6 @@
 mutation UpdateAvatar($file: Upload!){
-    ChangeAvatar(image: $file){
+    ChangeAvatar(file: $file){
+        code
         ...userMutationResponse
     }
 }

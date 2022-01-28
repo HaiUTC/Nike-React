@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import countNumber from './Cart/countNumber'
+import  checkoutItem  from './CheckOut/listProductToCheckout'
 import showListComment from './Comment/showListComment'
 import showSearchBox from './Header/showSearchBox'
 import showFilter  from './Product/showFilter'
@@ -10,7 +11,8 @@ export const store = configureStore({
    showSearch : showSearchBox,
    showFilter : showFilter,
    countNumber : countNumber,
-   showList : showListComment
+   showList : showListComment,
+   checkout : checkoutItem
   },
 })
 

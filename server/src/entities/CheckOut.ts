@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Address } from "./Address";
 import { CheckOutItem } from "./CheckOutItem";
 import { User } from "./User";
 
@@ -14,9 +15,13 @@ export class CheckOut extends BaseEntity{
     @Column()
     userId : number
 
+    @Field(_type =>ID)
+    @Column()
+    addressId: number
+
     @OneToOne(()=> User, user => user.cart)
     user : User
-
+ 
     @Field()
     @Column('decimal',{default : 0})
     total : number
@@ -35,4 +40,7 @@ export class CheckOut extends BaseEntity{
 
     @OneToMany(()=> CheckOutItem, checkOutItem => checkOutItem.checkout)
     checkOutItem : CheckOutItem[]
+
+    @OneToOne(() => Address, address => address.checkout)
+    address : Address
 }

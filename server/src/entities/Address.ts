@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CheckOut } from "./CheckOut";
 import { User } from "./User";
 
 @ObjectType()
@@ -9,9 +10,9 @@ export class Address extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number
 
-    @Field()
-    @Column()
-    userId!: number
+    @Field({nullable : true})
+    @Column({nullable : true})
+    userId?: number
 
     @Field(_type => User)
     @ManyToOne(()=> User, user => user.addresses)
@@ -44,4 +45,7 @@ export class Address extends BaseEntity {
     @Field()
     @UpdateDateColumn({type: "timestamptz"})
     updatedAt : Date
+
+    @OneToOne(()=> CheckOut, checkout => checkout.address)
+    checkout : CheckOut
 }

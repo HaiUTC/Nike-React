@@ -1,39 +1,16 @@
-import { useState } from "react"
-import { CheckOutInput, ProductCheckOut, useCheckOutMutation } from "../../../generated/graphql"
-import Success from "../../Templete/Modal/Success"
+import Router from 'next/router'
 import ButtonCheckout from "../Button/ButtonCheckout"
+import { useAppDispatch } from "../../../redux/hook"
+import { updateDataToCheckout } from "../../../redux/CheckOut/listProductToCheckout"
 
 const SummaryCart = ({listProduct, price}) => {
-  const [showSuccess, setShowSuccess] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-  const [checkout] = useCheckOutMutation()
-  const handleCheckOut = async () => {
-    let listPro : ProductCheckOut[] = []
-    listProduct.map(pro => {
-      listPro.push({
-        productId : pro.product.id,
-        color : pro.color,
-        size : pro.size,
-        quantity : pro.quantity
-      })
-    })
-    const checkOutProduct : CheckOutInput = {
-      product : listPro,
-      total : price+29
-    }
-    const response = await checkout({
-      variables : {
-        checkOutInput : checkOutProduct
-      }
-    })
-    if(response.data.CheckOut.success){
-      setShowSuccess(true)
-      setIsSuccess(false)
-    }
-    else {
-      setShowSuccess(true)
-    }
+  const dispatch = useAppDispatch()
+  const handleCheckout = (event) => {
+    event.preventDefault();
+    dispatch(updateDataToCheckout({price, listProduct}))
+    Router.push({ pathname: '/checkout'});
   }
+  
     return (
         <div>
           <div className=" text-lg md:text-2xl py-4"><span>Summary</span></div>
@@ -56,17 +33,8 @@ const SummaryCart = ({listProduct, price}) => {
             <div className='col-span-3 flex justify-end lg:justify-start items-center'><p>{price+29 || 0} $</p></div>
           </div>
           <div className={"mt-8 " + (listProduct?.length >0  ? 'block' : "hidden" )} >
-            <ButtonCheckout handleCheckOut={handleCheckOut}/>
+            <ButtonCheckout handleCheckOut={handleCheckout}/>
           </div>
-          {showSuccess && 
-            <Success 
-              image="/static/image/success.png"
-              isBtn={true}
-              text="Checkout successfully"
-              handleClose={null}
-              textBtn="Go back to Cart"
-              link="/cart"
-            />}
     </div>
     )
 }

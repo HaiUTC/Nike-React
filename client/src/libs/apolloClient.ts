@@ -44,6 +44,7 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
 	})
 
     return new ApolloClient({
+        credentials: "include",
         ssrMode: typeof window === 'undefined',
         link: from([errorLink, httpLink]),
         cache: new InMemoryCache({

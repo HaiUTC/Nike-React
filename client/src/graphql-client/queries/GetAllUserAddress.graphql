@@ -1,0 +1,14 @@
+query GetAllAddress {
+  GetAllAddress{
+    code
+    success 
+    allAddress{
+      id
+      province
+      distric
+      commune
+      detail
+      phoneNumber
+    }
+  }
+}
