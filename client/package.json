@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next",
+    "next": "next",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
