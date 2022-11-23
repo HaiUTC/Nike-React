@@ -50,7 +50,7 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
         link: createUploadLink({
           uri: 
 			process.env.NODE_ENV === 'production'
-				? 'https://thawing-fjord-04106.herokuapp.com/graphql'
+				? 'https://enigmatic-hollows-94606.herokuapp.com/graphql'
 				: 'http://localhost:5000/graphql',
 		credentials: 'include', // Additional fetch() options like `credentials` or `headers`
 		fetch: enhancedFetch
