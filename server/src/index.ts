@@ -131,7 +131,7 @@ const main = async () => {
     //socket io
     const io = new Server(server, {
         cors : {
-          origin: __prod__ ? 'https://nike-react.vercel.app' : 'http://localhost:3000',
+          origin: __prod__ ? 'https://nike-react-si2j.vercel.app/' : 'http://localhost:3000',
           methods: ["GET", "POST", "DELETE", "PUT"],
           allowedHeaders: [
             "Access-Control-Allow-Origin",
