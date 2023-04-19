@@ -22,6 +22,7 @@ const image =(url: string) => (
 )
 
 const PlayBookKid = ({sideLeft,btn,title,url}: DataPlayBook) => {
+    console.log('Lew lew');
     return (
         <div className='grid grid-cols-12 gap-2 relative'>
             {sideLeft === true ?(
